@@ -1,14 +1,14 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/vz-app.js",
+  "shell": "src/components/vz-app.js",
   "sources": [
-    "images/**/*"
+    "images/**/*",
+    "src/data/*",
+    "_redirects"
   ],
   "extraDependencies": [
     "manifest.json",
-    "node_modules/@webcomponents/webcomponentsjs/*.js",
-    "!node_modules/@webcomponents/webcomponentsjs/gulpfile.js",
-    "node_modules/@webcomponents/webcomponentsjs/bundles/*.js"
+    "node_modules/@webcomponents/webcomponentsjs/**"
   ],
   "builds": [
     {
@@ -35,6 +35,7 @@
         "es2015"
       ],
       "js": {
+        "compile": "es2015",
         "minify": true,
         "transformModulesToAmd": true
       },
@@ -50,8 +51,8 @@
     {
       "name": "es5-bundled",
       "js": {
+        "compile": "es5",
         "minify": true,
-        "compile": true,
         "transformModulesToAmd": true
       },
       "css": {
@@ -65,10 +66,5 @@
     }
   ],
   "moduleResolution": "node",
-  "npm": true,
-  "lint": {
-    "rules": [
-      "polymer-3"
-    ]
-  }
+  "npm": true
 }

@@ -1,86 +1,56 @@
-# Polymer App Toolbox - Starter Kit
+[![Built with pwa–starter–kit](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)](https://github.com/Polymer/pwa-starter-kit "Built with pwa–starter–kit")
+[![Build status](https://api.travis-ci.com/notwaldorf/flash-cards.svg?branch=master)](https://travis-ci.com/notwaldorf/flash-cards)
 
-[![Build Status](https://travis-ci.org/Polymer/polymer-starter-kit.svg?branch=master)](https://travis-ci.org/Polymer/polymer-starter-kit)
+# Flash Cards
+This is a simple flash cards app to help you learn Japanese. It is built using the [PWA Starter Kit](https://github.com/PolymerLabs/pwa-starter-kit), using the default template as the starting point and the [wiki](https://github.com/PolymerLabs/pwa-starter-kit/wiki) for configuring and personalizing.
 
-This template is a starting point for building apps using a drawer-based
-layout. The layout is provided by `app-layout` elements.
+Apart from several game options, `flash-cards` also comes with a stats page that shows you a heatmap of your answers.
 
-This template, along with the `polymer-cli` toolchain, also demonstrates use
-of the "PRPL pattern" This pattern allows fast first delivery and interaction with
-the content at the initial route requested by the user, along with fast subsequent
-navigation by pre-caching the remaining components required by the app and
-progressively loading them on-demand as the user navigates through the app.
+<img width="1171" alt="screen shot 2018-03-23 at 6 49 11 pm" src="https://user-images.githubusercontent.com/1369170/37859047-f30576da-2eca-11e8-860b-cb338385f9da.png">
 
-The PRPL pattern, in a nutshell:
+## Features/highlights
+- uses Redux to handle the application's state
+- this state is also stored and loaded from `localStorage`, so that the last question asked and the stats are persisted across refreshes
+- uses the [SpeechSynthesis API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis) to read out the question being asked
+- the actual cards data is loaded from arbitrary `json` files, so the app can be extended to work for any language and any set of words being learnt
 
-* **Push** components required for the initial route
-* **Render** initial route ASAP
-* **Pre-cache** components for remaining routes
-* **Lazy-load** and progressively upgrade next routes on-demand
-
-### Setup
-
-##### Prerequisites
-
-Install [Polymer CLI](https://github.com/Polymer/polymer-cli) using
-[npm](https://www.npmjs.com) (we assume you have pre-installed [node.js](https://nodejs.org)).
-
-    npm install -g polymer-cli@next
-
-##### Initialize project from template
-
-    mkdir my-app
-    cd my-app
-    polymer init polymer-3-starter-kit
-
-### Start the development server
-
-This command serves the app at `http://127.0.0.1:8081` and provides basic URL
-routing for the app:
-
-    npm start
-
-### Build
-
-The `npm run build` command builds your Polymer application for production, using build configuration options provided by the command line or in your project's `polymer.json` file.
-
-You can configure your `polymer.json` file to create multiple builds. This is necessary if you will be serving different builds optimized for different browsers. You can define your own named builds, or use presets. See the documentation on [building your project for production](https://www.polymer-project.org/3.0/toolbox/build-for-production) for more information.
-
-The Polymer Starter Kit is configured to create three builds. These builds will be output to a subdirectory under the `build/` directory as follows:
+## Setup
 
 ```
-build/
-  es5-bundled/
-  es6-bundled/
-  esm-bundled/
+git clone https://github.com/notwaldorf/flash-cards
+cd flash-cards
+npm install
+npm start
 ```
 
-* `es5-bundled` is a bundled, minified build with a service worker. ES6 code is compiled to ES5 for compatibility with older browsers.
-* `es6-bundled` is a bundled, minified build with a service worker. ES6 code is served as-is. This build is for browsers that can handle ES6 code - see [building your project for production](https://www.polymer-project.org/3.0/toolbox/build-for-production#compiling) for a list.
-* `esm-bundled` is a bundled, minified build with a service worker. It uses standard ES module import/export statements for browsers that support them.
+To run the tests, you can run `npm run test`.
 
-Run `polymer help build` for the full list of available options and optimizations. Also, see the documentation on the [polymer.json specification](https://www.polymer-project.org/3.0/docs/tools/polymer-json) and [building your Polymer application for production](https://www.polymer-project.org/3.0/toolbox/build-for-production).
+## Build and deploy
 
-### Preview the build
+To build the app, run `npm run build`. This will create a `build` folder that has all the minified 
+bundles and assets you need to deploy. If you want to test that the build output works, you can run
 
-This command serves your app. Replace `build-folder-name` with the folder name of the build you want to serve.
+```
+npm run serve
+```
 
-    npm start build/build-folder-name/
+For deployment, I used [Netlify](https://www.netlify.com/)'s 
+pretty much out-of-the-box setup. These are my deploy settings (so that the app is rebuilt and
+the bundled app is redeployed every time there's a new commit to master):
+<img width="400" alt="screenshot of netlify settings" src="https://user-images.githubusercontent.com/1369170/39498608-eb2abe78-4d5d-11e8-9cca-40f75aa9d754.png">
 
-### Run tests
+Since this app is structured as an `app-shell` (the `index.html` knows how to display the correct route based on the URL, but each URL does not correspond to a standalone view you can just load), I've also added a [`_redirects file`](https://github.com/notwaldorf/flash-cards/blob/master/_redirects) used by the Netlify server tohandle these redirects (read more about that [here](https://www.netlify.com/docs/redirects/#history-pushstate-and-single-page-apps))
 
-This command will run [Web Component Tester](https://github.com/Polymer/web-component-tester)
-against the browsers currently installed on your machine:
+### Supported browsers
+This app uses the `es6-bundled` bundle -- this means that it will not work on IE11. If you want to deploy this app and have it work on IE11, you must use the `es5-bundled` bundle instead. 
 
-    npm test
+## Performance
+### Lighthouse:
+<img width="827" alt="screen shot 2018-05-15 at 3 12 38 pm" src="https://user-images.githubusercontent.com/1369170/40086267-834daa7c-5852-11e8-95a8-b98b8eca835a.png">
 
-If running Windows you will need to set the following environment variables:
+### WebPageTest:
+[Full test results](https://www.webpagetest.org/result/180515_ZH_744d89edf78869d0c934d72ee7bab994/). 
+<img width="964" alt="screen shot 2018-05-15 at 3 18 40 pm" src="https://user-images.githubusercontent.com/1369170/40086471-48e2ab5c-5853-11e8-83e3-0bd413164f87.png">
 
-- LAUNCHPAD_BROWSERS
-- LAUNCHPAD_CHROME
-
-Read More here [daffl/launchpad](https://github.com/daffl/launchpad#environment-variables-impacting-local-browsers-detection)
-
----
-
-Looking for our older PSK2 Polycast or migration blog post? See [the previous README](https://github.com/Polymer/polymer-starter-kit/blob/v3.2.1/README.md).
+## Known Issues
+There's a problem with the SpeechSyntesis API on Windows, where I bail out early if I don't find a Voice I can recognize (because there don't seem to be any Japanese languages installed by default on Windows). Should prolly figure out something around this.

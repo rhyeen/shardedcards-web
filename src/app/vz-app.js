@@ -1,145 +1,154 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+/**
+@license
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
-class VzApp extends PolymerElement {
-  static get template() {
+import { LitElement, html } from '@polymer/lit-element';
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { installRouter } from 'pwa-helpers/router.js';
+import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { updateMetadata } from 'pwa-helpers/metadata.js';
+
+import { store } from '../store.js';
+import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
+import data from '../reducers/data.js';
+import { loadAll } from '../actions/data.js';
+import '../components/vz-snack-bar.js';
+
+store.addReducers({data});
+
+class VzApp extends connect(store)(LitElement) {
+  _render({appTitle, _page, _snackbarOpened, _offline}) {
     return html`
-      <style>
-        :host {
-          --app-primary-color: #4285f4;
-          --app-secondary-color: black;
+    <style>
+      :host {
+        height: 100vh;
+      }
 
-          display: block;
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px;
+        box-sizing: border-box;
+        height: 46px;
+        background-color: #EFEFEF;
+      }
+
+      [main-title] {
+        font-size: 30px;
+        text-align: left;
+      }
+
+      .toolbar-list {
+        display: flex;
+      }
+
+      .toolbar-list a {
+        text-decoration: none;
+        line-height: 30px;
+        padding: 4px 16px;
+        font-size: 14px;
+      }
+
+      .toolbar-list a[selected] {
+        border-bottom: 4px solid #222;
+      }
+
+      .main-content {
+        margin-top: 46px;
+      }
+
+      .main-content .page[active] {
+        display: block;
+      }
+
+      .main-content .page {
+        display: none;
+      }
+
+      /* Small layout */
+      @media (max-width: 460px) {
+        [main-title] {
+          font-size: 26px;
         }
-
-        iron-pages {
-          height: 100%;
+        .toolbar-list a {
+          font-size: 12px;
+          padding: 2px 4px;
         }
+      }
+    </style>
 
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
-        }
+    <!-- Header -->
+    <header>
+      <span main-title>Vizeb</span>
+      <nav class="toolbar-list" role="navigation">
+        <a selected?="${_page === 'edit'}" href="/edit">Edit</a>
+        <a selected?="${_page === 'about'}" href="/about">About</a>
+      </nav>
+    </header>
 
-        app-header {
-          color: #fff;
-          background-color: var(--app-primary-color);
-        }
+    <!-- Main content -->
+    <main class="main-content" role="main">
+      <vz-edit-page class="page" active?="${_page === 'edit'}"></vz-edit-page>
+      <vz-about-page class="page" active?="${_page === 'about'}"></vz-about-page>
+      <vz-view404 class="page" active?="${_page === 'view404'}"></vz-view404>
+    </main>
 
-        app-header paper-icon-button {
-          --paper-icon-button-ink-color: white;
-        }
-
-        .drawer-list {
-          margin: 0 20px;
-        }
-
-        .drawer-list a {
-          display: block;
-          padding: 0 16px;
-          text-decoration: none;
-          color: var(--app-secondary-color);
-          line-height: 40px;
-        }
-
-        .drawer-list a.iron-selected {
-          color: black;
-          font-weight: bold;
-        }
-      </style>
-
-      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
-      </app-location>
-
-      <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
-      </app-route>
-      
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
-        <!-- Drawer content -->
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-          <app-toolbar>Menu</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="componentEditor" href="[[rootPath]]componentEditor">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
-          </iron-selector>
-        </app-drawer>
-
-        <!-- Main content -->
-        <app-header-layout has-scrolling-region="">
-
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>
-              <paper-icon-button icon="vz-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">Vizeb</div>
-            </app-toolbar>
-          </app-header>
-
-          <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <vz-view-component-editor name="componentEditor"></vz-view-component-editor>
-            <vz-view2 name="view2"></vz-view2>
-            <vz-view3 name="view3"></vz-view3>
-            <vz-view404 name="view404"></vz-view404>
-          </iron-pages>
-        </app-header-layout>
-      </app-drawer-layout>
-    `;
+    <vz-snack-bar active?="${_snackbarOpened}">
+        You are now ${_offline ? 'offline' : 'online'}.
+    </vz-snack-bar>
+`;
   }
-
   static get properties() {
     return {
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged'
-      },
-      routeData: Object,
-      subroute: Object
-    };
-  }
-
-  static get observers() {
-    return [
-      '_routePageChanged(routeData.page)'
-    ];
-  }
-
-  _routePageChanged(page) {
-    // Show the corresponding page according to the route.
-    //
-    // If no page was found in the route data, page will be an empty string.
-    // Show 'componentEditor' in that case. And if the page doesn't exist, show 'view404'.
-    if (!page) {
-      this.page = 'componentEditor';
-    } else if (['componentEditor', 'view2', 'view3'].indexOf(page) !== -1) {
-      this.page = page;
-    } else {
-      this.page = 'view404';
-    }
-
-    // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
+      _page: String,
+      _snackbarOpened: Boolean,
+      _offline: Boolean
     }
   }
 
-  _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
-    switch (page) {
-      case 'componentEditor':
-        import('./views/vz-view-component-editor.js');
-        break;
-      case 'view2':
-        import('./views/vz-view2.js');
-        break;
-      case 'view3':
-        import('./views/vz-view3.js');
-        break;
-      case 'view404':
-        import('./views/vz-view404.js');
-        break;
+  _firstRendered() {
+    installRouter((location) => this._locationChanged(location));
+    installOfflineWatcher((offline) => this._offlineChanged(offline));
+    store.dispatch(loadAll());
+  }
+
+  _didRender(properties, changeList) {
+    if ('_page' in changeList) {
+      const pageTitle = properties.appTitle + ' - ' + changeList._page;
+      updateMetadata({
+          title: pageTitle,
+          description: pageTitle
+      });
     }
+  }
+
+  _stateChanged(state) {
+    this._page = state.app.page;
+    this._offline = state.app.offline;
+    this._snackbarOpened = state.app.snackbarOpened;
+  }
+
+  _offlineChanged(offline) {
+    // Don't show the snackbar on the first load of the page.
+    if (this._offline === undefined || this._offline == offline) {
+      return;
+    }
+    store.dispatch(updateOffline(offline));
+    store.dispatch(showSnackbar());
+  }
+
+  _locationChanged(location) {
+    store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
   }
 }
 

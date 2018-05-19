@@ -1,7 +1,11 @@
 {
   "name": "Vizeb",
-  "short_name": "Vizeb",
-  "description": "Vizeb - Visual Web Apps",
+  "short_name": "VZ",
+  "description": "Visual Web App Developer",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#d66b8e",
+  "background_color": "#d66b8e",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
@@ -13,9 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#3f51b5",
-  "background_color": "#3f51b5"
+  ]
 }
