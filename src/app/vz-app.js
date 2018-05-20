@@ -17,10 +17,12 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
 import data from '../reducers/data.js';
+import crafted from '../reducers/crafted.js';
 import { loadAll } from '../actions/data.js';
 import '../components/vz-snack-bar.js';
 
 store.addReducers({data});
+store.addReducers({crafted});
 
 class VzApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {

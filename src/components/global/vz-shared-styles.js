@@ -15,5 +15,16 @@ export const VzSharedStyles = html`
   a:link, a:visited {
     text-decoration: none;
   }
+
+  .test {
+    background-color: red;
+    color: yellow;
+    width: 300px;
+  }
+
+  .test2 {
+    background-color: blue;
+    height: 400px;
+  }
 </style>
 `;

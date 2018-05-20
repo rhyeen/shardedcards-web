@@ -10,6 +10,12 @@ export class VzEditPage extends VzPageViewElement {
   _render(props) {
     return html`
       ${VzSharedStyles}
+      <style>
+        :host {
+          display: flex;
+          height: 100vh;
+        }
+      </style>
       <h2>Edit</h2>
 
       <vz-component-editor-preview></vz-component-editor-preview>      
