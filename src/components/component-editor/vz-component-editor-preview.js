@@ -1,6 +1,7 @@
 import { LitElement, html } from '@polymer/lit-element';
 
 import '../crafted-component/vz-crafted-component.js';
+import { VzSharedStyles } from '../global/vz-shared-styles.js';
 
 class VzComponentEditorPreview extends LitElement {
   _render(props) {
@@ -10,15 +11,30 @@ class VzComponentEditorPreview extends LitElement {
     // Anything code that is related to rendering should be done in here.
 
     return html`
+      ${VzSharedStyles}
       <style>
         :host {
           flex-grow: 1;
+          align-self: stretch;
+          background-color: var(--near-white);         
+        }
+
+        .preview-box {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 40px;
+          overflow: hidden;
+          min-height: 400px;
+          border-radius: 3px;
+          box-shadow: var(--vz-elevation-1);
+          background-color: var(--base-white);
         }
       </style>
-
-      <div>THIS IS A PREVIEW</div>
-
-      <vz-crafted-component></vz-crafted-component>
+      
+      <div class="preview-box">
+        <vz-crafted-component></vz-crafted-component>      
+      </div>
     `;
   };
   

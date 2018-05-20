@@ -3,7 +3,8 @@ import { LitElement, html } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 
-import { actionUpdateCraftedStyle, actionUpdateCraftedSelectors, actionUpdateCraftedClasses, actionUpdateCraftedText } from '../../actions/crafted.js';
+import { actionUpdateCraftedStyle, actionUpdateCraftedClasses, actionUpdateCraftedText } from '../../actions/crafted.js';
+import { VzSharedStyles } from '../global/vz-shared-styles.js';
 
 class VzComponentEditorPane extends connect(store)(LitElement) {
   _render(props) {
@@ -13,15 +14,31 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
     // Anything code that is related to rendering should be done in here.
 
     return html`
+      ${VzSharedStyles}      
       <style>
         :host {
-            width: 400px;
-            background-color: white;
-            align-self: stretch;
+          --component-editor-pane-padding: 40px;
+          width: calc(400px - var(--component-editor-pane-padding) - var(--component-editor-pane-padding));
+          background-color: var(--base-white);
+          align-self: stretch;
+          box-shadow: var(--vz-elevation-side-bar);
+          padding: var(--component-editor-pane-padding);
+        }
+
+        h2 {
+          line-height: 24px;
+          font-size: 24px;
+          font-weight: 300;
+          color: var(--off-black);
+          margin: 0 0 24px 0;
+        }
+
+        button {
+          margin-bottom: 24px;
         }
       </style>
 
-      <div>THIS IS AN EDITOR</div>
+      <h2>EDITOR</h2>
 
       <input
           class="cstyles"
@@ -31,15 +48,6 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
           autocapitalize="none"
           value="${props._craftedStyle}">
       <button class="cstyles" on-click="${() => this._updateCraftedStyle()}">STYLES</button>
-
-      <input
-          class="cselectors"
-          autocomplete="off"
-          spellcheck="false"
-          autocorrect="off"
-          autocapitalize="none"
-          value="${props._craftedSelectors}">
-      <button class="cselectors" on-click="${() => this._updateCraftedSelectors()}">SELECTORS</button>
 
       <input
           class="cclasses"
@@ -64,7 +72,6 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
   static get properties() { return {
     _craftedStyle: String,
     _craftedClasses: String,
-    _craftedSelectors: String,
     _craftedText: String
   }};
 
@@ -75,8 +82,6 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
   _firstRendered() {
     this._inputCraftedStyle = this.shadowRoot.querySelector('input.cstyles');
     this._buttonCraftedStyle = this.shadowRoot.querySelector('button.cstyles');
-    this._inputCraftedSelectors = this.shadowRoot.querySelector('input.cselectors');
-    this._buttonCraftedSelectors = this.shadowRoot.querySelector('button.cselectors');
     this._inputCraftedClasses = this.shadowRoot.querySelector('input.cclasses');
     this._buttonCraftedClasses = this.shadowRoot.querySelector('button.cclasses');
     this._inputCraftedText = this.shadowRoot.querySelector('input.ctext');
@@ -86,11 +91,6 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
   _updateCraftedStyle() {
     this._craftedStyle = this._inputCraftedStyle.value;
     store.dispatch(actionUpdateCraftedStyle(this._craftedStyle));
-  }
-
-  _updateCraftedSelectors() {
-    this._craftedSelectors = this._inputCraftedSelectors.value;
-    store.dispatch(actionUpdateCraftedSelectors(this._craftedSelectors));
   }
 
   _updateCraftedClasses() {
@@ -105,7 +105,6 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     this._craftedStyle = state.crafted.craftedStyle;
-    this._craftedSelectors = state.crafted.craftedSelectors;
     this._craftedClasses = state.crafted.craftedClasses;
     this._craftedText = state.crafted.craftedText;
   }

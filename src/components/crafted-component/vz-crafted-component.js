@@ -7,10 +7,7 @@ import { store } from '../../store.js';
 class VzCraftedComponent extends connect(store)(LitElement) {
   _render(props) {
     return html`
-      ${VzSharedStyles}    
-      <style>
-        ${props._craftedSelectors}
-      </style>
+      ${VzSharedStyles}
 
       <div class$="${props._craftedClasses}" style$="${props._craftedStyle}">${props._craftedText}</div>
     `;
@@ -18,7 +15,6 @@ class VzCraftedComponent extends connect(store)(LitElement) {
   
   static get properties() { return {
     _craftedStyle: String,
-    _craftedSelectors: String,
     _craftedClasses: String,
     _craftedText: String
   }};
@@ -30,7 +26,6 @@ class VzCraftedComponent extends connect(store)(LitElement) {
   _stateChanged(state) {
     this._craftedStyle = state.crafted.craftedStyle;
     this._craftedClasses = state.crafted.craftedClasses;
-    this._craftedSelectors = state.crafted.craftedSelectors;
     this._craftedText = state.crafted.craftedText;
   }
 }

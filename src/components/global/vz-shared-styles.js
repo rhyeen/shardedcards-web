@@ -12,6 +12,17 @@ import { html } from '@polymer/lit-element';
 
 export const VzSharedStyles = html`
 <style>
+  :host {
+    --nav-header-height: 46px;
+    --near-black: #222426;
+    --near-white: #F7FBFF;
+    --base-white: #FFF;
+    --near-white-border: #E7EBEF;
+    --off-black: #525456;
+    --vz-elevation-1: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    --vz-elevation-side-bar: -2px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
   a:link, a:visited {
     text-decoration: none;
   }

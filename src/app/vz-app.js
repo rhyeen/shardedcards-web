@@ -20,6 +20,8 @@ import data from '../reducers/data.js';
 import crafted from '../reducers/crafted.js';
 import { loadAll } from '../actions/data.js';
 import '../components/vz-snack-bar.js';
+import { VzSharedStyles } from '../components/global/vz-shared-styles.js';
+
 
 store.addReducers({data});
 store.addReducers({crafted});
@@ -27,9 +29,12 @@ store.addReducers({crafted});
 class VzApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {
     return html`
+    ${VzSharedStyles}
+    
     <style>
       :host {
         height: 100vh;
+        width: 100vw;
       }
 
       header {
@@ -41,13 +46,18 @@ class VzApp extends connect(store)(LitElement) {
         justify-content: space-between;
         padding: 0 24px;
         box-sizing: border-box;
-        height: 46px;
-        background-color: #EFEFEF;
+        height: var(--nav-header-height);
+        border: 1px solid var(--near-white-border);
+        background-color: var(--base-white);
       }
 
       [main-title] {
-        font-size: 30px;
+        font-size: 24px;
+        color: var(--near-black);
+        line-height: var(--nav-header-height);
         text-align: left;
+        letter-spacing: 4px;
+        font-weight: 300;
       }
 
       .toolbar-list {
@@ -56,17 +66,14 @@ class VzApp extends connect(store)(LitElement) {
 
       .toolbar-list a {
         text-decoration: none;
-        line-height: 30px;
-        padding: 4px 16px;
+        line-height: var(--nav-header-height);
+        padding: 0 16px;
         font-size: 14px;
+        color: var(--near-black)
       }
 
       .toolbar-list a[selected] {
-        border-bottom: 4px solid #222;
-      }
-
-      .main-content {
-        margin-top: 46px;
+        border-bottom: 4px solid var(--near-black);
       }
 
       .main-content .page[active] {
@@ -76,22 +83,11 @@ class VzApp extends connect(store)(LitElement) {
       .main-content .page {
         display: none;
       }
-
-      /* Small layout */
-      @media (max-width: 460px) {
-        [main-title] {
-          font-size: 26px;
-        }
-        .toolbar-list a {
-          font-size: 12px;
-          padding: 2px 4px;
-        }
-      }
     </style>
 
     <!-- Header -->
     <header>
-      <span main-title>Vizeb</span>
+      <span main-title>VIZEB</span>
       <nav class="toolbar-list" role="navigation">
         <a selected?="${_page === 'edit'}" href="/edit">Edit</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>

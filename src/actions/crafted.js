@@ -1,5 +1,4 @@
 export const UPDATE_CRAFTED_STYLE = 'UPDATE_CRAFTED_STYLE';
-export const UPDATE_CRAFTED_SELECTORS = 'UPDATE_CRAFTED_SELECTORS';
 export const UPDATE_CRAFTED_CLASSES = 'UPDATE_CRAFTED_CLASSES';
 export const UPDATE_CRAFTED_TEXT = 'UPDATE_CRAFTED_TEXT';
 
@@ -7,13 +6,6 @@ export const actionUpdateCraftedStyle = (craftedStyle) => {
   return {
     type: UPDATE_CRAFTED_STYLE,
     craftedStyle
-  }
-};
-
-export const actionUpdateCraftedSelectors = (craftedSelectors) => {
-  return {
-    type: UPDATE_CRAFTED_SELECTORS,
-    craftedSelectors
   }
 };
 

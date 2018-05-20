@@ -11,15 +11,18 @@ export class VzEditPage extends VzPageViewElement {
     return html`
       ${VzSharedStyles}
       <style>
-        :host {
+        .component-editor-view {
           display: flex;
-          height: 100vh;
+          align-self: stretch;          
+          width: 100vw;
+          height: calc(100vh - var(--nav-header-height));          
+          margin-top: var(--nav-header-height);          
         }
       </style>
-      <h2>Edit</h2>
-
-      <vz-component-editor-preview></vz-component-editor-preview>      
-      <vz-component-editor-pane></vz-component-editor-pane>
+      <div class="component-editor-view">
+        <vz-component-editor-preview></vz-component-editor-preview>      
+        <vz-component-editor-pane></vz-component-editor-pane>
+      </div>
     `
   }
 }
