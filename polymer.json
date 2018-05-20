@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/components/vz-app.js",
+  "shell": "src/app/vz-app.js",
   "sources": [
     "images/**/*",
     "src/data/*",
