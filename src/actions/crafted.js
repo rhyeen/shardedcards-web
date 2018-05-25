@@ -1,6 +1,9 @@
 export const UPDATE_CRAFTED_STYLE = 'UPDATE_CRAFTED_STYLE';
 export const UPDATE_CRAFTED_CLASSES = 'UPDATE_CRAFTED_CLASSES';
 export const UPDATE_CRAFTED_TEXT = 'UPDATE_CRAFTED_TEXT';
+export const SAVING_CRAFTED_COMPONENT = 'SAVING_CRAFTED_COMPONENT';
+export const SAVED_CRAFTED_COMPONENT = 'SAVED_CRAFTED_COMPONENT';
+export const FAIL_SAVE_CRAFTED_COMPONENT = 'FAIL_SAVE_CRAFTED_COMPONENT';
 
 export const actionUpdateCraftedStyle = (craftedStyle) => {
   return {
@@ -23,3 +26,42 @@ export const actionUpdateCraftedText = (craftedText) => {
   }
 };
 
+export const saveCraftedComponent = (id, style, classes, text) => (dispatch) => {
+  dispatch(savingCraftedComponent(id));
+  fetch(`http://localhost:6250/crafted-component/${id}`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        style,
+        classes,
+        text,
+      })
+    })
+    .then(res => res.json())
+    .then(data => dispatch(savedCraftedComponent(id, data)))
+    .catch(() => dispatch(failSaveCraftedComponent(id)));
+}
+
+const savingCraftedComponent = (id) => {
+  return {
+    type: SAVING_CRAFTED_COMPONENT,
+    id
+  };
+};
+
+const savedCraftedComponent = (id) => {
+  return {
+    type: FAIL_SAVE_CRAFTED_COMPONENT,
+    id
+  };
+};
+
+const failSaveCraftedComponent = (id) => {
+  return {
+    type: SAVED_CRAFTED_COMPONENT,
+    id
+  };
+};

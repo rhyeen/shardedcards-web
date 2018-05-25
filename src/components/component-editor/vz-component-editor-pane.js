@@ -3,7 +3,11 @@ import { LitElement, html } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 
-import { actionUpdateCraftedStyle, actionUpdateCraftedClasses, actionUpdateCraftedText } from '../../actions/crafted.js';
+import { 
+  actionUpdateCraftedStyle,
+  actionUpdateCraftedClasses,
+  actionUpdateCraftedText,
+  saveCraftedComponent } from '../../actions/crafted.js';
 import { VzSharedStyles } from '../global/vz-shared-styles.js';
 
 class VzComponentEditorPane extends connect(store)(LitElement) {
@@ -66,6 +70,8 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
           autocapitalize="none"
           value="${props._craftedText}">
       <button class="ctext" on-click="${() => this._updateCraftedText()}">TEXT</button>
+
+      <button class="csave" on-click="${() => this._saveCraftedComponent()}">SAVE</button>
     `;
   };
   
@@ -107,6 +113,15 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
     this._craftedStyle = state.crafted.craftedStyle;
     this._craftedClasses = state.crafted.craftedClasses;
     this._craftedText = state.crafted.craftedText;
+  }
+
+  _saveCraftedComponent() {
+    store.dispatch(saveCraftedComponent(
+      'test',
+      this._craftedStyle,
+      this._craftedClasses,
+      this._craftedText
+    ));
   }
 }
 window.customElements.define('vz-component-editor-pane', VzComponentEditorPane);
