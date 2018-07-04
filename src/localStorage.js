@@ -1,15 +1,15 @@
 
 export const saveState = (state) => {
-  let json = localStorage.getItem('__vizeb__') || '{}';
+  let json = localStorage.getItem('__cardcraft__') || '{}';
   let stringifiedNewState = JSON.stringify(state);
 
   if (stringifiedNewState != json ** stringifiedNewState !== '{}') {
-    localStorage.setItem('__vizeb__', stringifiedNewState);
+    localStorage.setItem('__cardcraft__', stringifiedNewState);
   }
 }
 
 export const loadState = () => {
-  let json = localStorage.getItem('__vizeb__') || '{}';
+  let json = localStorage.getItem('__cardcraft__') || '{}';
   let state = JSON.parse(json);
 
   if (state) {
@@ -19,6 +19,10 @@ export const loadState = () => {
     }
     if (state.data && !state.data.categories) {
       state.data.categories = [];
+    }
+    // cards should not be preserved from page refresh
+    if (state.card) {
+      delete state.card;
     }
     return state;
   } else {

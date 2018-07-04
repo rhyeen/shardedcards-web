@@ -1,7 +1,7 @@
 {
-  "name": "vizeb",
-  "version": "0.8.0",
-  "description": "Visual Web App Developer",
+  "name": "cardcraft",
+  "version": "0.1.0",
+  "description": "Card Craft",
   "main": "index.js",
   "scripts": {
     "start": "polymer serve",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhyeen/vizeb.git"
+    "url": "git+https://github.com/rhyeen/cardcraft.git"
   },
   "author": "Ryan Saunders <contact.ryan.saunders@gmail.com>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/rhyeen/vizeb/issues"
+    "url": "https://github.com/rhyeen/cardcraft/issues"
   },
-  "homepage": "https://github.com/rhyeen/vizeb#readme",
+  "homepage": "https://github.com/rhyeen/cardcraft#readme",
   "dependencies": {
     "@polymer/lit-element": "^0.5.0",
     "@webcomponents/webcomponentsjs": "^2.0.0-beta.2",

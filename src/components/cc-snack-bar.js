@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '@polymer/lit-element';
 
-class VzSnackBar extends LitElement {
+class CcSnackBar extends LitElement {
   static get properties() { return {
     active: Boolean,
   }};
@@ -45,4 +45,4 @@ class VzSnackBar extends LitElement {
   }
 }
 
-window.customElements.define('vz-snack-bar', VzSnackBar);
+window.customElements.define('cc-snack-bar', CcSnackBar);

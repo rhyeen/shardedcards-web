@@ -7,10 +7,11 @@ import {
   actionUpdateCraftedStyle,
   actionUpdateCraftedClasses,
   actionUpdateCraftedText,
+  actionUpdateCraftedName,
   saveCraftedComponent } from '../../actions/crafted.js';
-import { VzSharedStyles } from '../global/vz-shared-styles.js';
+import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
-class VzComponentEditorPane extends connect(store)(LitElement) {
+class CcComponentEditorPane extends connect(store)(LitElement) {
   _render(props) {
     // Note the use of the object spread to explicitely
     // call out which properties you're using for rendering.
@@ -18,14 +19,14 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
     // Anything code that is related to rendering should be done in here.
 
     return html`
-      ${VzSharedStyles}      
+      ${CcSharedStyles}      
       <style>
         :host {
           --component-editor-pane-padding: 40px;
           width: calc(400px - var(--component-editor-pane-padding) - var(--component-editor-pane-padding));
           background-color: var(--base-white);
           align-self: stretch;
-          box-shadow: var(--vz-elevation-side-bar);
+          box-shadow: var(--cc-elevation-side-bar);
           padding: var(--component-editor-pane-padding);
         }
 
@@ -43,6 +44,15 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
       </style>
 
       <h2>EDITOR</h2>
+
+      <input
+          class="cname"
+          autocomplete="off"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="none"
+          value="${props._craftedName}">
+      <button class="cname" on-click="${() => this._updateCraftedName()}">NAME</button>
 
       <input
           class="cstyles"
@@ -92,6 +102,8 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
     this._buttonCraftedClasses = this.shadowRoot.querySelector('button.cclasses');
     this._inputCraftedText = this.shadowRoot.querySelector('input.ctext');
     this._buttonCraftedText = this.shadowRoot.querySelector('button.ctext');
+    this._inputCraftedName = this.shadowRoot.querySelector('input.cname');
+    this._buttonCraftedName = this.shadowRoot.querySelector('button.cname');
   }
 
   _updateCraftedStyle() {
@@ -109,19 +121,25 @@ class VzComponentEditorPane extends connect(store)(LitElement) {
     store.dispatch(actionUpdateCraftedText(this._craftedText));
   }
 
+  _updateCraftedName() {
+    this._craftedName = this._inputCraftedName.value;
+    store.dispatch(actionUpdateCraftedName(this._craftedName));
+  }
+
   _stateChanged(state) {
     this._craftedStyle = state.crafted.craftedStyle;
     this._craftedClasses = state.crafted.craftedClasses;
     this._craftedText = state.crafted.craftedText;
+    this._craftedName = state.crafted.craftedName;
   }
 
   _saveCraftedComponent() {
     store.dispatch(saveCraftedComponent(
-      'test',
+      this._craftedName,
       this._craftedStyle,
       this._craftedClasses,
-      this._craftedText
+      this._craftedText,
     ));
   }
 }
-window.customElements.define('vz-component-editor-pane', VzComponentEditorPane);
+window.customElements.define('cc-component-editor-pane', CcComponentEditorPane);

@@ -31,14 +31,14 @@ export const navigate = (path) => (dispatch) => {
 const loadPage = (page) => async (dispatch) => {
   switch(page) {
     case 'edit':
-      await import('../app/pages/vz-edit-component-page.js');
+      await import('../app/pages/cc-edit-component-page.js');
       break;
     case 'about':
-      await import('../app/pages/vz-about-page.js');
+      await import('../app/pages/cc-about-page.js');
       break;
     default:
       page = 'view404';
-      await import('../app/pages/vz-view404.js');
+      await import('../app/pages/cc-view404.js');
       break;
   }
   dispatch(updatePage(page));

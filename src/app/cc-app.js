@@ -18,18 +18,20 @@ import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
 import data from '../reducers/data.js';
 import crafted from '../reducers/crafted.js';
+import card from '../reducers/card.js';
 import { loadAll } from '../actions/data.js';
-import '../components/vz-snack-bar.js';
-import { VzSharedStyles } from '../components/global/vz-shared-styles.js';
+import '../components/cc-snack-bar.js';
+import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
 
 
 store.addReducers({data});
 store.addReducers({crafted});
+store.addReducers({card});
 
-class VzApp extends connect(store)(LitElement) {
+class CcApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {
     return html`
-    ${VzSharedStyles}
+    ${CcSharedStyles}
     
     <style>
       :host {
@@ -96,14 +98,14 @@ class VzApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main class="main-content" role="main">
-      <vz-edit-page class="page" active?="${_page === 'edit'}"></vz-edit-page>
-      <vz-about-page class="page" active?="${_page === 'about'}"></vz-about-page>
-      <vz-view404 class="page" active?="${_page === 'view404'}"></vz-view404>
+      <cc-edit-page class="page" active?="${_page === 'edit'}"></cc-edit-page>
+      <cc-about-page class="page" active?="${_page === 'about'}"></cc-about-page>
+      <cc-view404 class="page" active?="${_page === 'view404'}"></cc-view404>
     </main>
 
-    <vz-snack-bar active?="${_snackbarOpened}">
+    <cc-snack-bar active?="${_snackbarOpened}">
         You are now ${_offline ? 'offline' : 'online'}.
-    </vz-snack-bar>
+    </cc-snack-bar>
 `;
   }
   static get properties() {
@@ -150,4 +152,4 @@ class VzApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('vz-app', VzApp);
+window.customElements.define('cc-app', CcApp);

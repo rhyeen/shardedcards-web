@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement } from '@polymer/lit-element';
 
-export class VzPageViewElement extends LitElement {
+export class CcPageViewElement extends LitElement {
   // Only render this page if it's actually visible.
   _shouldRender(props, changedProps, old) {
     return props.active;

@@ -1,4 +1,8 @@
-import { UPDATE_CRAFTED_STYLE, UPDATE_CRAFTED_CLASSES, UPDATE_CRAFTED_TEXT } from '../actions/crafted.js';
+import { 
+  UPDATE_CRAFTED_STYLE,
+  UPDATE_CRAFTED_CLASSES,
+  UPDATE_CRAFTED_TEXT,
+  UPDATE_CRAFTED_NAME } from '../actions/crafted.js';
 
 const app = (state = {craftedStyle:'', craftedClasses:'', craftedText:'hello world'}, action) => {
   switch (action.type) {
@@ -16,6 +20,11 @@ const app = (state = {craftedStyle:'', craftedClasses:'', craftedText:'hello wor
       return {
         ...state,
         craftedText: action.craftedText
+      }
+    case UPDATE_CRAFTED_NAME:
+      return {
+        ...state,
+        craftedName: action.craftedName
       }
     default:
       return state;

@@ -1,6 +1,7 @@
 export const UPDATE_CRAFTED_STYLE = 'UPDATE_CRAFTED_STYLE';
 export const UPDATE_CRAFTED_CLASSES = 'UPDATE_CRAFTED_CLASSES';
 export const UPDATE_CRAFTED_TEXT = 'UPDATE_CRAFTED_TEXT';
+export const UPDATE_CRAFTED_NAME = 'UPDATE_CRAFTED_NAME';
 export const SAVING_CRAFTED_COMPONENT = 'SAVING_CRAFTED_COMPONENT';
 export const SAVED_CRAFTED_COMPONENT = 'SAVED_CRAFTED_COMPONENT';
 export const FAIL_SAVE_CRAFTED_COMPONENT = 'FAIL_SAVE_CRAFTED_COMPONENT';
@@ -23,6 +24,13 @@ export const actionUpdateCraftedText = (craftedText) => {
   return {
     type: UPDATE_CRAFTED_TEXT,
     craftedText
+  }
+};
+
+export const actionUpdateCraftedName = (craftedName) => {
+  return {
+    type: UPDATE_CRAFTED_NAME,
+    craftedName
   }
 };
 

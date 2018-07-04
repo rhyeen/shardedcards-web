@@ -5,10 +5,7 @@ export const GET_WRONG = 'GET_WRONG';
 export const SAVE_CHOICES = 'SAVE_CHOICES';
 
 export const loadAll = () => async (dispatch, getState) => {
-  dispatch(await loadFile('hiragana'));
-  dispatch(await loadFile('katakana'));
-  dispatch(await loadFile('numbers'));
-  dispatch(await loadFile('basic-phrases'));
+  dispatch(await loadFile('cards'));
 
   const state = getState();
   dispatch(showNewCard(state.data.activeCard));

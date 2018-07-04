@@ -1,7 +1,7 @@
 {
-  "name": "Vizeb",
-  "short_name": "VZ",
-  "description": "Visual Web App Developer",
+  "name": "Card Craft",
+  "short_name": "CC",
+  "description": "Card Craft",
   "start_url": "/index.html",
   "display": "standalone",
   "theme_color": "#d66b8e",

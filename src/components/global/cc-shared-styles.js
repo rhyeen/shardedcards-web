@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html } from '@polymer/lit-element';
 
-export const VzSharedStyles = html`
+export const CcSharedStyles = html`
 <style>
   :host {
     --nav-header-height: 46px;
@@ -19,8 +19,8 @@ export const VzSharedStyles = html`
     --base-white: #FFF;
     --near-white-border: #E7EBEF;
     --off-black: #525456;
-    --vz-elevation-1: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    --vz-elevation-side-bar: -2px 0px 10px rgba(0, 0, 0, 0.1);
+    --cc-elevation-1: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    --cc-elevation-side-bar: -2px 0px 10px rgba(0, 0, 0, 0.1);
   }
 
   a:link, a:visited {

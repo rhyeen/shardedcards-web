@@ -1,13 +1,13 @@
 import { LitElement, html } from '@polymer/lit-element';
-import { VzSharedStyles } from '../global/vz-shared-styles.js';
+import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 
-class VzCraftedComponent extends connect(store)(LitElement) {
+class CcCraftedComponent extends connect(store)(LitElement) {
   _render(props) {
     return html`
-      ${VzSharedStyles}
+      ${CcSharedStyles}
 
       <div class$="${props._craftedClasses}" style$="${props._craftedStyle}">${props._craftedText}</div>
     `;
@@ -29,4 +29,4 @@ class VzCraftedComponent extends connect(store)(LitElement) {
     this._craftedText = state.crafted.craftedText;
   }
 }
-window.customElements.define('vz-crafted-component', VzCraftedComponent);
+window.customElements.define('cc-crafted-component', CcCraftedComponent);
