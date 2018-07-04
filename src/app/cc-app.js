@@ -49,12 +49,12 @@ class CcApp extends connect(store)(LitElement) {
         padding: 0 24px;
         box-sizing: border-box;
         height: var(--nav-header-height);
-        border: 1px solid var(--near-white-border);
+        border-bottom: 1px solid var(--near-white-border);
         background-color: var(--base-white);
       }
 
       [main-title] {
-        font-size: 24px;
+        font-size: 18px;
         color: var(--near-black);
         line-height: var(--nav-header-height);
         text-align: left;
@@ -89,15 +89,16 @@ class CcApp extends connect(store)(LitElement) {
 
     <!-- Header -->
     <header>
-      <span main-title>VIZEB</span>
+      <span main-title>CARDCRAFT</span>
       <nav class="toolbar-list" role="navigation">
-        <a selected?="${_page === 'edit'}" href="/edit">Edit</a>
+        <a selected?="${_page === 'game'}" href="/game">Game</a>
         <a selected?="${_page === 'about'}" href="/about">About</a>
       </nav>
     </header>
 
     <!-- Main content -->
     <main class="main-content" role="main">
+      <cc-game-page class="page" active?="${_page === 'game'}"></cc-game-page>
       <cc-edit-page class="page" active?="${_page === 'edit'}"></cc-edit-page>
       <cc-about-page class="page" active?="${_page === 'about'}"></cc-about-page>
       <cc-view404 class="page" active?="${_page === 'view404'}"></cc-view404>

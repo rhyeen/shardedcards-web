@@ -21,7 +21,7 @@ import { showNewCard, saveAvailableTypes } from './data.js';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
-  const page = path === '/' ? 'edit' : path.slice(1);
+  const page = path === '/' ? 'game' : path.slice(1);
 
   // Any other info you might want to extract from the path (like page type),
   // you can do here
@@ -32,6 +32,9 @@ const loadPage = (page) => async (dispatch) => {
   switch(page) {
     case 'edit':
       await import('../app/pages/cc-edit-component-page.js');
+      break;
+    case 'game':
+      await import('../app/pages/cc-game-page.js');
       break;
     case 'about':
       await import('../app/pages/cc-about-page.js');

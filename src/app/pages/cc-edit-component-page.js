@@ -3,7 +3,7 @@ import { CcPageViewElement } from './cc-page-view-element.js';
 import { CcSharedStyles } from '../../components/global/cc-shared-styles.js';
 
 import '../../components/component-editor/cc-component-editor-pane';
-import '../../components/playing-card/cc-playing-card';
+import '../../components/cards/card-types/cc-full-card';
 
 
 export class CcEditPage extends CcPageViewElement {
@@ -20,12 +20,13 @@ export class CcEditPage extends CcPageViewElement {
         }
       </style>
       <div class="component-editor-view">
-        <cc-playing-card cardid="test"></cc-playing-card>
-        <cc-playing-card cardid="beast"></cc-playing-card>
-        <cc-playing-card cardid="monster"></cc-playing-card>
-        <cc-playing-card cardid="hero"></cc-playing-card>
-        <cc-playing-card cardid="pawn"></cc-playing-card>
+        <cc-full-card cardid="test"></cc-full-card>
+        <!-- <cc-full-card cardid="beast"></cc-full-card>
+        <cc-full-card cardid="monster"></cc-full-card>
+        <cc-full-card cardid="hero"></cc-full-card>
+        <cc-full-card cardid="pawn"></cc-full-card> -->
       </div>
+      <cc-full-card-hand></cc-full-card-hand>
     `
   }
 }
