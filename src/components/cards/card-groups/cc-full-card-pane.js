@@ -1,9 +1,12 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../../../store.js';
+
 import '../card-types/cc-full-card';
 
-export class CcFullCardPane extends LitElement {
+export class CcFullCardPane extends connect(store)(LitElement) {
   _render(props) {
     return html`
       ${CcSharedStyles}
@@ -14,12 +17,31 @@ export class CcFullCardPane extends LitElement {
           justify-content: center;
         }
       </style>
-      <cc-full-card cardid="test"></cc-full-card>
-      <!-- <cc-full-card cardid="beast"></cc-full-card>
-      <cc-full-card cardid="monster"></cc-full-card>
-      <cc-full-card cardid="hero"></cc-full-card>
-      <cc-full-card cardid="pawn"></cc-full-card> -->
+      ${props._fullCardHtml}
     `
+  }
+
+  static get properties() { return {
+    _selectedCard: Object,
+    _fullCardHtml: html
+  }};
+
+  constructor() {
+    super()
+    this._fullCardHtml = this._getDefaultFullCardHtml()
+  }
+
+  _getDefaultFullCardHtml() {
+    return html``;
+  }
+
+  _stateChanged(state) {
+    this._selectedCard = state.card.selectedCard;
+    if (this._selectedCard.id) {
+      this._fullCardHtml = html`<cc-full-card></cc-full-card>`
+    } else {
+      this._fullCardHtml = this._getDefaultFullCardHtml()
+    }
   }
 }
 

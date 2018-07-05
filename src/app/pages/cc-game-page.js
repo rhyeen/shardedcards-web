@@ -2,11 +2,14 @@ import { html } from '@polymer/lit-element';
 import { CcPageViewElement } from './cc-page-view-element.js';
 import { CcSharedStyles } from '../../components/global/cc-shared-styles.js';
 
+import { connect } from 'pwa-helpers/connect-mixin.js';
+import { store } from '../../store.js';
+
 import '../../components/cards/card-groups/cc-full-card-pane';
 import '../../components/cards/card-groups/cc-card-hand';
 
 
-export class CcGamePage extends CcPageViewElement {
+export class CcGamePage extends connect(store)(CcPageViewElement) {
   _render(props) {
     return html`
       ${CcSharedStyles}
@@ -64,7 +67,10 @@ export class CcGamePage extends CcPageViewElement {
 
   constructor() {
     super()
-    this._showCardOverlay = false
+  }
+
+  _stateChanged(state) {
+    this._showCardOverlay = !!state.card.selectedCard.id;
   }
 }
 

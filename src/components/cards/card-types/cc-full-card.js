@@ -44,7 +44,15 @@ class CcFullCard extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._card = state.card[this.cardid]
+    this.cardid = state.card.selectedCard.id
+    console.log(this.cardid)
+    if (!(this.cardid in state.card.cards)) {
+      this._card = {
+        title: null
+      }
+      return
+    }
+    this._card = state.card.cards[this.cardid]
     this._borderColor = CardRarityColor(this._card.rarity)
   }
 }

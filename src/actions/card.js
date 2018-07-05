@@ -1,9 +1,8 @@
-export const UPDATE_CARD_TITLE = 'UPDATE_CARD_TITLE';
+export const SELECT_CARD = 'SELECT_CARD';
 
-export const actionUpdateCardTitle = (cardId, cardTitle) => {
+export const SelectCard = (cardId) => {
   return {
-    type: UPDATE_CARD_TITLE,
-    cardId,
-    cardTitle
+    type: SELECT_CARD,
+    cardId
   }
 };
