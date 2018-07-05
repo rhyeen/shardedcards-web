@@ -28,8 +28,12 @@ export class CcGamePage extends CcPageViewElement {
           display: block;
         }
 
-        .overlay {
+        .overlay[active] {
           display: flex;
+        }
+
+        .overlay {
+          display: none;
           justify-content: center;
           position: fixed;
           top: 0;
@@ -44,7 +48,7 @@ export class CcGamePage extends CcPageViewElement {
         }
       </style>
       
-      <div class="overlay" active?="true">
+      <div class="overlay" active?="${props._showCardOverlay}">
         <cc-full-card-pane></cc-full-card-pane>
       </div>
       <div class="inner-view">
@@ -52,6 +56,15 @@ export class CcGamePage extends CcPageViewElement {
         <cc-card-hand></cc-card-hand>
       </div>
     `
+  }
+
+  static get properties() { return {
+    _showCardOverlay: Boolean
+  }};
+
+  constructor() {
+    super()
+    this._showCardOverlay = false
   }
 }
 
