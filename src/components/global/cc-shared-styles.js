@@ -57,9 +57,21 @@ export const CcSharedStyles = html`
     --off-black: #525456;
     
     --overlay-black: rgba(0, 0, 0, 0.5);
+    --overlay-white: rgba(255, 255, 255, 0.8);
 
-    --cc-elevation-1: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    --cc-elevation-1: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    --cc-elevation-n1: inset 1px 1px 5px rgba(0, 0, 0, 0.4);
+    --cc-elevation-h1:
+      1px 1px 5px rgba(0, 0, 0, 0.4),
+      inset 0px 0px 80px rgba(0, 0, 0, 0.1);
     --cc-elevation-side-bar: -2px 0px 10px rgba(0, 0, 0, 0.1);
+
+    --pawn-card-height: 140px;
+    --pawn-card-width: 90px;
+  }
+
+  button:focus {
+    outline: 0;
   }
 
   a:link, a:visited {

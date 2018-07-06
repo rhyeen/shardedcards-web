@@ -1,12 +1,16 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../../store.js';
 
-import '../card-types/cc-full-card';
+import { 
+  CancelSelectCard,
+  PlaySelectedCard } from '../../../actions/card.js';
 
-export class CcFullCardPane extends connect(store)(LitElement) {
+import '../card-types/cc-full-card';
+import '../../global/cc-btn';
+
+export class CcFullCardPane extends LitElement {
   _render(props) {
     return html`
       ${CcSharedStyles}
@@ -14,34 +18,36 @@ export class CcFullCardPane extends connect(store)(LitElement) {
         :host {
           display: flex;
           width: 100%;
-          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .action-selections {
+          margin-top: 20px;
+        }
+
+        .action-selections cc-btn:first-child {
+          margin-left: 0;
+        }
+
+        .action-selections cc-btn {
+          margin-left: 20px;
         }
       </style>
-      ${props._fullCardHtml}
+      <cc-full-card></cc-full-card>
+      <div class="action-selections">
+        <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
+        <cc-btn btntype="confirm" on-click="${() => this._confirm()}"></cc-btn>
+      </div>
     `
   }
 
-  static get properties() { return {
-    _selectedCard: Object,
-    _fullCardHtml: html
-  }};
-
-  constructor() {
-    super()
-    this._fullCardHtml = this._getDefaultFullCardHtml()
+  _cancel() {
+    store.dispatch(CancelSelectCard())
   }
 
-  _getDefaultFullCardHtml() {
-    return html``;
-  }
-
-  _stateChanged(state) {
-    this._selectedCard = state.card.selectedCard;
-    if (this._selectedCard.id) {
-      this._fullCardHtml = html`<cc-full-card></cc-full-card>`
-    } else {
-      this._fullCardHtml = this._getDefaultFullCardHtml()
-    }
+  _confirm() {
+    store.dispatch(PlaySelectedCard())
   }
 }
 

@@ -1,5 +1,8 @@
 import { 
-  SELECT_CARD } from '../actions/card.js';
+  SELECT_CARD,
+  CANCEL_SELECT_CARD,
+  PLAY_SELECTED_CARD,
+  CANCEL_PLAY_SELECTED_CARD } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -37,6 +40,33 @@ const defaultState = {
   selectedCard: {
     id: null,
     handIndex: null
+  },
+  playFromHand: {
+    id: null,
+    handIndex: null
+  },
+  playedCards: {},
+  playerField: {
+    left: {
+      id: null
+    },
+    middle: {
+      id: null
+    },
+    right: {
+      id: null
+    }
+  },
+  opponentField: {
+    left: {
+      id: null
+    },
+    middle: {
+      id: null
+    },
+    right: {
+      id: null
+    }
   }
 }
 
@@ -48,6 +78,35 @@ const app = (state = defaultState, action) => {
         selectedCard: {
           ...state.selectedCard,
           id: action.cardId
+        }
+      }
+    case CANCEL_SELECT_CARD:
+      return {
+        ...state,
+        selectedCard: {
+          id: null,
+          handIndex: null
+        }
+      }
+    case PLAY_SELECTED_CARD:
+      return {
+        ...state,
+        playFromHand: {
+          ...state.selectedCard,
+          id: state.selectedCard.id,
+          handIndex: state.selectedCard.handIndex
+        },
+        selectedCard: {
+          id: null,
+          handIndex: null
+        }
+      }
+    case CANCEL_PLAY_SELECTED_CARD:
+      return {
+        ...state,
+        playFromHand: {
+          id: null,
+          handIndex: null
         }
       }
     default:

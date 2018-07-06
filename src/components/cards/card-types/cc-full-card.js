@@ -39,13 +39,8 @@ class CcFullCard extends connect(store)(LitElement) {
     _borderColor: String
   }};
 
-  constructor() {
-    super()
-  }
-
   _stateChanged(state) {
     this.cardid = state.card.selectedCard.id
-    console.log(this.cardid)
     if (!(this.cardid in state.card.cards)) {
       this._card = {
         title: null

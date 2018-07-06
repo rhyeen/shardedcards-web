@@ -58,11 +58,11 @@ export class CcCardHand extends connect(store)(LitElement) {
   }};
 
   _selectCard(cardId) {
-    store.dispatch(SelectCard(cardId));
+    store.dispatch(SelectCard(cardId))
   }
 
   _stateChanged(state) {
-    this._selectedCard = state.card.selectedCard;
+    this._selectedCard = state.card.selectedCard
   }
 }
 

@@ -34,10 +34,6 @@ class CcMiniCard extends connect(store)(LitElement) {
     _backgroundColor: String
   }};
 
-  constructor() {
-    super()
-  }
-
   _stateChanged(state) {
     this._card = state.card.cards[this.cardid]
     this._backgroundColor = CardRarityColor(this._card.rarity)

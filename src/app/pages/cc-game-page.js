@@ -7,6 +7,7 @@ import { store } from '../../store.js';
 
 import '../../components/cards/card-groups/cc-full-card-pane';
 import '../../components/cards/card-groups/cc-card-hand';
+import '../../components/play-area/cc-play-area';
 
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
@@ -42,7 +43,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
           top: 0;
           width: 100vw;
           height: 100vh;
-          background-color: var(--overlay-black);
+          background-color: var(--overlay-white);
           z-index: 1;
         }
 
@@ -55,22 +56,33 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
         <cc-full-card-pane></cc-full-card-pane>
       </div>
       <div class="inner-view">
-        <div class="placeholder-play-area"></div>
+        <cc-play-area></cc-play-area>
         <cc-card-hand></cc-card-hand>
       </div>
     `
   }
 
   static get properties() { return {
-    _showCardOverlay: Boolean
+    _showCardOverlay: Boolean,
+    _fullCardPaneHtml: html
   }};
 
   constructor() {
     super()
+    this._fullCardPaneHtml = this._getHiddenFullCardPaneHtml()
+  }
+
+  _getHiddenFullCardPaneHtml() {
+    return html``
+  }
+
+  _getShowFullCardPanelHtml() {
+    return html`<cc-full-card-pane></cc-full-card-pane>`
   }
 
   _stateChanged(state) {
-    this._showCardOverlay = !!state.card.selectedCard.id;
+    this._showCardOverlay = !!state.card.selectedCard.id
+    this._fullCardPaneHtml = this._showCardOverlay ? this._getShowFullCardPanelHtml() : this._getHiddenFullCardPaneHtml()
   }
 }
 
