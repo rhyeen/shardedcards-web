@@ -17,7 +17,6 @@ export class CcPlayField extends connect(store)(LitElement) {
       <style>
         :host {
           display: flex;
-          max-width: 500px;
         }
 
         .field-pane {

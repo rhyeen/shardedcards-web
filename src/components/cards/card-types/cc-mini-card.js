@@ -13,14 +13,17 @@ class CcMiniCard extends connect(store)(LitElement) {
 
       <style>
         :host {
-          --mini-card-height: 34px;
+          --card-border-radius: 16px;
+          --card-padding: 16px;
           line-height: var(--mini-card-height);
           display: block;
+          max-width: calc(var(--mini-card-max-width) - 2*var(--card-padding));
           height: var(--mini-card-height);
           background-color: var(${props._backgroundColor});
-          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-          border-radius: var(--mini-card-height);
-          padding: 0 16px;
+          box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.15);
+          border-top-left-radius: var(--card-border-radius);
+          border-top-right-radius: var(--card-border-radius);
+          padding: 0 var(--card-padding);
         }
       </style>
 

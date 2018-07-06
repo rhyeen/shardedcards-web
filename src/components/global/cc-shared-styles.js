@@ -68,6 +68,11 @@ export const CcSharedStyles = html`
 
     --pawn-card-height: 140px;
     --pawn-card-width: 90px;
+
+    --mini-card-height: 34px;
+    --mini-card-max-width: 350px;
+    --mini-card-margin: 4px;
+    --card-hand-height: calc(5*var(--mini-card-height) + 5*var(--mini-card-margin));
   }
 
   button:focus {

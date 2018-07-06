@@ -15,19 +15,27 @@ export class CcCardHand extends connect(store)(LitElement) {
       ${CcSharedStyles}
       <style>
         :host {
-          margin: 10px;
+          --card-hand-margin: 10px;
+          width: calc(100% - var(--card-hand-margin));
+          max-width: var(--mini-card-max-width);
+          margin: var(--card-hand-margin);
+          flex: 0 0 var(--card-hand-height);
         }
 
         cc-mini-card {
-          margin-bottom: 4px;
+          --mini-card-overlay: calc(2*var(--mini-card-height) - var(--mini-card-margin));
+          height: calc(var(--mini-card-height) + var(--mini-card-overlay));
+          margin-bottom: calc(-1*var(--mini-card-overlay));
         }
 
         cc-mini-card:last-child {
-          margin-bottom: 0px;
+          --mini-card-overlay: calc(var(--mini-card-height) - var(--mini-card-margin));
+          height: calc(var(--mini-card-height) + var(--mini-card-overlay));
+          margin-bottom: calc(-1*var(--mini-card-overlay));
         }
 
         cc-mini-card[active] {
-          border: 3px solid #000;
+          opacity: 0;
         }
       </style>
       <cc-mini-card

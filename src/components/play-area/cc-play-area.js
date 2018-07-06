@@ -15,9 +15,13 @@ export class CcPlayArea extends LitElement {
         :host {
           display: flex;
           flex-direction: column;
+          align-items: center;
+          width: 100%;
+          max-width: 500px;
         }
 
         .play-field-separator {
+          width: 100%;
           border-bottom: 2px solid #EEEEEE;
           border-top: 2px solid #EEEEEE;
           flex: 0 0 4px;
@@ -25,6 +29,7 @@ export class CcPlayArea extends LitElement {
 
         cc-play-field {
           height: 100%;
+          width: 100%;
         }
       </style>
       <cc-play-field owner="${OPPONENT_OWNER}"></cc-play-field>
