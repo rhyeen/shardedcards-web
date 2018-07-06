@@ -48,10 +48,10 @@ const defaultState = {
   playedCards: {},
   playerField: {
     left: {
-      id: null
+      id: 'test'
     },
     middle: {
-      id: null
+      id: 'hero'
     },
     right: {
       id: null
@@ -65,7 +65,7 @@ const defaultState = {
       id: null
     },
     right: {
-      id: null
+      id: 'monster'
     }
   }
 }

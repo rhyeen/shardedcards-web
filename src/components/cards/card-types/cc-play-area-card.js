@@ -30,8 +30,8 @@ class CcPlayAreaCard extends LitElement {
         }
       </style>
 
-      <cc-replace-card cardid$="${props.cardid}" owner="${props.owner}"></cc-replace-card>
-      <cc-pawn-card cardid$="${props.cardid}"></cc-pawn-card>
+      <cc-pawn-card cardid="${props.cardid}"></cc-pawn-card>
+      <cc-replace-card cardid="${props.cardid}" owner="${props.owner}"></cc-replace-card>
     `;
   };
   

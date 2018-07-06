@@ -33,13 +33,13 @@ export class CcPlayField extends connect(store)(LitElement) {
         }
       </style>
       <div class="field-pane left">
-        <cc-play-area-card cardid$="${props._leftCardId}" owner$="${props.owner}"></cc-play-area-card>
+        <cc-play-area-card cardid="${props._leftCardId}" owner$="${props.owner}"></cc-play-area-card>
       </div>
       <div class="field-pane middle">
         <cc-play-area-card cardid="${props._middleCardId}" owner$="${props.owner}"></cc-play-area-card>
       </div>
       <div class="field-pane right">
-        <cc-play-area-card cardid$="${props._rightCardId}" owner$="${props.owner}"></cc-play-area-card>
+        <cc-play-area-card cardid="${props._rightCardId}" owner$="${props.owner}"></cc-play-area-card>
       </div>
     `
   }
@@ -53,9 +53,6 @@ export class CcPlayField extends connect(store)(LitElement) {
 
   constructor() {
     super()
-    this._leftCardId = 'test';
-    this._rightCardId = 'hero';
-    this._middleCardId = '';
   }
 
   _stateChanged(state) {
