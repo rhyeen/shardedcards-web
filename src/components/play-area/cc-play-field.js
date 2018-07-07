@@ -26,19 +26,26 @@ export class CcPlayField extends connect(store)(LitElement) {
           width: 100%;
         }
 
-        .middle {
-          border-left: 2px solid #EEEEEE;
-          border-right: 2px solid #EEEEEE;
+        .field-pane-separator {
+          flex: 0 0 2px;
+          height: 100%;
+          background-color: #EEEEEE;
+        }
+
+        .field-pane-separator[overlay] {
+          background: none;
         }
       </style>
       <div class="field-pane left">
-        <cc-play-area-card cardid="${props._leftCardId}" owner$="${props.owner}"></cc-play-area-card>
+        <cc-play-area-card cardid="${props._leftCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
       </div>
+      <div class="field-pane-separator" overlay?="${props.overlay}"></div>
       <div class="field-pane middle">
-        <cc-play-area-card cardid="${props._middleCardId}" owner$="${props.owner}"></cc-play-area-card>
+        <cc-play-area-card cardid="${props._middleCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
       </div>
+      <div class="field-pane-separator" overlay?="${props.overlay}"></div>
       <div class="field-pane right">
-        <cc-play-area-card cardid="${props._rightCardId}" owner$="${props.owner}"></cc-play-area-card>
+        <cc-play-area-card cardid="${props._rightCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
       </div>
     `
   }
@@ -47,14 +54,12 @@ export class CcPlayField extends connect(store)(LitElement) {
     owner: String,
     _leftCardId: String,
     _rightCardId: String,
-    _middleCardId: String
+    _middleCardId: String,
+    overlay: Boolean
   }};
 
-  constructor() {
-    super()
-  }
-
   _stateChanged(state) {
+    console.log(this.overlay);
     switch(this.owner) {
       case PLAYER_OWNER:
         this._leftCardId = state.card.playerField.left.id

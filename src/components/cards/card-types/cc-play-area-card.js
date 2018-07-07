@@ -30,14 +30,28 @@ class CcPlayAreaCard extends LitElement {
         }
       </style>
 
-      <cc-pawn-card cardid="${props.cardid}"></cc-pawn-card>
-      <cc-replace-card cardid="${props.cardid}" owner="${props.owner}"></cc-replace-card>
+      ${props._playAreaCardHtml}
     `;
   };
   
   static get properties() { return {
     cardid: String,
-    owner: String
+    owner: String,
+    _playAreaCardHtml: html,
+    overlay: Boolean
   }};
+
+  constructor() {
+    super()
+  }
+
+  _firstRendered() {
+    if (this.overlay) {
+      this._playAreaCardHtml = html`<cc-replace-card cardid$="${this.cardid}" owner$="${this.owner}"></cc-replace-card>`
+    } else {
+      this._playAreaCardHtml = html`<cc-pawn-card cardid$="${this.cardid}"></cc-pawn-card>`
+    }
+    this._requestRender()
+  }
 }
 window.customElements.define('cc-play-area-card', CcPlayAreaCard);

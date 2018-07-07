@@ -35,7 +35,7 @@ export class CcPlaceCardPane extends LitElement {
         }
       </style>
 
-      <cc-play-area hide?="${true}"></cc-play-area>
+      <cc-play-area overlay?="${true}"></cc-play-area>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
       </div>

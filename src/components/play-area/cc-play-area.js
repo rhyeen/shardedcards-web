@@ -21,10 +21,17 @@ export class CcPlayArea extends LitElement {
         }
 
         .play-field-separator {
+          --separator-height: 8px;
+          --separator-border-width: 2px;
           width: 100%;
-          border-bottom: 2px solid #EEEEEE;
-          border-top: 2px solid #EEEEEE;
-          flex: 0 0 4px;
+          border-bottom: var(--separator-border-width) solid #EEEEEE;
+          border-top: var(--separator-border-width) solid #EEEEEE;
+          flex: 0 0 calc(var(--separator-height) - 2*var(--separator-border-width));
+        }
+
+        .play-field-separator[overlay] {
+          border: none;
+          flex: 0 0 var(--separator-height);
         }
 
         cc-play-field {
@@ -32,11 +39,15 @@ export class CcPlayArea extends LitElement {
           width: 100%;
         }
       </style>
-      <cc-play-field owner="${OPPONENT_OWNER}"></cc-play-field>
-      <div class="play-field-separator"></div>
-      <cc-play-field owner="${PLAYER_OWNER}"></cc-play-field>
+      <cc-play-field owner="${OPPONENT_OWNER}" overlay?="${props.overlay}"></cc-play-field>
+      <div class="play-field-separator" overlay?="${props.overlay}"></div>
+      <cc-play-field owner="${PLAYER_OWNER}" overlay?="${props.overlay}"></cc-play-field>
     `
   }
+
+  static get properties() { return {
+    overlay: Boolean
+  }};
 }
 
 window.customElements.define('cc-play-area', CcPlayArea);
