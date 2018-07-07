@@ -10,7 +10,7 @@ import {
   SelectCard } from '../../../actions/card.js';
 
 export class CcCardHand extends connect(store)(LitElement) {
-  _render(props) {
+  _render({_selectedCard, _hand}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -38,39 +38,37 @@ export class CcCardHand extends connect(store)(LitElement) {
           opacity: 0;
         }
       </style>
+      ${_hand.map((card) => html`
       <cc-mini-card
-          cardid="test"
-          on-click="${() => this._selectCard('test')}"
-          active?="${this._selectedCard.id === 'test'}"></cc-mini-card>
-      <cc-mini-card
-          cardid="beast"
-          on-click="${() => this._selectCard('beast')}"
-          active?="${this._selectedCard.id === 'beast'}"></cc-mini-card>
-      <cc-mini-card
-          cardid="monster"
-          on-click="${() => this._selectCard('monster')}"
-          active?="${this._selectedCard.id === 'monster'}"></cc-mini-card>
-      <cc-mini-card
-          cardid="hero"
-          on-click="${() => this._selectCard('hero')}"
-          active?="${this._selectedCard.id === 'hero'}"></cc-mini-card>
-      <cc-mini-card
-          cardid="pawn"
-          on-click="${() => this._selectCard('pawn')}"
-          active?="${this._selectedCard.id === 'pawn'}"></cc-mini-card>
+          card="${card.card}"
+          on-click="${() => store.dispatch(SelectCard(card.id))}"
+          active?="${_selectedCard.id === card.id}"></cc-mini-card>
+      `)}
     `
   }
 
   static get properties() { return {
-    _selectedCard: Object
+    _selectedCard: Object,
+    _hand: Array
   }};
 
-  _selectCard(cardId) {
-    store.dispatch(SelectCard(cardId))
+  constructor() {
+    super()
+    this._hand = []
   }
 
   _stateChanged(state) {
     this._selectedCard = state.card.selectedCard
+    this._hand = this._getCardsInHand(state, state.card.hand)
+  }
+
+  _getCardsInHand(state, hand) {
+    return hand.map((card) => {
+      return {
+        card: state.card.cards[card.id],
+        id: card.id
+      }
+    })
   }
 }
 

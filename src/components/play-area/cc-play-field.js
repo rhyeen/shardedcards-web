@@ -4,14 +4,18 @@ import { CcSharedStyles } from '../global/cc-shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../store.js';
 
-import '../cards/card-types/cc-play-area-card';
+import '../cards/card-types/cc-pawn-card';
+import '../cards/card-types/cc-replace-card';
 
 import {
   PLAYER_OWNER,
   OPPONENT_OWNER } from '../../data/owner';
 
 export class CcPlayField extends connect(store)(LitElement) {
-  _render(props) {
+  _render({_leftCard, _middleCard, _rightCard, overlay, owner}) {
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay)
     return html`
       ${CcSharedStyles}
       <style>
@@ -37,47 +41,66 @@ export class CcPlayField extends connect(store)(LitElement) {
         }
       </style>
       <div class="field-pane left">
-        <cc-play-area-card cardid="${props._leftCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
+        ${leftCardHtml}
       </div>
-      <div class="field-pane-separator" overlay?="${props.overlay}"></div>
+      <div class="field-pane-separator" overlay?="${overlay}"></div>
       <div class="field-pane middle">
-        <cc-play-area-card cardid="${props._middleCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
+        ${middleCardHtml}
       </div>
-      <div class="field-pane-separator" overlay?="${props.overlay}"></div>
+      <div class="field-pane-separator" overlay?="${overlay}"></div>
       <div class="field-pane right">
-        <cc-play-area-card cardid="${props._rightCardId}" owner$="${props.owner}" overlay?="${props.overlay}"></cc-play-area-card>
+        ${rightCardHtml}
       </div>
     `
   }
 
   static get properties() { return {
     owner: String,
-    _leftCardId: String,
-    _rightCardId: String,
-    _middleCardId: String,
+    _leftCard: Object,
+    _rightCard: Object,
+    _middleCard: Object,
     overlay: Boolean
   }};
 
   _stateChanged(state) {
-    console.log(this.overlay);
     switch(this.owner) {
       case PLAYER_OWNER:
-        this._leftCardId = state.card.playerField.left.id
-        this._rightCardId = state.card.playerField.right.id
-        this._middleCardId = state.card.playerField.middle.id
+        this._leftCard = this._getCard(state, state.card.playerField.left.id)
+        this._rightCard = this._getCard(state, state.card.playerField.right.id)
+        this._middleCard = this._getCard(state, state.card.playerField.middle.id)
         break;
       case OPPONENT_OWNER:
-        this._leftCardId = state.card.opponentField.left.id
-        this._rightCardId = state.card.opponentField.right.id
-        this._middleCardId = state.card.opponentField.middle.id
+        this._leftCard = this._getCard(state, state.card.opponentField.left.id)
+        this._rightCard = this._getCard(state, state.card.opponentField.right.id)
+        this._middleCard = this._getCard(state, state.card.opponentField.middle.id)
         break;
       default:
         console.error(`Invalid owner: ${this.owner}`)
-        this._leftCardId = null
-        this._rightCardId = null
-        this._middleCardId = null
+        this._leftCard = null
+        this._rightCard = null
+        this._middleCard = null
         break;
     }
+  }
+
+  _getCard(state, cardId) {
+    if (!cardId) {
+      return null
+    }
+    return state.card.cards[cardId]
+  }
+
+  _getCardHtml(card, owner, overlay) {
+    if (overlay && owner === OPPONENT_OWNER) {
+      return html``
+    }
+    if (overlay && owner === PLAYER_OWNER) {
+      return html`<cc-replace-card card="${card}"></cc-replace-card>`
+    }
+    if (card) {
+      return html`<cc-pawn-card card="${card}"></cc-pawn-card>`
+    }
+    return html``
   }
 }
 

@@ -3,11 +3,8 @@ import {
   CcSharedStyles,
   CardRarityColor } from '../../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from '../../../store.js';
-
-class CcFullCard extends connect(store)(LitElement) {
-  _render(props) {
+class CcFullCard extends LitElement {
+  _render({card}) {
     return html`
       ${CcSharedStyles}
 
@@ -20,7 +17,7 @@ class CcFullCard extends connect(store)(LitElement) {
           box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
           border-radius: 8px;
           border: 8px solid #000;
-          border-color: var(${props._borderColor});
+          border-color: var(${CardRarityColor(card.rarity)});
           padding: 16px;
         }
 
@@ -29,26 +26,12 @@ class CcFullCard extends connect(store)(LitElement) {
         }
       </style>
 
-      <div card-title>${props._card.title}</div>
+      <div card-title>${card.title}</div>
     `;
   };
   
   static get properties() { return {
-    _card: Object,
-    cardid: String,
-    _borderColor: String
+    card: Object
   }};
-
-  _stateChanged(state) {
-    this.cardid = state.card.selectedCard.id
-    if (!(this.cardid in state.card.cards)) {
-      this._card = {
-        title: null
-      }
-      return
-    }
-    this._card = state.card.cards[this.cardid]
-    this._borderColor = CardRarityColor(this._card.rarity)
-  }
 }
 window.customElements.define('cc-full-card', CcFullCard);

@@ -12,9 +12,6 @@ import {
   CARD_RARITY_LEGENDARY } from '../data/card-rarity.js';
 
 const defaultState = {
-  hand: [
-    'test', 'beast', 'pawn', 'pawn', 'monster'
-  ],
   cards: {
     test: {
       title: 'Hello World',
@@ -45,6 +42,23 @@ const defaultState = {
     id: null,
     handIndex: null
   },
+  hand: [
+    {
+      id: 'test'
+    },
+    {
+      id: 'hero'
+    },
+    {
+      id: 'pawn'
+    },
+    {
+      id: 'monster'
+    },
+    {
+      id: 'beast'
+    }
+  ],
   playedCards: {},
   playerField: {
     left: {
