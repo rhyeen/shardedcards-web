@@ -49,18 +49,18 @@ const defaultState = {
     {
       id: 'test'
     },
-    // {
-    //   id: 'hero'
-    // },
-    // {
-    //   id: 'pawn'
-    // },
-    // {
-    //   id: 'monster'
-    // },
-    // {
-    //   id: 'beast'
-    // }
+    {
+      id: 'hero'
+    },
+    {
+      id: 'pawn'
+    },
+    {
+      id: 'monster'
+    },
+    {
+      id: 'beast'
+    }
   ],
   playedCards: {},
   playerField: {

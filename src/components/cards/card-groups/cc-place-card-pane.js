@@ -22,8 +22,10 @@ export class CcPlaceCardPane extends LitElement {
         }
 
         .action-selections {
-          flex: 0 0 var(--card-hand-height);
-          margin-top: 20px;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          flex: 0 0 calc(var(--card-hand-height));
         }
 
         .action-selections cc-btn:first-child {

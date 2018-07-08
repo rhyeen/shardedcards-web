@@ -15,14 +15,71 @@ export class CcCardHand extends connect(store)(LitElement) {
       ${CcSharedStyles}
       <style>
         :host {
+          --card-hover-raise-amount: 10px;
           --card-hand-margin: 10px;
           width: calc(100% - var(--card-hand-margin));
           max-width: var(--mini-card-max-width);
-          margin: var(--card-hand-margin);
           flex: 0 0 var(--card-hand-height);
         }
 
         cc-mini-card {
+          position: absolute;
+          width: calc(100% - 42px); /* no idea about the 42... */
+          transition: height 0.1s, margin-top 0.1s;
+          transition-timing-function: ease-in;
+        }
+
+        .card-0 {
+          margin-top: 0;
+          height: var(--card-hand-height);
+        }
+
+        .card-0:hover {
+          margin-top: calc(-1*var(--card-hover-raise-amount));
+          height: calc(var(--card-hand-height) + var(--card-hover-raise-amount));
+        }
+
+        .card-1 {
+          margin-top: var(--mini-card-height);
+          height: calc(var(--card-hand-height) - var(--mini-card-height));
+        }
+
+        .card-1:hover {
+          margin-top: calc(var(--mini-card-height) - var(--card-hover-raise-amount));
+          height: calc(var(--card-hand-height) + var(--card-hover-raise-amount) - var(--mini-card-height));
+        }
+
+        .card-2 {
+          margin-top: calc(2*var(--mini-card-height));
+          height: calc(var(--card-hand-height) - 2*var(--mini-card-height));
+        }
+
+        .card-2:hover {
+          margin-top: calc(2*var(--mini-card-height) - var(--card-hover-raise-amount));
+          height: calc(var(--card-hand-height) + var(--card-hover-raise-amount) - 2*var(--mini-card-height));
+        }
+
+        .card-3 {
+          margin-top: calc(3*var(--mini-card-height));
+          height: calc(var(--card-hand-height) - 3*var(--mini-card-height));
+        }
+
+        .card-3:hover {
+          margin-top: calc(3*var(--mini-card-height) - var(--card-hover-raise-amount));
+          height: calc(var(--card-hand-height) + var(--card-hover-raise-amount) - 3*var(--mini-card-height));
+        }
+
+        .card-4 {
+          margin-top: calc(4*var(--mini-card-height));
+          height: calc(var(--card-hand-height) - 4*var(--mini-card-height));
+        }
+
+        .card-4:hover {
+          margin-top: calc(4*var(--mini-card-height) - var(--card-hover-raise-amount));
+          height: calc(var(--card-hand-height) + var(--card-hover-raise-amount) - 4*var(--mini-card-height));
+        }
+
+        /*cc-mini-card {
           --mini-card-overlay: calc(2*var(--mini-card-height) - var(--mini-card-margin));
           height: calc(var(--mini-card-height) + var(--mini-card-overlay));
           margin-bottom: calc(-1*var(--mini-card-overlay));
@@ -32,7 +89,7 @@ export class CcCardHand extends connect(store)(LitElement) {
           --mini-card-overlay: calc(var(--mini-card-height) - var(--mini-card-margin));
           height: calc(var(--mini-card-height) + var(--mini-card-overlay));
           margin-bottom: calc(-1*var(--mini-card-overlay));
-        }
+        }*/
 
         cc-mini-card[active] {
           opacity: 0;
@@ -40,6 +97,7 @@ export class CcCardHand extends connect(store)(LitElement) {
       </style>
       ${ _hand.map((card, index) => html`
       <cc-mini-card
+          class$="card-${index}"
           card="${card.card}"
           on-click="${() => store.dispatch(SelectCard(card.id, index))}"
           active?="${_selectedCard.id === card.id}"></cc-mini-card>
