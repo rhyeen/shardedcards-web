@@ -1,17 +1,17 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../../store.js';
 
 import { 
   CancelSelectHandCard,
   PlaySelectedHandCard } from '../../../actions/card.js';
 
-import '../card-types/cc-full-card';
-import '../../global/cc-btn';
+import '../card-types/cc-full-card.js';
+import '../../global/cc-btn.js';
 
-export class CcFullCardPane extends connect(store)(LitElement) {
+export class CcHandCardPane extends connect(store)(LitElement) {
   _render({_selectedCard}) {
     return html`
       ${CcSharedStyles}
@@ -66,4 +66,4 @@ export class CcFullCardPane extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('cc-full-card-pane', CcFullCardPane);
+window.customElements.define('cc-hand-card-pane', CcHandCardPane);

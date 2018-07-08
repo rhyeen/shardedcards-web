@@ -2,13 +2,16 @@ import { html } from '@polymer/lit-element';
 import { CcPageViewElement } from './cc-page-view-element.js';
 import { CcSharedStyles } from '../../components/global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
-import '../../components/cards/card-groups/cc-full-card-pane';
-import '../../components/cards/card-groups/cc-place-card-pane';
-import '../../components/cards/card-groups/cc-card-hand';
-import '../../components/play-area/cc-play-area';
+import '../../components/cards/card-groups/cc-hand-card-pane.js';
+import '../../components/cards/card-groups/cc-attack-card-pane.js';
+import '../../components/cards/card-groups/cc-opponent-card-pane.js';
+import '../../components/cards/card-groups/cc-place-card-pane.js';
+import '../../components/cards/card-groups/cc-pawn-card-pane.js';
+import '../../components/cards/card-groups/cc-card-hand.js';
+import '../../components/play-area/cc-play-area.js';
 
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
@@ -67,31 +70,32 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
 
   constructor() {
     super()
-    this._overlayPaneHtml = this._getHiddenFullCardPaneHtml()
+    this._overlayPaneHtml = this._getHiddenPaneHtml()
   }
 
-  _getHiddenFullCardPaneHtml() {
+  _getHiddenPaneHtml() {
     return html``
   }
 
-  _getFullCardPaneHtml() {
-    return html`<cc-full-card-pane></cc-full-card-pane>`
-  }
-
-  _getPlaceCardPaneHtml() {
-    return html`<cc-place-card-pane></cc-place-card-pane>`
-  }
-
   _stateChanged(state) {
-    if (state.card.selectedHandCard.id) {
+    if (state.card.selectedPlayerFieldCard.id) {
       this._showCardOverlay = true
-      this._overlayPaneHtml = this._getFullCardPaneHtml()
+      this._overlayPaneHtml = html`<cc-attack-card-pane></cc-attack-card-pane>`
+    } else if (state.card.selectedOpponentFieldCard.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-opponent-card-pane></cc-opponent-card-pane>`
+    } else if (state.card.selectedHandCard.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-hand-card-pane></cc-hand-card-pane>`
     } else if (state.card.playFromHand.id) {
       this._showCardOverlay = true
-      this._overlayPaneHtml = this._getPlaceCardPaneHtml()
+      this._overlayPaneHtml = html`<cc-place-card-pane></cc-place-card-pane>`
+    } else if (state.card.playFromPlayArea.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-pawn-card-pane></cc-pawn-card-pane>`
     } else {
       this._showCardOverlay = false
-      this._overlayPaneHtml = this._getHiddenFullCardPaneHtml()
+      this._overlayPaneHtml = this._getHiddenPaneHtml()
     }
   }
 }

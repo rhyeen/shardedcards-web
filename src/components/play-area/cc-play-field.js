@@ -6,6 +6,7 @@ import { store } from '../../store.js';
 
 import '../cards/card-types/cc-pawn-card';
 import '../cards/card-types/cc-replace-card';
+import '../cards/card-types/cc-attack-card';
 
 import {
   PLAYER_OWNER,
@@ -14,13 +15,15 @@ import {
   import { 
     PlaceOnPlayArea,
     PlayFromPlayArea,
-    SelectOpponentFieldCard } from '../../actions/card.js';
+    SelectOpponentFieldCard,
+    SelectPlayerFieldCard,
+    AttackCard } from '../../actions/card.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
-  _render({_leftCard, _middleCard, _rightCard, overlay, owner}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, 0)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, 1)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, 2)
+  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner}) {
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2)
     return html`
       ${CcSharedStyles}
       <style>
@@ -61,13 +64,15 @@ export class CcPlayField extends connect(store)(LitElement) {
 
   static get properties() { return {
     owner: String,
+    overlay: Boolean,
     _leftCard: Object,
     _rightCard: Object,
     _middleCard: Object,
-    overlay: Boolean
+    _playingFromPlayAreaIndex: Number
   }};
 
   _stateChanged(state) {
+    this._playingFromPlayAreaIndex = !!state.card.playFromPlayArea.id ? state.card.playFromPlayArea.playAreaIndex : -1
     switch(this.owner) {
       case PLAYER_OWNER:
         this._leftCard = this._getCard(state, state.card.playerField[0].id)
@@ -95,23 +100,32 @@ export class CcPlayField extends connect(store)(LitElement) {
     return state.card.cards[cardId]
   }
 
-  _getCardHtml(card, owner, overlay, playAreaIndex) {
-    if (overlay && owner === OPPONENT_OWNER) {
-      return html``
+  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex) {
+    if (overlay && owner === OPPONENT_OWNER && playingFromPlayAreaIndex !== -1) {
+      return html`
+        <cc-attack-card
+            card="${card}"
+            on-click="${() => store.dispatch(AttackCard(playAreaIndex))}"></cc-attack-card>`
     }
-    if (overlay && owner === PLAYER_OWNER) {
+    if (overlay && owner === PLAYER_OWNER && playingFromPlayAreaIndex === -1) {
       return html`
         <cc-replace-card
             card="${card}"
             on-click="${() => store.dispatch(PlaceOnPlayArea(playAreaIndex))}"></cc-replace-card>`
     }
-    if (card && owner === PLAYER_OWNER) {
+    if (!overlay && card && owner === PLAYER_OWNER) {
       return html`
         <cc-pawn-card
             card="${card}"
             on-click="${() => store.dispatch(PlayFromPlayArea(playAreaIndex))}"></cc-pawn-card>`
     }
-    if (card && owner === OPPONENT_OWNER) {
+    if (overlay && playingFromPlayAreaIndex === playAreaIndex && card && owner === PLAYER_OWNER) {
+      return html`
+        <cc-pawn-card
+            card="${card}"
+            on-click="${() => store.dispatch(SelectPlayerFieldCard(playAreaIndex))}"></cc-pawn-card>`
+    }
+    if (!overlay && card && owner === OPPONENT_OWNER) {
       return html`
         <cc-pawn-card
             card="${card}"

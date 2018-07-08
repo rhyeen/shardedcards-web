@@ -2,7 +2,7 @@ import { LitElement, html } from '@polymer/lit-element';
 import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-class CcReplaceCard extends LitElement {
+class CcAttackCard extends LitElement {
   _render({_showCard}) {
     return html`
       ${CcSharedStyles}
@@ -13,7 +13,7 @@ class CcReplaceCard extends LitElement {
           --card-border-width: 2px;
           width: calc(var(--pawn-card-width) - 2*var(--card-padding) - 2*var(--card-border-width));
           height: calc(var(--pawn-card-height) - 2*var(--card-padding) - 2*var(--card-border-width));
-          border: var(--card-border-width) dashed #8D6E63;
+          border: var(--card-border-width) dashed #e53935;
           border-radius: 8px;
           padding: var(--card-padding);
         }
@@ -27,4 +27,4 @@ class CcReplaceCard extends LitElement {
     _showCard: Boolean
   }};
 }
-window.customElements.define('cc-replace-card', CcReplaceCard);
+window.customElements.define('cc-attack-card', CcAttackCard);

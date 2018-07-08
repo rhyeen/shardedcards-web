@@ -5,7 +5,12 @@ import {
   CANCEL_PLAY_SELECTED_HAND_CARD,
   PLACE_ON_PLAY_AREA,
   PLAY_FROM_PLAY_AREA,
-  SELECT_OPPONENT_FIELD_CARD } from '../actions/card.js';
+  CANCEL_PLAY_FROM_PLAY_AREA,
+  SELECT_OPPONENT_FIELD_CARD,
+  CANCEL_SELECT_OPPONENT_FIELD_CARD,
+  SELECT_PLAYER_FIELD_CARD,
+  CANCEL_SELECT_PLAYER_FIELD_CARD,
+  ATTACK_CARD } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -171,7 +176,15 @@ const app = (state = defaultState, action) => {
         playFromPlayArea: {
           ...state.playFromPlayArea,
           id: state.playerField[action.playAreaIndex].id,
-          handIndex: action.playAreaIndex
+          playAreaIndex: action.playAreaIndex
+        }
+      }
+    case CANCEL_PLAY_FROM_PLAY_AREA:
+      return {
+        ...state,
+        playFromPlayArea: {
+          id: null,
+          playAreaIndex: null
         }
       }
     case SELECT_OPPONENT_FIELD_CARD:
@@ -179,8 +192,41 @@ const app = (state = defaultState, action) => {
         ...state,
         selectedOpponentFieldCard: {
           ...state.selectedOpponentFieldCard,
+          id: state.opponentField[action.playAreaIndex].id,
+          playAreaIndex: action.playAreaIndex
+        }
+      }
+    case CANCEL_SELECT_OPPONENT_FIELD_CARD:
+      return {
+        ...state,
+        selectedOpponentFieldCard: {
+          id: null,
+          playAreaIndex: null
+        }
+      }
+    case SELECT_PLAYER_FIELD_CARD:
+      return {
+        ...state,
+        selectedPlayerFieldCard: {
+          ...state.selectedPlayerFieldCard,
           id: state.playerField[action.playAreaIndex].id,
-          handIndex: action.playAreaIndex
+          playAreaIndex: action.playAreaIndex
+        }
+      }
+    case CANCEL_SELECT_PLAYER_FIELD_CARD:
+      return {
+        ...state,
+        selectedPlayerFieldCard: {
+          id: null,
+          playAreaIndex: null
+        }
+      }
+    case ATTACK_CARD:
+      return {
+        ...state,
+        playFromPlayArea: {
+          id: null,
+          playAreaIndex: null
         }
       }
     default:

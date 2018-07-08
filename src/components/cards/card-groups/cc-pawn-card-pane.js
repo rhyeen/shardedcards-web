@@ -3,11 +3,11 @@ import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import { store } from '../../../store.js';
 
-import { CancelPlaySelectedHandCard } from '../../../actions/card.js';
+import { CancelPlayFromPlayArea } from '../../../actions/card.js';
 
 import '../../global/cc-btn.js';
 
-export class CcPlaceCardPane extends LitElement {
+export class CcPawnCardPane extends LitElement {
   _render() {
     return html`
       ${CcSharedStyles}
@@ -45,8 +45,8 @@ export class CcPlaceCardPane extends LitElement {
   }
 
   _cancel() {
-    store.dispatch(CancelPlaySelectedHandCard())
+    store.dispatch(CancelPlayFromPlayArea())
   }
 }
 
-window.customElements.define('cc-place-card-pane', CcPlaceCardPane);
+window.customElements.define('cc-pawn-card-pane', CcPawnCardPane);
