@@ -3,7 +3,7 @@ import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import { store } from '../../../store.js';
 
-import { CancelPlaySelectedCard } from '../../../actions/card.js';
+import { CancelPlaySelectedHandCard } from '../../../actions/card.js';
 
 import '../../global/cc-btn';
 
@@ -45,7 +45,7 @@ export class CcPlaceCardPane extends LitElement {
   }
 
   _cancel() {
-    store.dispatch(CancelPlaySelectedCard())
+    store.dispatch(CancelPlaySelectedHandCard())
   }
 }
 

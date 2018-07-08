@@ -1,11 +1,11 @@
 import { 
-  SELECT_CARD,
-  CANCEL_SELECT_CARD,
-  PLAY_SELECTED_CARD,
-  CANCEL_PLAY_SELECTED_CARD,
-  PLACE_ON_LEFT_PANE,
-  PLACE_ON_MIDDLE_PANE,
-  PLACE_ON_RIGHT_PANE } from '../actions/card.js';
+  SELECT_HAND_CARD,
+  CANCEL_SELECT_HAND_CARD,
+  PLAY_SELECTED_HAND_CARD,
+  CANCEL_PLAY_SELECTED_HAND_CARD,
+  PLACE_ON_PLAY_AREA,
+  PLAY_FROM_PLAY_AREA,
+  SELECT_OPPONENT_FIELD_CARD } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -15,6 +15,26 @@ import {
   CARD_RARITY_LEGENDARY } from '../data/card-rarity.js';
 
 const defaultState = {
+  selectedHandCard: {
+    id: null,
+    handIndex: null
+  },
+  selectedOpponentFieldCard: {
+    id: null,
+    playAreaIndex: null
+  },
+  selectedPlayerFieldCard: {
+    id: null,
+    playAreaIndex: null
+  },
+  playFromHand: {
+    id: null,
+    handIndex: null
+  },
+  playFromPlayArea: {
+    id: null,
+    playAreaIndex: null
+  },
   cards: {
     test: {
       title: 'Hello World',
@@ -37,14 +57,6 @@ const defaultState = {
       rarity: CARD_RARITY_UNDEFINED
     }
   },
-  selectedCard: {
-    id: null,
-    handIndex: null
-  },
-  playFromHand: {
-    id: null,
-    handIndex: null
-  },
   hand: [
     {
       id: 'test'
@@ -62,29 +74,30 @@ const defaultState = {
       id: 'beast'
     }
   ],
-  playedCards: {},
-  playerField: {
-    left: {
+  playerField: [
+    {
       id: 'test'
     },
-    middle: {
+    {
       id: 'hero'
     },
-    right: {
+    {
       id: null
     }
-  },
-  opponentField: {
-    left: {
+
+  ],
+  opponentField: [
+    {
       id: null
     },
-    middle: {
+    {
       id: null
     },
-    right: {
+    {
       id: 'monster'
     }
-  }
+
+  ]
 }
 
 const app = (state = defaultState, action) => {
@@ -92,43 +105,43 @@ const app = (state = defaultState, action) => {
   let handIndex
   let cardId
   switch (action.type) {
-    case SELECT_CARD:
+    case SELECT_HAND_CARD:
       newState = {
         ...state,
-        selectedCard: {
-          ...state.selectedCard,
+        selectedHandCard: {
+          ...state.selectedHandCard,
           id: action.cardId,
           handIndex: action.handIndex
         }
       }
       newState.hand.splice(action.handIndex, 1)
       return newState
-    case CANCEL_SELECT_CARD:
+    case CANCEL_SELECT_HAND_CARD:
       newState = {
         ...state
       }
-      handIndex = state.selectedCard.handIndex
-      cardId = state.selectedCard.id
+      handIndex = state.selectedHandCard.handIndex
+      cardId = state.selectedHandCard.id
       newState.hand.splice(handIndex, 0, { id: cardId })
-      newState.selectedCard = {
+      newState.selectedHandCard = {
         id: null,
         handIndex: null
       }
       return newState
-    case PLAY_SELECTED_CARD:
+    case PLAY_SELECTED_HAND_CARD:
       return {
         ...state,
         playFromHand: {
-          ...state.selectedCard,
-          id: state.selectedCard.id,
-          handIndex: state.selectedCard.handIndex
+          ...state.selectedHandCard,
+          id: state.selectedHandCard.id,
+          handIndex: state.selectedHandCard.handIndex
         },
-        selectedCard: {
+        selectedHandCard: {
           id: null,
           handIndex: null
         }
       }
-    case CANCEL_PLAY_SELECTED_CARD:
+    case CANCEL_PLAY_SELECTED_HAND_CARD:
       newState = {
         ...state
       }
@@ -140,46 +153,34 @@ const app = (state = defaultState, action) => {
         handIndex: null
       }
       return newState
-    case PLACE_ON_LEFT_PANE:
+    case PLACE_ON_PLAY_AREA:
+      newState = {
+        ...state
+      }
+      newState.playerField[action.playAreaIndex] = {
+        id: state.playFromHand.id
+      }
+      newState.playFromHand = {
+        id: null,
+        handIndex: null
+      }
+      return newState
+    case PLAY_FROM_PLAY_AREA:
       return {
         ...state,
-        playerField: {
-          ...state.playerField,
-          left: {
-            id: state.playFromHand.id
-          }
-        },
-        playFromHand: {
-          id: null,
-          handIndex: null
+        playFromPlayArea: {
+          ...state.playFromPlayArea,
+          id: state.playerField[action.playAreaIndex].id,
+          handIndex: action.playAreaIndex
         }
       }
-    case PLACE_ON_MIDDLE_PANE:
+    case SELECT_OPPONENT_FIELD_CARD:
       return {
         ...state,
-        playerField: {
-          ...state.playerField,
-          middle: {
-            id: state.playFromHand.id
-          }
-        },
-        playFromHand: {
-          id: null,
-          handIndex: null
-        }
-      }
-    case PLACE_ON_RIGHT_PANE:
-      return {
-        ...state,
-        playerField: {
-          ...state.playerField,
-          right: {
-            id: state.playFromHand.id
-          }
-        },
-        playFromHand: {
-          id: null,
-          handIndex: null
+        selectedOpponentFieldCard: {
+          ...state.selectedOpponentFieldCard,
+          id: state.playerField[action.playAreaIndex].id,
+          handIndex: action.playAreaIndex
         }
       }
     default:

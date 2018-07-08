@@ -12,15 +12,15 @@ import {
   OPPONENT_OWNER } from '../../data/owner';
 
   import { 
-    PlaceOnLeftPane,
-    PlaceOnMiddlePane,
-    PlaceOnRightPane } from '../../actions/card.js';
+    PlaceOnPlayArea,
+    PlayFromPlayArea,
+    SelectOpponentFieldCard } from '../../actions/card.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, owner}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, PlaceOnLeftPane)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, PlaceOnMiddlePane)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, PlaceOnRightPane)
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, 0)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, 1)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, 2)
     return html`
       ${CcSharedStyles}
       <style>
@@ -70,14 +70,14 @@ export class CcPlayField extends connect(store)(LitElement) {
   _stateChanged(state) {
     switch(this.owner) {
       case PLAYER_OWNER:
-        this._leftCard = this._getCard(state, state.card.playerField.left.id)
-        this._rightCard = this._getCard(state, state.card.playerField.right.id)
-        this._middleCard = this._getCard(state, state.card.playerField.middle.id)
+        this._leftCard = this._getCard(state, state.card.playerField[0].id)
+        this._middleCard = this._getCard(state, state.card.playerField[1].id)
+        this._rightCard = this._getCard(state, state.card.playerField[2].id)
         break;
       case OPPONENT_OWNER:
-        this._leftCard = this._getCard(state, state.card.opponentField.left.id)
-        this._rightCard = this._getCard(state, state.card.opponentField.right.id)
-        this._middleCard = this._getCard(state, state.card.opponentField.middle.id)
+        this._leftCard = this._getCard(state, state.card.opponentField[0].id)
+        this._middleCard = this._getCard(state, state.card.opponentField[1].id)
+        this._rightCard = this._getCard(state, state.card.opponentField[2].id)
         break;
       default:
         console.error(`Invalid owner: ${this.owner}`)
@@ -95,7 +95,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     return state.card.cards[cardId]
   }
 
-  _getCardHtml(card, owner, overlay, dispatchFunction) {
+  _getCardHtml(card, owner, overlay, playAreaIndex) {
     if (overlay && owner === OPPONENT_OWNER) {
       return html``
     }
@@ -103,10 +103,19 @@ export class CcPlayField extends connect(store)(LitElement) {
       return html`
         <cc-replace-card
             card="${card}"
-            on-click="${() => store.dispatch(dispatchFunction())}"></cc-replace-card>`
+            on-click="${() => store.dispatch(PlaceOnPlayArea(playAreaIndex))}"></cc-replace-card>`
     }
-    if (card) {
-      return html`<cc-pawn-card card="${card}"></cc-pawn-card>`
+    if (card && owner === PLAYER_OWNER) {
+      return html`
+        <cc-pawn-card
+            card="${card}"
+            on-click="${() => store.dispatch(PlayFromPlayArea(playAreaIndex))}"></cc-pawn-card>`
+    }
+    if (card && owner === OPPONENT_OWNER) {
+      return html`
+        <cc-pawn-card
+            card="${card}"
+            on-click="${() => store.dispatch(SelectOpponentFieldCard(playAreaIndex))}"></cc-pawn-card>`
     }
     return html``
   }

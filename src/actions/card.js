@@ -1,51 +1,54 @@
-export const SELECT_CARD = 'SELECT_CARD';
-export const CANCEL_SELECT_CARD = 'CANCEL_SELECT_CARD';
-export const PLAY_SELECTED_CARD = 'PLAY_SELECTED_CARD';
-export const CANCEL_PLAY_SELECTED_CARD = 'CANCEL_PLAY_SELECTED_CARD';
-export const PLACE_ON_LEFT_PANE = 'PLACE_ON_LEFT_PANE';
-export const PLACE_ON_MIDDLE_PANE = 'PLACE_ON_MIDDLE_PANE';
-export const PLACE_ON_RIGHT_PANE = 'PLACE_ON_RIGHT_PANE';
+export const SELECT_HAND_CARD = 'SELECT_HAND_CARD';
+export const CANCEL_SELECT_HAND_CARD = 'CANCEL_SELECT_HAND_CARD';
+export const PLAY_SELECTED_HAND_CARD = 'PLAY_SELECTED_HAND_CARD';
+export const CANCEL_PLAY_SELECTED_HAND_CARD = 'CANCEL_PLAY_SELECTED_HAND_CARD';
+export const PLACE_ON_PLAY_AREA = 'PLACE_ON_PLAY_AREA';
+export const PLAY_FROM_PLAY_AREA = 'PLAY_FROM_PLAY_AREA';
+export const SELECT_OPPONENT_FIELD_CARD = 'SELECT_OPPONENT_FIELD_CARD';
 
-export const SelectCard = (cardId, handIndex) => {
+export const SelectHandCard = (cardId, handIndex) => {
   return {
-    type: SELECT_CARD,
+    type: SELECT_HAND_CARD,
     cardId,
     handIndex
   }
 };
 
-export const CancelSelectCard = () => {
+export const CancelSelectHandCard = () => {
   return {
-    type: CANCEL_SELECT_CARD
+    type: CANCEL_SELECT_HAND_CARD
   }
 };
 
-export const PlaySelectedCard = () => {
+export const PlaySelectedHandCard = () => {
   return {
-    type: PLAY_SELECTED_CARD
+    type: PLAY_SELECTED_HAND_CARD
   }
 };
 
-export const CancelPlaySelectedCard = () => {
+export const CancelPlaySelectedHandCard = () => {
   return {
-    type: CANCEL_PLAY_SELECTED_CARD
+    type: CANCEL_PLAY_SELECTED_HAND_CARD
   }
 };
 
-export const PlaceOnLeftPane = () => {
+export const PlaceOnPlayArea = (playAreaIndex) => {
   return {
-    type: PLACE_ON_LEFT_PANE
+    type: PLACE_ON_PLAY_AREA,
+    playAreaIndex
   }
 };
 
-export const PlaceOnMiddlePane = () => {
+export const PlayFromPlayArea = (playAreaIndex) => {
   return {
-    type: PLACE_ON_MIDDLE_PANE
+    type: PLAY_FROM_PLAY_AREA,
+    playAreaIndex
   }
 };
 
-export const PlaceOnRightPane = () => {
+export const SelectOpponentFieldCard = (playAreaIndex) => {
   return {
-    type: PLACE_ON_RIGHT_PANE
+    type: SELECT_OPPONENT_FIELD_CARD,
+    playAreaIndex
   }
-};
+}

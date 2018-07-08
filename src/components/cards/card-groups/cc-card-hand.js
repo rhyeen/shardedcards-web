@@ -7,7 +7,7 @@ import { store } from '../../../store.js';
 import '../card-types/cc-mini-card';
 
 import { 
-  SelectCard } from '../../../actions/card.js';
+  SelectHandCard } from '../../../actions/card.js';
 
 export class CcCardHand extends connect(store)(LitElement) {
   _render({_selectedCard, _hand}) {
@@ -99,7 +99,7 @@ export class CcCardHand extends connect(store)(LitElement) {
       <cc-mini-card
           class$="card-${index}"
           card="${card.card}"
-          on-click="${() => store.dispatch(SelectCard(card.id, index))}"
+          on-click="${() => store.dispatch(SelectHandCard(card.id, index))}"
           active?="${_selectedCard.id === card.id}"></cc-mini-card>
       `)}
     `
@@ -116,7 +116,7 @@ export class CcCardHand extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    this._selectedCard = state.card.selectedCard
+    this._selectedCard = state.card.selectedHandCard
     this._hand = this._getCardsInHand(state, state.card.hand)
   }
 

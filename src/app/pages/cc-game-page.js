@@ -83,7 +83,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   }
 
   _stateChanged(state) {
-    if (state.card.selectedCard.id) {
+    if (state.card.selectedHandCard.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = this._getFullCardPaneHtml()
     } else if (state.card.playFromHand.id) {

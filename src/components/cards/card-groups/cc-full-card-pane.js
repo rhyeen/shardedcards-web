@@ -5,8 +5,8 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../../../store.js';
 
 import { 
-  CancelSelectCard,
-  PlaySelectedCard } from '../../../actions/card.js';
+  CancelSelectHandCard,
+  PlaySelectedHandCard } from '../../../actions/card.js';
 
 import '../card-types/cc-full-card';
 import '../../global/cc-btn';
@@ -49,15 +49,15 @@ export class CcFullCardPane extends connect(store)(LitElement) {
   }};
 
   _cancel() {
-    store.dispatch(CancelSelectCard())
+    store.dispatch(CancelSelectHandCard())
   }
 
   _play() {
-    store.dispatch(PlaySelectedCard())
+    store.dispatch(PlaySelectedHandCard())
   }
 
   _stateChanged(state) {
-    let cardid = state.card.selectedCard.id
+    let cardid = state.card.selectedHandCard.id
     if (!cardid) {
       this._selectedCard = {}
       return
