@@ -2,7 +2,10 @@ import {
   SELECT_CARD,
   CANCEL_SELECT_CARD,
   PLAY_SELECTED_CARD,
-  CANCEL_PLAY_SELECTED_CARD } from '../actions/card.js';
+  CANCEL_PLAY_SELECTED_CARD,
+  PLACE_ON_LEFT_PANE,
+  PLACE_ON_MIDDLE_PANE,
+  PLACE_ON_RIGHT_PANE } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -118,6 +121,48 @@ const app = (state = defaultState, action) => {
     case CANCEL_PLAY_SELECTED_CARD:
       return {
         ...state,
+        playFromHand: {
+          id: null,
+          handIndex: null
+        }
+      }
+    case PLACE_ON_LEFT_PANE:
+      return {
+        ...state,
+        playerField: {
+          ...state.playerField,
+          left: {
+            id: state.playFromHand.id
+          }
+        },
+        playFromHand: {
+          id: null,
+          handIndex: null
+        }
+      }
+    case PLACE_ON_MIDDLE_PANE:
+      return {
+        ...state,
+        playerField: {
+          ...state.playerField,
+          middle: {
+            id: state.playFromHand.id
+          }
+        },
+        playFromHand: {
+          id: null,
+          handIndex: null
+        }
+      }
+    case PLACE_ON_RIGHT_PANE:
+      return {
+        ...state,
+        playerField: {
+          ...state.playerField,
+          right: {
+            id: state.playFromHand.id
+          }
+        },
         playFromHand: {
           id: null,
           handIndex: null

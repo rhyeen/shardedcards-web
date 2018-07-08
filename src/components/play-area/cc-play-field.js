@@ -11,11 +11,16 @@ import {
   PLAYER_OWNER,
   OPPONENT_OWNER } from '../../data/owner';
 
+  import { 
+    PlaceOnLeftPane,
+    PlaceOnMiddlePane,
+    PlaceOnRightPane } from '../../actions/card.js';
+
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, owner}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay)
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, PlaceOnLeftPane)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, PlaceOnMiddlePane)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, PlaceOnRightPane)
     return html`
       ${CcSharedStyles}
       <style>
@@ -90,12 +95,15 @@ export class CcPlayField extends connect(store)(LitElement) {
     return state.card.cards[cardId]
   }
 
-  _getCardHtml(card, owner, overlay) {
+  _getCardHtml(card, owner, overlay, dispatchFunction) {
     if (overlay && owner === OPPONENT_OWNER) {
       return html``
     }
     if (overlay && owner === PLAYER_OWNER) {
-      return html`<cc-replace-card card="${card}"></cc-replace-card>`
+      return html`
+        <cc-replace-card
+            card="${card}"
+            on-click="${() => store.dispatch(dispatchFunction())}"></cc-replace-card>`
     }
     if (card) {
       return html`<cc-pawn-card card="${card}"></cc-pawn-card>`
