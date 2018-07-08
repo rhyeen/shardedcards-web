@@ -38,10 +38,10 @@ export class CcCardHand extends connect(store)(LitElement) {
           opacity: 0;
         }
       </style>
-      ${_hand.map((card) => html`
+      ${ _hand.map((card, index) => html`
       <cc-mini-card
           card="${card.card}"
-          on-click="${() => store.dispatch(SelectCard(card.id))}"
+          on-click="${() => store.dispatch(SelectCard(card.id, index))}"
           active?="${_selectedCard.id === card.id}"></cc-mini-card>
       `)}
     `

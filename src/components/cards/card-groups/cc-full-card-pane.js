@@ -39,7 +39,7 @@ export class CcFullCardPane extends connect(store)(LitElement) {
       <cc-full-card card="${_selectedCard}"></cc-full-card>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
-        <cc-btn btntype="confirm" on-click="${() => this._confirm()}"></cc-btn>
+        <cc-btn btntype="play" on-click="${() => this._play()}"></cc-btn>
       </div>
     `
   }
@@ -52,7 +52,7 @@ export class CcFullCardPane extends connect(store)(LitElement) {
     store.dispatch(CancelSelectCard())
   }
 
-  _confirm() {
+  _play() {
     store.dispatch(PlaySelectedCard())
   }
 

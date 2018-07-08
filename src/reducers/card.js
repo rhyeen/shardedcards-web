@@ -49,18 +49,18 @@ const defaultState = {
     {
       id: 'test'
     },
-    {
-      id: 'hero'
-    },
-    {
-      id: 'pawn'
-    },
-    {
-      id: 'monster'
-    },
-    {
-      id: 'beast'
-    }
+    // {
+    //   id: 'hero'
+    // },
+    // {
+    //   id: 'pawn'
+    // },
+    // {
+    //   id: 'monster'
+    // },
+    // {
+    //   id: 'beast'
+    // }
   ],
   playedCards: {},
   playerField: {
@@ -88,23 +88,33 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
+  let newState
+  let handIndex
+  let cardId
   switch (action.type) {
     case SELECT_CARD:
-      return {
+      newState = {
         ...state,
         selectedCard: {
           ...state.selectedCard,
-          id: action.cardId
+          id: action.cardId,
+          handIndex: action.handIndex
         }
       }
+      newState.hand.splice(action.handIndex, 1)
+      return newState
     case CANCEL_SELECT_CARD:
-      return {
-        ...state,
-        selectedCard: {
-          id: null,
-          handIndex: null
-        }
+      newState = {
+        ...state
       }
+      handIndex = state.selectedCard.handIndex
+      cardId = state.selectedCard.id
+      newState.hand.splice(handIndex, 0, { id: cardId })
+      newState.selectedCard = {
+        id: null,
+        handIndex: null
+      }
+      return newState
     case PLAY_SELECTED_CARD:
       return {
         ...state,
@@ -119,13 +129,17 @@ const app = (state = defaultState, action) => {
         }
       }
     case CANCEL_PLAY_SELECTED_CARD:
-      return {
-        ...state,
-        playFromHand: {
-          id: null,
-          handIndex: null
-        }
+      newState = {
+        ...state
       }
+      handIndex = state.playFromHand.handIndex
+      cardId = state.playFromHand.id
+      newState.hand.splice(handIndex, 0, { id: cardId })
+      newState.playFromHand = {
+        id: null,
+        handIndex: null
+      }
+      return newState
     case PLACE_ON_LEFT_PANE:
       return {
         ...state,

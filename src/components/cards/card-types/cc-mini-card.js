@@ -1,10 +1,21 @@
 import { LitElement, html } from '@polymer/lit-element';
+
 import {
   CcSharedStyles,
-  CardRarityColor } from '../../global/cc-shared-styles.js';
+  CardRarityColor,
+  CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
 class CcMiniCard extends LitElement {
   _render({card}) {
+    // @NOTE: `card === undefined` should never be reached, but it is when you add this mini-card to
+    // the hand.  There is a double render happening: first time is bad (card = undefined)
+    // the second pass works, however.
+    if (!card) {
+      card = {
+        rarity: CARD_RARITY_UNDEFINED_COLOR,
+        title: ''
+      }
+    }
     return html`
       ${CcSharedStyles}
 

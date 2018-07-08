@@ -6,10 +6,11 @@ export const PLACE_ON_LEFT_PANE = 'PLACE_ON_LEFT_PANE';
 export const PLACE_ON_MIDDLE_PANE = 'PLACE_ON_MIDDLE_PANE';
 export const PLACE_ON_RIGHT_PANE = 'PLACE_ON_RIGHT_PANE';
 
-export const SelectCard = (cardId) => {
+export const SelectCard = (cardId, handIndex) => {
   return {
     type: SELECT_CARD,
-    cardId
+    cardId,
+    handIndex
   }
 };
 
