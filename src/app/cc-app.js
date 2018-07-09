@@ -39,45 +39,6 @@ class CcApp extends connect(store)(LitElement) {
         width: 100vw;
       }
 
-      header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 24px;
-        box-sizing: border-box;
-        height: var(--nav-header-height);
-        border-bottom: 1px solid var(--near-white-border);
-        background-color: var(--base-white);
-      }
-
-      [main-title] {
-        font-size: 18px;
-        color: var(--near-black);
-        line-height: var(--nav-header-height);
-        text-align: left;
-        letter-spacing: 4px;
-        font-weight: 300;
-      }
-
-      .toolbar-list {
-        display: flex;
-      }
-
-      .toolbar-list a {
-        text-decoration: none;
-        line-height: var(--nav-header-height);
-        padding: 0 16px;
-        font-size: 14px;
-        color: var(--near-black)
-      }
-
-      .toolbar-list a[selected] {
-        border-bottom: 4px solid var(--near-black);
-      }
-
       .main-content .page[active] {
         display: block;
       }
@@ -87,16 +48,6 @@ class CcApp extends connect(store)(LitElement) {
       }
     </style>
 
-    <!-- Header -->
-    <header>
-      <span main-title>CARDCRAFT</span>
-      <nav class="toolbar-list" role="navigation">
-        <a selected?="${_page === 'game'}" href="/game">Game</a>
-        <a selected?="${_page === 'about'}" href="/about">About</a>
-      </nav>
-    </header>
-
-    <!-- Main content -->
     <main class="main-content" role="main">
       <cc-game-page class="page" active?="${_page === 'game'}"></cc-game-page>
       <cc-edit-page class="page" active?="${_page === 'edit'}"></cc-edit-page>

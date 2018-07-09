@@ -12,6 +12,8 @@ import '../../components/cards/card-groups/cc-place-card-pane.js';
 import '../../components/cards/card-groups/cc-pawn-card-pane.js';
 import '../../components/cards/card-groups/cc-card-hand.js';
 import '../../components/play-area/cc-play-area.js';
+import '../../components/toolbars/cc-game-footer.js';
+import '../../components/toolbars/cc-game-header.js';
 
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
@@ -51,10 +53,12 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
 
       </style>
       
+      <cc-game-header></cc-game-header>
       <div class="inner-view">
         <cc-play-area></cc-play-area>
         <cc-card-hand></cc-card-hand>
       </div>
+      <cc-game-footer></cc-game-footer>
 
       <div class="overlay" active?="${props._showCardOverlay}">
         ${props._overlayPaneHtml}

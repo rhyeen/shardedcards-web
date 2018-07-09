@@ -47,6 +47,11 @@ class CcBtn extends LitElement {
           color: var(--dark-btn-text-color);
         }
 
+        button.endturn {
+          background-color: #FFC107;
+          color: var(--light-btn-text-color);
+        }
+
       </style>
 
       <button class$="${props.btntype}">${this._getText()}</button>
@@ -67,6 +72,9 @@ class CcBtn extends LitElement {
   }
 
   _getBtnTypeText() {
+    if (this.btntype === 'endturn') {
+      return 'end turn'
+    }
     return this.btntype
   }
 }

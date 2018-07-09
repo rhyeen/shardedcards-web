@@ -50,6 +50,7 @@ export const CcSharedStyles = html`
     --card-rarity-legendary-color: #FFC107;
 
     --nav-header-height: 46px;
+    --nav-footer-height: 46px;
     --near-black: #222426;
     --near-white: #F7FBFF;
     --base-white: #FFF;
