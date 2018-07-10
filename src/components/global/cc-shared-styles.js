@@ -67,13 +67,13 @@ export const CcSharedStyles = html`
       inset 0px 0px 80px rgba(0, 0, 0, 0.1);
     --cc-elevation-side-bar: -2px 0px 10px rgba(0, 0, 0, 0.1);
 
-    --pawn-card-height: 140px;
+    --pawn-card-height: 130px;
     --pawn-card-width: 90px;
 
-    --mini-card-height: 34px;
+    --mini-card-height: 32px;
     --mini-card-max-width: 350px;
-    --mini-card-margin: 4px;
-    --card-hand-height: calc(5*var(--mini-card-height) + 5*var(--mini-card-margin));
+    --last-mini-card-extra-height: 4px;
+    --card-hand-height: calc(5*var(--mini-card-height) + var(--last-mini-card-extra-height));
   }
 
   button:focus {
@@ -84,15 +84,21 @@ export const CcSharedStyles = html`
     text-decoration: none;
   }
 
-  .test {
-    background-color: red;
-    color: yellow;
-    width: 300px;
+  .field-pane {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
-  .test2 {
-    background-color: blue;
-    height: 400px;
+  .field-pane-separator {
+    flex: 0 0 2px;
+    height: 100%;
+    background-color: #EEEEEE;
+  }
+
+  .field-pane-separator[overlay] {
+    background: none;
   }
 </style>
 `;

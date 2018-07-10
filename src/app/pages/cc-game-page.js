@@ -23,7 +23,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
       <style>
         :host {
           width: 100vw;
-          height: calc(100vh - var(--nav-header-height));       
+          height: calc(100vh - var(--nav-header-height) - var(--nav-footer-height));       
           margin-top: var(--nav-header-height);      
         }
 
@@ -43,21 +43,22 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
           display: none;
           justify-content: center;
           position: fixed;
-          top: var(--nav-header-height);
+          top: 0;
           width: 100vw;
-          height: calc(100vh - var(--nav-header-height));
+          height: calc(100vh - var(--nav-header-height) - var(--nav-footer-height));
           background-color: var(--overlay-white);
           z-index: 1;
           transition: opacity 0.2s;
+          padding: var(--nav-header-height) 0 var(--nav-footer-height) 0;
         }
 
       </style>
       
-      <cc-game-header></cc-game-header>
       <div class="inner-view">
         <cc-play-area></cc-play-area>
         <cc-card-hand></cc-card-hand>
       </div>
+      <cc-game-header></cc-game-header>
       <cc-game-footer></cc-game-footer>
 
       <div class="overlay" active?="${props._showCardOverlay}">

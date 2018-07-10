@@ -30,23 +30,6 @@ export class CcPlayField extends connect(store)(LitElement) {
         :host {
           display: flex;
         }
-
-        .field-pane {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-        }
-
-        .field-pane-separator {
-          flex: 0 0 2px;
-          height: 100%;
-          background-color: #EEEEEE;
-        }
-
-        .field-pane-separator[overlay] {
-          background: none;
-        }
       </style>
       <div class="field-pane left">
         ${leftCardHtml}

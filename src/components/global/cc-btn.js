@@ -48,8 +48,11 @@ class CcBtn extends LitElement {
         }
 
         button.endturn {
-          background-color: #FFC107;
-          color: var(--light-btn-text-color);
+          background-color: #B0BEC5;
+          color: var(--dark-btn-text-color);
+          padding: 8px 12px;
+          line-height: 20px;
+          font-size: 16px;
         }
 
       </style>

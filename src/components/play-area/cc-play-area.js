@@ -6,9 +6,10 @@ import {
   OPPONENT_OWNER } from '../../data/owner';
 
 import './cc-play-field';
+import './cc-play-field-backlog';
 
 export class CcPlayArea extends LitElement {
-  _render(props) {
+  _render({overlay}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -39,9 +40,10 @@ export class CcPlayArea extends LitElement {
           width: 100%;
         }
       </style>
-      <cc-play-field owner="${OPPONENT_OWNER}" overlay?="${props.overlay}"></cc-play-field>
-      <div class="play-field-separator" overlay?="${props.overlay}"></div>
-      <cc-play-field owner="${PLAYER_OWNER}" overlay?="${props.overlay}"></cc-play-field>
+      <cc-play-field-backlog overlay?="${overlay}"></cc-play-field-backlog>
+      <cc-play-field owner="${OPPONENT_OWNER}" overlay?="${overlay}"></cc-play-field>
+      <div class="play-field-separator" overlay?="${overlay}"></div>
+      <cc-play-field owner="${PLAYER_OWNER}" overlay?="${overlay}"></cc-play-field>
     `
   }
 

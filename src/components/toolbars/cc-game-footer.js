@@ -19,7 +19,7 @@ export class CcGameFooter extends LitElement {
           justify-content: space-between;
           padding: 0 8px;
           height: var(--nav-footer-height);
-          border-bottom: 1px solid var(--near-white-border);
+          border-top: 1px solid var(--near-white-border);
           background-color: var(--base-white);
           align-items: center;
         }

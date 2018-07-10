@@ -79,18 +79,6 @@ export class CcCardHand extends connect(store)(LitElement) {
           height: calc(var(--card-hand-height) + var(--card-hover-raise-amount) - 4*var(--mini-card-height));
         }
 
-        /*cc-mini-card {
-          --mini-card-overlay: calc(2*var(--mini-card-height) - var(--mini-card-margin));
-          height: calc(var(--mini-card-height) + var(--mini-card-overlay));
-          margin-bottom: calc(-1*var(--mini-card-overlay));
-        }
-
-        cc-mini-card:last-child {
-          --mini-card-overlay: calc(var(--mini-card-height) - var(--mini-card-margin));
-          height: calc(var(--mini-card-height) + var(--mini-card-overlay));
-          margin-bottom: calc(-1*var(--mini-card-overlay));
-        }*/
-
         cc-mini-card[active] {
           opacity: 0;
         }
