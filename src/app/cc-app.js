@@ -16,17 +16,19 @@ import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
-import data from '../reducers/data.js';
-import crafted from '../reducers/crafted.js';
-import card from '../reducers/card.js';
 import { loadAll } from '../actions/data.js';
+
 import '../components/cc-snack-bar.js';
 import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
 
-
+import data from '../reducers/data.js';
+import crafted from '../reducers/crafted.js';
+import card from '../reducers/card.js';
+import status from '../reducers/status.js';
 store.addReducers({data});
 store.addReducers({crafted});
 store.addReducers({card});
+store.addReducers({status});
 
 class CcApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {

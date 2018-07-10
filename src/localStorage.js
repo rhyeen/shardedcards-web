@@ -24,6 +24,9 @@ export const loadState = () => {
     if (state.card) {
       delete state.card;
     }
+    if (state.status) {
+      delete state.status;
+    }
     return state;
   } else {
     return undefined;

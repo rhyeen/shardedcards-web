@@ -100,5 +100,29 @@ export const CcSharedStyles = html`
   .field-pane-separator[overlay] {
     background: none;
   }
+
+  [bar-items] {
+    position: fixed;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    height: var(--nav-header-height);
+    border-bottom: 1px solid var(--near-white-border);
+    background-color: var(--base-white);
+    align-items: center;
+  }
+
+  [bar-items] .item-group {
+    display: flex;
+    align-items: center;
+  }
+
+  [bar-item] {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+  }
 </style>
 `;
