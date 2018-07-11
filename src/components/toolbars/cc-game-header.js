@@ -13,6 +13,7 @@ export class CcGameHeader extends LitElement {
       <style>
       [bar-items] {
         top: 0;
+        border-bottom: 1px solid var(--near-white-border);
       }
 
       cc-health-bar-item {

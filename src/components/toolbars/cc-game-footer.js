@@ -13,6 +13,7 @@ export class CcGameFooter extends LitElement {
       <style>
       [bar-items] {
         bottom: 0;
+        border-top: 1px solid var(--near-white-border);
       }
       </style>
 
