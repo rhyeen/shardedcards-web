@@ -30,9 +30,6 @@ export const navigate = (path) => (dispatch) => {
 
 const loadPage = (page) => async (dispatch) => {
   switch(page) {
-    case 'edit':
-      await import('../app/pages/cc-edit-component-page.js');
-      break;
     case 'game':
       await import('../app/pages/cc-game-page.js');
       break;
