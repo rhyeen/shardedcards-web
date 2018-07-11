@@ -6,7 +6,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
 import '../../components/cards/card-groups/cc-hand-card-pane.js';
-import '../../components/cards/card-groups/cc-attack-card-pane.js';
+import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-card-pane.js';
 import '../../components/cards/card-groups/cc-place-card-pane.js';
 import '../../components/cards/card-groups/cc-pawn-card-pane.js';
@@ -85,7 +85,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   _stateChanged(state) {
     if (state.card.selectedPlayerFieldCard.id) {
       this._showCardOverlay = true
-      this._overlayPaneHtml = html`<cc-attack-card-pane></cc-attack-card-pane>`
+      this._overlayPaneHtml = html`<cc-cast-card-pane></cc-cast-card-pane>`
     } else if (state.card.selectedOpponentFieldCard.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-opponent-card-pane></cc-opponent-card-pane>`

@@ -23,7 +23,8 @@ class CcFullCard extends LitElement {
           padding: 16px;
         }
 
-        header {
+        header,
+        footer {
           display: flex;
           align-items: center;
         }
@@ -38,7 +39,9 @@ class CcFullCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <section></section>
-      <footer></footer>
+      <footer>
+        <cc-card-range card="${card}"></cc-card-range>        
+      </footer>
     `;
   };
   

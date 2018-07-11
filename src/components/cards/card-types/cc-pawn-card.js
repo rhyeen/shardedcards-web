@@ -21,6 +21,9 @@ class CcPawnCard extends LitElement {
 
       <style>
         :host {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
           --card-padding: 8px;
           width: calc(var(--pawn-card-width) - 2*var(--card-padding));
           height: calc(var(--pawn-card-height) - 2*var(--card-padding));
@@ -30,12 +33,23 @@ class CcPawnCard extends LitElement {
           padding: var(--card-padding);
         }
 
+        header,
+        footer {
+          display: flex;
+          align-items: center;
+        }
+
         [card-title] {
           text-align: center;
         }
       </style>
 
-      <div card-title>${card.title}</div>
+      <header>
+        <div card-title>${card.title}</div>
+      </header>
+      <footer>
+        <cc-card-range card="${card}"></cc-card-range>
+      </footer>
     `;
   };
   

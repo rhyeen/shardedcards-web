@@ -10,7 +10,7 @@ import {
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';
 
-export class CcAttackCardPane extends connect(store)(LitElement) {
+export class CcCastCardPane extends connect(store)(LitElement) {
   _render({_selectedCard}) {
     return html`
       ${CcSharedStyles}
@@ -60,4 +60,4 @@ export class CcAttackCardPane extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('cc-attack-card-pane', CcAttackCardPane);
+window.customElements.define('cc-cast-card-pane', CcCastCardPane);

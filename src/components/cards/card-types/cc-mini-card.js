@@ -6,6 +6,7 @@ import {
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
 import '../card-parts/cc-card-cost.js';
+import '../card-parts/cc-card-range.js';
 
 class CcMiniCard extends LitElement {
   _render({card}) {
@@ -27,18 +28,31 @@ class CcMiniCard extends LitElement {
           --card-padding: 16px;
           line-height: var(--mini-card-height);
           display: flex;
+          justify-content: space-between;
+          align-items: top;
           max-width: calc(var(--mini-card-max-width) - 2*var(--card-padding));
-          height: var(--mini-card-height);
           background-color: var(${CardRarityColor(card.rarity)});
           box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.15);
           border-top-left-radius: var(--card-border-radius);
           border-top-right-radius: var(--card-border-radius);
           padding: 0 var(--card-padding);
         }
+
+        header,
+        footer {
+          height: var(--mini-card-height);
+          display: flex;
+          align-items: center;
+        }
       </style>
 
-      <cc-card-cost card="${card}"></cc-card-cost>
-      <div card-title>${card.title}</div>
+      <header>
+        <cc-card-cost card="${card}"></cc-card-cost>
+        <div card-title>${card.title}</div>
+      </header>
+      <footer>
+        <cc-card-range card="${card}"></cc-card-range>
+      </footer>
     `;
   };
   

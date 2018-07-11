@@ -44,10 +44,10 @@ export const CcSharedStyles = html`
 <style>
   :host {
     --card-rarity-undefined-color: #EFEBE9;
-    --card-rarity-common-color: #78909C;
-    --card-rarity-rare-color: #1976D2;
-    --card-rarity-epic-color: #8E24AA;
-    --card-rarity-legendary-color: #FFC107;
+    --card-rarity-common-color: #B0BEC5;
+    --card-rarity-rare-color: #64B5F6;
+    --card-rarity-epic-color: #BA68C8;
+    --card-rarity-legendary-color: #FFD54F;
 
     --nav-header-height: 46px;
     --nav-footer-height: 46px;

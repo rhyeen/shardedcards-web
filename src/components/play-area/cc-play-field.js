@@ -1,16 +1,16 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
-import '../cards/card-types/cc-pawn-card';
-import '../cards/card-types/cc-replace-card';
-import '../cards/card-types/cc-attack-card';
+import '../cards/card-types/cc-pawn-card.js';
+import '../cards/card-types/cc-replace-card.js';
+import '../cards/card-types/cc-attack-card.js';
 
 import {
   PLAYER_OWNER,
-  OPPONENT_OWNER } from '../../data/owner';
+  OPPONENT_OWNER } from '../../data/owner.js';
 
 import { 
   PlaceOnPlayArea,
@@ -23,10 +23,10 @@ import {
   SpendAllocatedEnergy } from '../../actions/status.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
-  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2)
+  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner, _attackingCard}) {
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0, _attackingCard)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1, _attackingCard)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2, _attackingCard)
     return html`
       ${CcSharedStyles}
       <style>
@@ -54,11 +54,18 @@ export class CcPlayField extends connect(store)(LitElement) {
     _leftCard: Object,
     _rightCard: Object,
     _middleCard: Object,
+    _attackingCard: Object,
     _playingFromPlayAreaIndex: Number
   }};
 
   _stateChanged(state) {
-    this._playingFromPlayAreaIndex = !!state.card.playFromPlayArea.id ? state.card.playFromPlayArea.playAreaIndex : -1
+    if (state.card.playFromPlayArea.id) {
+      this._playingFromPlayAreaIndex = state.card.playFromPlayArea.playAreaIndex
+      this._attackingCard = state.card.cards[state.card.playFromPlayArea.id]
+    } else {
+      this._playingFromPlayAreaIndex = -1
+      this._attackingCard = null
+    }
     switch(this.owner) {
       case PLAYER_OWNER:
         this._leftCard = this._getCard(state, state.card.playerField[0].id)
@@ -86,8 +93,15 @@ export class CcPlayField extends connect(store)(LitElement) {
     return state.card.cards[cardId]
   }
 
-  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex) {
-    if (overlay && owner === OPPONENT_OWNER && playingFromPlayAreaIndex !== -1) {
+  _isWithinRange(attackingCard, opposingCard, playAreaIndex, playingFromPlayAreaIndex) {
+    if (!attackingCard || !opposingCard) {
+      return false;
+    }
+    return attackingCard.range >= Math.abs(playAreaIndex - playingFromPlayAreaIndex) + 1
+  }
+
+  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex, attackingCard) {
+    if (overlay && owner === OPPONENT_OWNER && playingFromPlayAreaIndex !== -1 && this._isWithinRange(attackingCard, card, playAreaIndex, playingFromPlayAreaIndex)) {
       return html`
         <cc-attack-card
             card="${card}"
