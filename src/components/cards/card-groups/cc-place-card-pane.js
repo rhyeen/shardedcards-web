@@ -5,6 +5,8 @@ import { store } from '../../../store.js';
 
 import { CancelPlaySelectedHandCard } from '../../../actions/card.js';
 
+import { CancelAllocateEnergy } from '../../../actions/status.js';
+
 import '../../global/cc-btn.js';
 
 export class CcPlaceCardPane extends LitElement {
@@ -45,6 +47,7 @@ export class CcPlaceCardPane extends LitElement {
   }
 
   _cancel() {
+    store.dispatch(CancelAllocateEnergy())
     store.dispatch(CancelPlaySelectedHandCard())
   }
 }

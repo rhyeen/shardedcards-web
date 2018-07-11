@@ -43,23 +43,28 @@ const defaultState = {
   cards: {
     test: {
       title: 'Hello World',
-      rarity: CARD_RARITY_COMMON
+      rarity: CARD_RARITY_COMMON,
+      cost: 3
     },
     beast: {
       title: 'Beast within',
-      rarity: CARD_RARITY_RARE
+      rarity: CARD_RARITY_RARE,
+      cost: 6
     },
     hero: {
       title: 'Hero within',
-      rarity: CARD_RARITY_EPIC
+      rarity: CARD_RARITY_EPIC,
+      cost: 0
     },
     monster: {
       title: 'Monster within',
-      rarity: CARD_RARITY_LEGENDARY
+      rarity: CARD_RARITY_LEGENDARY,
+      cost: 1
     },
     pawn: {
       title: 'Pawn within',
-      rarity: CARD_RARITY_UNDEFINED
+      rarity: CARD_RARITY_UNDEFINED,
+      cost: 3
     }
   },
   hand: [

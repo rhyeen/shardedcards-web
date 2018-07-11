@@ -10,17 +10,10 @@ export class CcHealthBarItem extends connect(store)(LitElement) {
   _render({_currentHealth}) {
     return html`
       ${CcSharedStyles}
-    
-      <style>
-      [bar-item] {
-        margin-left: 20px;
-      }
-      </style>
-
       
       <div bar-item>
         <div class="current">${_currentHealth}</div>
-        <div class="icon">${HealthIcon('#D81B60')}</div>
+        <div class="icon">${HealthIcon()}</div>
       </div>
     `
   }

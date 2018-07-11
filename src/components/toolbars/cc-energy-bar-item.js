@@ -15,7 +15,7 @@ export class CcEnergyBarItem extends connect(store)(LitElement) {
         <div class="current">${_currentEnergy}</div>
         <div class="current-max-divider">/</div>
         <div class="max">${_maxEnergy}</div>
-        <div class="icon">${EnergyIcon('#42A5F5')}</div>
+        <div class="icon">${EnergyIcon()}</div>
       </div>
     `
   }
@@ -27,7 +27,7 @@ export class CcEnergyBarItem extends connect(store)(LitElement) {
 
 
   _stateChanged(state) {
-    this._currentEnergy = state.status.energy.current
+    this._currentEnergy = state.status.energy.pending
     this._maxEnergy = state.status.energy.max
   }
 }

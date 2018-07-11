@@ -41,9 +41,9 @@ export class CcPlayArea extends LitElement {
         }
       </style>
       <cc-play-field-backlog overlay?="${overlay}"></cc-play-field-backlog>
-      <cc-play-field owner="${OPPONENT_OWNER}" overlay?="${overlay}"></cc-play-field>
+      <cc-play-field owner$="${OPPONENT_OWNER}" overlay?="${overlay}"></cc-play-field>
       <div class="play-field-separator" overlay?="${overlay}"></div>
-      <cc-play-field owner="${PLAYER_OWNER}" overlay?="${overlay}"></cc-play-field>
+      <cc-play-field owner$="${PLAYER_OWNER}" overlay?="${overlay}"></cc-play-field>
     `
   }
 

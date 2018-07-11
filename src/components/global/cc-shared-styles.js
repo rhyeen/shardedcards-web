@@ -124,5 +124,26 @@ export const CcSharedStyles = html`
     align-items: center;
     font-size: 18px;
   }
+
+  [card-part] {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  .svg-icon {
+    --default-svg-color: #212121;
+    width: 24px;
+    height: 24px;
+    fill: var(--default-svg-color);
+  }
+
+  .energy-svg-icon {
+    fill: #42A5F5;
+  }
+
+  .health-svg-icon {
+    fill: #D81B60;
+  }
 </style>
 `;

@@ -10,7 +10,9 @@ class CcFullCard extends LitElement {
 
       <style>
         :host {
-          display: block;
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
           width: 200px;
           height: 300px;
           background-color: #FFF;
@@ -21,12 +23,22 @@ class CcFullCard extends LitElement {
           padding: 16px;
         }
 
+        header {
+          display: flex;
+          align-items: center;
+        }
+
         [card-title] {
           text-align: center;
         }
       </style>
 
-      <div card-title>${card.title}</div>
+      <header>
+        <cc-card-cost card="${card}"></cc-card-cost>
+        <div card-title>${card.title}</div>
+      </header>
+      <section></section>
+      <footer></footer>
     `;
   };
   

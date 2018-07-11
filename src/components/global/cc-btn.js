@@ -2,7 +2,7 @@ import { LitElement, html } from '@polymer/lit-element';
 import { CcSharedStyles } from './cc-shared-styles.js';
 
 class CcBtn extends LitElement {
-  _render(props) {
+  _render({btntype, disabled}) {
     return html`
       ${CcSharedStyles}
 
@@ -55,15 +55,30 @@ class CcBtn extends LitElement {
           font-size: 16px;
         }
 
+        button[disabled] {
+          color: #9E9E9E;
+          background-color: #BDBDBD;
+          box-shadow: none;
+        }
+
+        button[disabled]:hover {
+          box-shadow: none;
+        }
+
+        button[disabled]:active {
+          box-shadow: none;
+        }
+
       </style>
 
-      <button class$="${props.btntype}">${this._getText()}</button>
+      <button class$="${btntype}" disabled?="${disabled}">${this._getText()}</button>
     `;
   };
   
   static get properties() { return {
     btntype: String,
-    text: String
+    text: String,
+    disabled: Boolean
   }};
 
   _getText() {

@@ -8,7 +8,7 @@ export class CcGameMenuBarItem extends LitElement {
     return html`
       ${CcSharedStyles}
       
-      ${MenuIcon('#212121')}
+      ${MenuIcon()}
     `
   }
 

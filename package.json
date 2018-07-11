@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/rhyeen/cardcraft#readme",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.0",
+    "@polymer/lit-element": "^0.5.2",
     "@webcomponents/webcomponentsjs": "^2.0.0-beta.2",
     "pwa-helpers": "Polymer/pwa-helpers",
     "redux": "^3.7.2",

@@ -14,6 +14,10 @@ export class CcGameHeader extends LitElement {
       [bar-items] {
         top: 0;
       }
+
+      cc-health-bar-item {
+        margin-left: 20px;
+      }
       </style>
 
       <div bar-items>

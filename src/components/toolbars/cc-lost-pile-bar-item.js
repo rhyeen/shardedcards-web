@@ -8,7 +8,7 @@ export class CcLostPileBarItem extends LitElement {
     return html`
       ${CcSharedStyles}
       
-      ${LostCardsIcon('#212121')}
+      ${LostCardsIcon()}
     `
   }
 

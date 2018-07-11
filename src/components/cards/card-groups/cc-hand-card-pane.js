@@ -8,11 +8,14 @@ import {
   CancelSelectHandCard,
   PlaySelectedHandCard } from '../../../actions/card.js';
 
+import {
+  AllocateEnergy } from '../../../actions/status.js';
+
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';
 
 export class CcHandCardPane extends connect(store)(LitElement) {
-  _render({_selectedCard}) {
+  _render({_selectedCard, _cannotAfford}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -39,13 +42,14 @@ export class CcHandCardPane extends connect(store)(LitElement) {
       <cc-full-card card="${_selectedCard}"></cc-full-card>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
-        <cc-btn btntype="play" on-click="${() => this._play()}"></cc-btn>
+        <cc-btn btntype="play" on-click="${() => this._play()}" disabled?="${_cannotAfford}"></cc-btn>
       </div>
     `
   }
 
   static get properties() { return {
-    _selectedCard: Object
+    _selectedCard: Object,
+    _cannotAfford: Boolean
   }};
 
   _cancel() {
@@ -53,6 +57,7 @@ export class CcHandCardPane extends connect(store)(LitElement) {
   }
 
   _play() {
+    store.dispatch(AllocateEnergy(this._selectedCard.cost))
     store.dispatch(PlaySelectedHandCard())
   }
 
@@ -63,6 +68,7 @@ export class CcHandCardPane extends connect(store)(LitElement) {
       return
     }
     this._selectedCard = state.card.cards[cardid]
+    this._cannotAfford = this._selectedCard.cost > state.status.energy.current;
   }
 }
 

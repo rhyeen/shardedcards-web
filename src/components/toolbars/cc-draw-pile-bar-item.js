@@ -8,7 +8,7 @@ export class CcDrawPileBarItem extends LitElement {
     return html`
       ${CcSharedStyles}
       
-      ${DrawIcon('#212121')}
+      ${DrawIcon()}
     `
   }
 

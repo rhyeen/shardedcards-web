@@ -8,7 +8,7 @@ export class CcDiscardPileBarItem extends LitElement {
     return html`
       ${CcSharedStyles}
       
-      ${DiscardIcon('#212121')}
+      ${DiscardIcon()}
     `
   }
 

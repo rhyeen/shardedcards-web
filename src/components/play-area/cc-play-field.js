@@ -12,12 +12,15 @@ import {
   PLAYER_OWNER,
   OPPONENT_OWNER } from '../../data/owner';
 
-  import { 
-    PlaceOnPlayArea,
-    PlayFromPlayArea,
-    SelectOpponentFieldCard,
-    SelectPlayerFieldCard,
-    AttackCard } from '../../actions/card.js';
+import { 
+  PlaceOnPlayArea,
+  PlayFromPlayArea,
+  SelectOpponentFieldCard,
+  SelectPlayerFieldCard,
+  AttackCard } from '../../actions/card.js';
+
+import {
+  SpendAllocatedEnergy } from '../../actions/status.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner}) {
@@ -94,7 +97,10 @@ export class CcPlayField extends connect(store)(LitElement) {
       return html`
         <cc-replace-card
             card="${card}"
-            on-click="${() => store.dispatch(PlaceOnPlayArea(playAreaIndex))}"></cc-replace-card>`
+            on-click="${() => {
+              store.dispatch(SpendAllocatedEnergy())
+              store.dispatch(PlaceOnPlayArea(playAreaIndex))
+            }}"></cc-replace-card>`
     }
     if (!overlay && card && owner === PLAYER_OWNER) {
       return html`
