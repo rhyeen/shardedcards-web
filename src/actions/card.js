@@ -11,10 +11,11 @@ export const SELECT_PLAYER_FIELD_CARD = 'SELECT_PLAYER_FIELD_CARD';
 export const CANCEL_SELECT_PLAYER_FIELD_CARD = 'CANCEL_SELECT_PLAYER_FIELD_CARD';
 export const ATTACK_CARD = 'ATTACK_CARD';
 
-export const SelectHandCard = (cardId, handIndex) => {
+export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
     type: SELECT_HAND_CARD,
     cardId,
+    cardInstance,
     handIndex
   }
 };

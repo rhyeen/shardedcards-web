@@ -87,8 +87,8 @@ export class CcCardHand extends connect(store)(LitElement) {
       <cc-mini-card
           class$="card-${index}"
           card="${card.card}"
-          on-click="${() => store.dispatch(SelectHandCard(card.id, index))}"
-          active?="${_selectedCard.id === card.id}"></cc-mini-card>
+          on-click="${() => store.dispatch(SelectHandCard(card.id, card.instance, index))}"
+          active?="${_selectedCard.id === card.id && _selectedCard.instance === card.instance}"></cc-mini-card>
       `)}
     `
   }
@@ -111,8 +111,9 @@ export class CcCardHand extends connect(store)(LitElement) {
   _getCardsInHand(state, hand) {
     return hand.map((card) => {
       return {
-        card: state.card.cards[card.id],
-        id: card.id
+        card: state.card.cards[card.id].instances[card.instance],
+        id: card.id,
+        instance: card.instance
       }
     })
   }

@@ -52,11 +52,12 @@ export class CcOpponentCardPane extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     let cardid = state.card.selectedOpponentFieldCard.id
+    let cardInstance = state.card.selectedOpponentFieldCard.instance
     if (!cardid) {
       this._selectedCard = {}
       return
     }
-    this._selectedCard = state.card.cards[cardid]
+    this._selectedCard = state.card.cards[cardid].instances[cardInstance]
   }
 }
 

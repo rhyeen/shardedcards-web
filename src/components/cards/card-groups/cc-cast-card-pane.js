@@ -52,11 +52,12 @@ export class CcCastCardPane extends connect(store)(LitElement) {
 
   _stateChanged(state) {
     let cardid = state.card.selectedPlayerFieldCard.id
+    let cardInstance = state.card.selectedPlayerFieldCard.instance
     if (!cardid) {
       this._selectedCard = {}
       return
     }
-    this._selectedCard = state.card.cards[cardid]
+    this._selectedCard = state.card.cards[cardid].instances[cardInstance]
   }
 }
 

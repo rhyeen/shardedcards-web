@@ -62,12 +62,13 @@ export class CcHandCardPane extends connect(store)(LitElement) {
   }
 
   _stateChanged(state) {
-    let cardid = state.card.selectedHandCard.id
-    if (!cardid) {
+    let cardId = state.card.selectedHandCard.id
+    let cardInstance = state.card.selectedHandCard.instance
+    if (!cardId) {
       this._selectedCard = {}
       return
     }
-    this._selectedCard = state.card.cards[cardid]
+    this._selectedCard = state.card.cards[cardId].instances[cardInstance]
     this._cannotAfford = this._selectedCard.cost > state.status.energy.current;
   }
 }
