@@ -12,7 +12,6 @@ import { LitElement, html } from '@polymer/lit-element';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
 import { installOfflineWatcher } from 'pwa-helpers/network.js';
-import { updateMetadata } from 'pwa-helpers/metadata.js';
 
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
@@ -74,16 +73,6 @@ class CcApp extends connect(store)(LitElement) {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
     store.dispatch(loadAll());
-  }
-
-  _didRender(properties, changeList) {
-    if ('_page' in changeList) {
-      const pageTitle = properties.appTitle + ' - ' + changeList._page;
-      updateMetadata({
-          title: pageTitle,
-          description: pageTitle
-      });
-    }
   }
 
   _stateChanged(state) {
