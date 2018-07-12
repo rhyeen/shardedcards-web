@@ -14,7 +14,7 @@ export const PART_TYPE_HEALTH = 'health';
 export const PART_TYPE_RANGE = 'range';
 
 class CcCardStaticValue extends LitElement {
-  _render({card, stack, reduced, valueType}) {
+  _render({card, cardversion, stack, reduced, valueType}) {
     // @NOTE: `card === undefined` should never be reached, but it is when you add this mini-card to
     // the hand.  There is a double render happening: first time is bad (card = undefined)
     // the second pass works, however.
@@ -38,6 +38,7 @@ class CcCardStaticValue extends LitElement {
   
   static get properties() { return {
     card: Object,
+    cardversion: Number,
     valueType: String,
     stack: Boolean,
     reduced: Boolean

@@ -4,12 +4,10 @@ import {
   CardRarityColor,
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
-import '../card-parts/cc-card-attack.js';
-import '../card-parts/cc-card-health.js';
-import '../card-parts/cc-card-range.js';
+import '../card-parts/cc-card-static-value.js';
 
 class CcPawnCard extends LitElement {
-  _render({card}) {
+  _render({card, cardversion}) {
     // @NOTE: `card === undefined` should never be reached, but it is when you add this mini-card to
     // the hand.  There is a double render happening: first time is bad (card = undefined)
     // the second pass works, however.
@@ -64,15 +62,16 @@ class CcPawnCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <footer>
-        <cc-card-static-value card="${card}" valueType="${'range'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
-        <cc-card-static-value card="${card}" valueType="${'attack'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
-        <cc-card-static-value card="${card}" valueType="${'health'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'range'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'attack'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'health'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
       </footer>
     `;
   };
   
   static get properties() { return {
-    card: Object
+    card: Object,
+    cardversion: Number
   }};
 }
 window.customElements.define('cc-pawn-card', CcPawnCard);

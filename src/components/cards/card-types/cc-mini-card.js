@@ -5,10 +5,7 @@ import {
   CardRarityColor,
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
-import '../card-parts/cc-card-attack.js';
-import '../card-parts/cc-card-health.js';
-import '../card-parts/cc-card-cost.js';
-import '../card-parts/cc-card-range.js';
+import '../card-parts/cc-card-static-value.js';
 
 
 class CcMiniCard extends LitElement {

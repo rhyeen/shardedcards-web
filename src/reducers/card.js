@@ -60,7 +60,8 @@ const defaultState = {
           cost: 3,
           range: 1,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         },
         '1': {
           title: 'Hello World',
@@ -68,7 +69,8 @@ const defaultState = {
           cost: 3,
           range: 1,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         }
       }
     },
@@ -86,7 +88,8 @@ const defaultState = {
           cost: 6,
           range: 2,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         },
         '1': {
           title: 'Beast within',
@@ -94,7 +97,8 @@ const defaultState = {
           cost: 6,
           range: 2,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         }
       }
     },
@@ -112,7 +116,8 @@ const defaultState = {
           cost: 0,
           range: 3,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         },
         '1': {
           title: 'Hero within',
@@ -120,7 +125,8 @@ const defaultState = {
           cost: 0,
           range: 3,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         }
       }
     },
@@ -138,7 +144,8 @@ const defaultState = {
           cost: 1,
           range: 1,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         },
         '1': {
           title: 'Monster within',
@@ -146,7 +153,8 @@ const defaultState = {
           cost: 1,
           range: 1,
           health: 5,
-          attack: 3
+          attack: 3,
+          version: 0
         }
       }
     },
@@ -155,16 +163,17 @@ const defaultState = {
       rarity: CARD_RARITY_UNDEFINED,
       cost: 3,
       range: 1,
-      health: 5,
-      attack: 3,
+      health: 1,
+      attack: 4,
       instances: {
         '0': {
           title: 'Pawn within',
           rarity: CARD_RARITY_UNDEFINED,
           cost: 3,
           range: 1,
-          health: 5,
-          attack: 3
+          health: 1,
+          attack: 4,
+          version: 0
         }
       }
     }
@@ -228,6 +237,8 @@ const app = (state = defaultState, action) => {
   let handIndex
   let cardId
   let cardInstance
+  let attackedCard
+  let attackingCard
   switch (action.type) {
     case SELECT_HAND_CARD:
       newState = {
@@ -358,6 +369,28 @@ const app = (state = defaultState, action) => {
         }
       }
     case ATTACK_CARD:
+      cardId = state.playerField[state.playFromPlayArea.playAreaIndex].id
+      cardInstance = state.playerField[state.playFromPlayArea.playAreaIndex].instance
+      attackingCard = state.cards[cardId].instances[cardInstance]
+      cardId = state.opponentField[action.playAreaIndex].id
+      cardInstance = state.opponentField[action.playAreaIndex].instance
+      attackedCard = state.cards[cardId].instances[cardInstance]
+      attackedCard.health -= attackingCard.attack
+      attackingCard.health -= attackedCard.attack
+      attackedCard.version += 1
+      attackingCard.version += 1
+      if (attackedCard.health <= 0) {
+        state.opponentField[action.playAreaIndex] = {
+          id: null,
+          instance: null
+        }
+      }
+      if (attackingCard.health <= 0) {
+        state.playerField[state.playFromPlayArea.playAreaIndex] = {
+          id: null,
+          instance: null
+        }
+      }
       return {
         ...state,
         playFromPlayArea: {
