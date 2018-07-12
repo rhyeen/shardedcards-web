@@ -9,9 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { installRouter } from 'pwa-helpers/router.js';
-import { installOfflineWatcher } from 'pwa-helpers/network.js';
+import { connect } from 'pwa-helpers/connect-mixin';
+import { installRouter } from 'pwa-helpers/router';
+import { installOfflineWatcher } from 'pwa-helpers/network';
 
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';

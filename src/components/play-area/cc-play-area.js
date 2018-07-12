@@ -3,10 +3,10 @@ import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
 import {
   PLAYER_OWNER,
-  OPPONENT_OWNER } from '../../data/owner';
+  OPPONENT_OWNER } from '../../data/owner.js';
 
-import './cc-play-field';
-import './cc-play-field-backlog';
+import './cc-play-field.js';
+import './cc-play-field-backlog.js';
 
 export class CcPlayArea extends LitElement {
   _render({overlay}) {

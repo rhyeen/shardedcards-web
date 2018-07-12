@@ -22,27 +22,27 @@ import {
 const defaultState = {
   selectedHandCard: {
     id: null,
-    instance: -1,
+    instance: null,
     handIndex: null
   },
   selectedOpponentFieldCard: {
     id: null,
-    instance: -1,    
+    instance: null,    
     playAreaIndex: null
   },
   selectedPlayerFieldCard: {
     id: null,
-    instance: -1,    
+    instance: null,    
     playAreaIndex: null
   },
   playFromHand: {
     id: null,
-    instance: -1,    
+    instance: null,    
     handIndex: null
   },
   playFromPlayArea: {
     id: null,
-    instance: -1,    
+    instance: null,    
     playAreaIndex: null
   },
   cards: {
@@ -53,8 +53,8 @@ const defaultState = {
       range: 1,
       health: 5,
       attack: 3,
-      instances: [
-        {
+      instances: {
+        '0': {
           title: 'Hello World',
           rarity: CARD_RARITY_COMMON,
           cost: 3,
@@ -62,7 +62,7 @@ const defaultState = {
           health: 5,
           attack: 3
         },
-        {
+        '1': {
           title: 'Hello World',
           rarity: CARD_RARITY_COMMON,
           cost: 3,
@@ -70,7 +70,7 @@ const defaultState = {
           health: 5,
           attack: 3
         }
-      ]
+      }
     },
     beast: {
       title: 'Beast within',
@@ -79,8 +79,8 @@ const defaultState = {
       range: 2,
       health: 5,
       attack: 3,
-      instances: [
-        {
+      instances: {
+        '0': {
           title: 'Beast within',
           rarity: CARD_RARITY_RARE,
           cost: 6,
@@ -88,7 +88,7 @@ const defaultState = {
           health: 5,
           attack: 3
         },
-        {
+        '1': {
           title: 'Beast within',
           rarity: CARD_RARITY_RARE,
           cost: 6,
@@ -96,7 +96,7 @@ const defaultState = {
           health: 5,
           attack: 3
         }
-      ]
+      }
     },
     hero: {
       title: 'Hero within',
@@ -105,8 +105,8 @@ const defaultState = {
       range: 3,
       health: 5,
       attack: 3,
-      instances: [
-        {
+      instances: {
+        '0': {
           title: 'Hero within',
           rarity: CARD_RARITY_EPIC,
           cost: 0,
@@ -114,7 +114,7 @@ const defaultState = {
           health: 5,
           attack: 3
         },
-        {
+        '1': {
           title: 'Hero within',
           rarity: CARD_RARITY_EPIC,
           cost: 0,
@@ -122,7 +122,7 @@ const defaultState = {
           health: 5,
           attack: 3
         }
-      ]
+      }
     },
     monster: {
       title: 'Monster within',
@@ -131,8 +131,8 @@ const defaultState = {
       range: 1,
       health: 5,
       attack: 3,
-      instances: [
-        {
+      instances: {
+        '0': {
           title: 'Monster within',
           rarity: CARD_RARITY_LEGENDARY,
           cost: 1,
@@ -140,7 +140,7 @@ const defaultState = {
           health: 5,
           attack: 3
         },
-        {
+        '1': {
           title: 'Monster within',
           rarity: CARD_RARITY_LEGENDARY,
           cost: 1,
@@ -148,7 +148,7 @@ const defaultState = {
           health: 5,
           attack: 3
         }
-      ]
+      }
     },
     pawn: {
       title: 'Pawn within',
@@ -157,8 +157,8 @@ const defaultState = {
       range: 1,
       health: 5,
       attack: 3,
-      instances: [
-        {
+      instances: {
+        '0': {
           title: 'Pawn within',
           rarity: CARD_RARITY_UNDEFINED,
           cost: 3,
@@ -166,58 +166,58 @@ const defaultState = {
           health: 5,
           attack: 3
         }
-      ]
+      }
     }
   },
   hand: [
     {
       id: 'test',
-      instance: 0
+      instance: '0'
     },
     {
       id: 'hero',
-      instance: 1
+      instance: '1'
     },
     {
       id: 'pawn',
-      instance: 0
+      instance: '0'
     },
     {
       id: 'monster',
-      instance: 0
+      instance: '0'
     },
     {
       id: 'beast',
-      instance: 1
+      instance: '1'
     }
   ],
   playerField: [
     {
       id: 'test',
-      instance: 1
+      instance: '1'
     },
     {
       id: 'hero',
-      instance: 0
+      instance: '0'
     },
     {
       id: null,
-      instance: -1,      
+      instance: null,      
     }
 
   ],
   opponentField: [
     {
       id: null,
-      instance: -1,      
+      instance: null,      
     },
     {
       id: null,
-      instance: -1,      
+      instance: null,      
     },
     {
       id: 'monster',
-      instance: 1
+      instance: '1'
     }
 
   ]
@@ -254,7 +254,7 @@ const app = (state = defaultState, action) => {
       })
       newState.selectedHandCard = {
         id: null,
-        instance: -1,
+        instance: null,
         handIndex: null
       }
       return newState
@@ -269,7 +269,7 @@ const app = (state = defaultState, action) => {
         },
         selectedHandCard: {
           id: null,
-          instance: -1,
+          instance: null,
           handIndex: null
         }
       }
@@ -282,7 +282,7 @@ const app = (state = defaultState, action) => {
       newState.hand.splice(handIndex, 0, { id: cardId })
       newState.playFromHand = {
         id: null,
-        instance: -1,
+        instance: null,
         handIndex: null
       }
       return newState
@@ -296,7 +296,7 @@ const app = (state = defaultState, action) => {
       }
       newState.playFromHand = {
         id: null,
-        instance: -1,
+        instance: null,
         handIndex: null
       }
       return newState
@@ -315,7 +315,7 @@ const app = (state = defaultState, action) => {
         ...state,
         playFromPlayArea: {
           id: null,
-          instance: -1,
+          instance: null,
           playAreaIndex: null
         }
       }
@@ -334,7 +334,7 @@ const app = (state = defaultState, action) => {
         ...state,
         selectedOpponentFieldCard: {
           id: null,
-          instance: -1,
+          instance: null,
           playAreaIndex: null
         }
       }
@@ -353,7 +353,7 @@ const app = (state = defaultState, action) => {
         ...state,
         selectedPlayerFieldCard: {
           id: null,
-          instance: -1,
+          instance: null,
           playAreaIndex: null
         }
       }
@@ -362,7 +362,7 @@ const app = (state = defaultState, action) => {
         ...state,
         playFromPlayArea: {
           id: null,
-          instance: -1,
+          instance: null,
           playAreaIndex: null
         }
       }

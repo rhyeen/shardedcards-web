@@ -1,7 +1,7 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
-import { DrawIcon } from '../global/cc-icons';
+import { DrawIcon } from '../global/cc-icons.js';
 
 export class CcDrawPileBarItem extends LitElement {
   _render() {

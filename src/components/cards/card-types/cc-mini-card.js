@@ -5,8 +5,11 @@ import {
   CardRarityColor,
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
+import '../card-parts/cc-card-attack.js';
+import '../card-parts/cc-card-health.js';
 import '../card-parts/cc-card-cost.js';
 import '../card-parts/cc-card-range.js';
+
 
 class CcMiniCard extends LitElement {
   _render({card}) {
@@ -44,14 +47,28 @@ class CcMiniCard extends LitElement {
           display: flex;
           align-items: center;
         }
+
+        cc-card-static-value:first-child {
+          margin-left: 0px;
+        }
+
+        cc-card-static-value {
+          margin-left: 5px;
+        }
+
+        [card-title] {
+          margin-left: 10px;
+        }
       </style>
 
       <header>
-        <cc-card-cost card="${card}"></cc-card-cost>
+        <cc-card-static-value card="${card}" valueType="${'cost'}" reduced?="${true}"></cc-card-static-value>
         <div card-title>${card.title}</div>
       </header>
       <footer>
-        <cc-card-range card="${card}"></cc-card-range>
+        <cc-card-static-value card="${card}" valueType="${'range'}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" valueType="${'attack'}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" valueType="${'health'}" reduced?="${true}"></cc-card-static-value>
       </footer>
     `;
   };

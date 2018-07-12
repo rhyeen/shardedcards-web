@@ -1,10 +1,10 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
-import { EnergyIcon } from '../global/cc-icons';
+import { EnergyIcon } from '../global/cc-icons.js';
 
 export class CcEnergyBarItem extends connect(store)(LitElement) {
   _render({_currentEnergy, _maxEnergy}) {

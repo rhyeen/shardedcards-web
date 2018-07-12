@@ -12,7 +12,7 @@ import { createStore, compose as origCompose, applyMiddleware, combineReducers }
 import thunk from 'redux-thunk';
 import app from './reducers/app.js';
 import { loadState, saveState } from './localStorage.js';
-import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
+import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer';
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 

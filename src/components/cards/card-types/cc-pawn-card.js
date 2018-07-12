@@ -4,6 +4,10 @@ import {
   CardRarityColor,
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
+import '../card-parts/cc-card-attack.js';
+import '../card-parts/cc-card-health.js';
+import '../card-parts/cc-card-range.js';
+
 class CcPawnCard extends LitElement {
   _render({card}) {
     // @NOTE: `card === undefined` should never be reached, but it is when you add this mini-card to
@@ -24,7 +28,7 @@ class CcPawnCard extends LitElement {
           display: flex;
           justify-content: space-between;
           flex-direction: column;
-          --card-padding: 8px;
+          --card-padding: 4px;
           width: calc(var(--pawn-card-width) - 2*var(--card-padding));
           height: calc(var(--pawn-card-height) - 2*var(--card-padding));
           box-shadow: var(--cc-elevation-1);
@@ -39,8 +43,20 @@ class CcPawnCard extends LitElement {
           align-items: center;
         }
 
+        footer {
+          justify-content: center;
+        }
+
         [card-title] {
           text-align: center;
+        }
+
+        cc-card-static-value:first-child {
+          margin-left: 0px;
+        }
+
+        cc-card-static-value {
+          margin-left: 5px;
         }
       </style>
 
@@ -48,7 +64,9 @@ class CcPawnCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <footer>
-        <cc-card-range card="${card}"></cc-card-range>
+        <cc-card-static-value card="${card}" valueType="${'range'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" valueType="${'attack'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" valueType="${'health'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
       </footer>
     `;
   };

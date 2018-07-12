@@ -7,13 +7,13 @@ import {
 const defaultState = {
   energy: {
     max: 5,
-    current: 4,
-    pending: 4
+    current: 5,
+    pending: 5
   },
   health: {
     max: 20,
-    current: 4,
-    pending: 4
+    current: 20,
+    pending: 20
   }
 }
 
