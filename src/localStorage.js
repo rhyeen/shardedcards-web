@@ -17,9 +17,6 @@ export const loadState = () => {
     if (state.app) {
       state.app.snackbarOpened = false;
     }
-    if (state.data && !state.data.categories) {
-      state.data.categories = [];
-    }
     // cards should not be preserved from page refresh
     if (state.card) {
       delete state.card;

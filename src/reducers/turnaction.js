@@ -14,28 +14,21 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let newState
   switch (action.type) {
     case ATTACK_CARD:
-      newState = {
-        ...state
-      }
-      newState.pendingTurn.push({
+      state.pendingTurn.push({
         type: action.type,
         playerFieldCardIndex: action.playerFieldCardIndex,
         opponentFieldCardIndex: action.opponentFieldCardIndex
       })
-      return newState
+      return state
     case PLACE_ON_PLAY_AREA:
-      newState = {
-        ...state
-      }
-      newState.pendingTurn.push({
+      state.pendingTurn.push({
         type: action.type,
         playerFieldCardIndex: action.playerFieldCardIndex,
         handCardIndex: action.handCardIndex
       })
-      return newState
+      return state
     default:
       return state;
   }

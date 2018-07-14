@@ -244,7 +244,6 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let newState
   let handIndex
   let cardId
   let cardInstance
@@ -252,11 +251,10 @@ const app = (state = defaultState, action) => {
   let attackingCard
   let replacingCard
   let replacedCard
-  let shield
-  let playAreaCard
   switch (action.type) {
     case SELECT_HAND_CARD:
-      newState = {
+      state.hand.splice(action.handIndex, 1)
+      return {
         ...state,
         selectedHandCard: {
           ...state.selectedHandCard,
@@ -265,25 +263,20 @@ const app = (state = defaultState, action) => {
           handIndex: action.handIndex
         }
       }
-      newState.hand.splice(action.handIndex, 1)
-      return newState
     case CANCEL_SELECT_HAND_CARD:
-      newState = {
-        ...state
-      }
       handIndex = state.selectedHandCard.handIndex
       cardId = state.selectedHandCard.id
       cardInstance = state.selectedHandCard.instance
-      newState.hand.splice(handIndex, 0, { 
+      state.hand.splice(handIndex, 0, { 
         id: cardId,
         instance: cardInstance
       })
-      newState.selectedHandCard = {
+      state.selectedHandCard = {
         id: null,
         instance: null,
         handIndex: null
       }
-      return newState
+      return state
     case PLAY_SELECTED_HAND_CARD:
       return {
         ...state,
@@ -300,47 +293,41 @@ const app = (state = defaultState, action) => {
         }
       }
     case CANCEL_PLAY_SELECTED_HAND_CARD:
-      newState = {
-        ...state
-      }
       handIndex = state.playFromHand.handIndex
       cardId = state.playFromHand.id
       cardInstance = state.playFromHand.instance
-      newState.hand.splice(handIndex, 0, {
+      state.hand.splice(handIndex, 0, {
         id: cardId,
         instance: cardInstance
       })
-      newState.playFromHand = {
+      state.playFromHand = {
         id: null,
         instance: null,
         handIndex: null
       }
-      return newState
+      return state
     case PLACE_ON_PLAY_AREA:
-      newState = {
-        ...state
-      }
       cardId = state.playFromHand.id
       cardInstance = state.playFromHand.instance
-      replacingCard = newState.cards[cardId].instances[cardInstance]
-      cardId = newState.playerField[action.playAreaIndex].id
+      replacingCard = state.cards[cardId].instances[cardInstance]
+      cardId = state.playerField[action.playAreaIndex].id
       if (cardId) {
-        cardInstance = newState.playerField[action.playAreaIndex].instance
-        replacedCard = newState.cards[cardId].instances[cardInstance]
+        cardInstance = state.playerField[action.playAreaIndex].instance
+        replacedCard = state.cards[cardId].instances[cardInstance]
       } else {
         replacedCard = null
       }
       GetReplacingCardResults(replacingCard, replacedCard, true)
-      newState.playerField[action.playAreaIndex] = {
+      state.playerField[action.playAreaIndex] = {
         id: state.playFromHand.id,
         instance: state.playFromHand.instance
       }
-      newState.playFromHand = {
+      state.playFromHand = {
         id: null,
         instance: null,
         handIndex: null
       }
-      return newState
+      return state
     case PLAY_FROM_PLAY_AREA:
       return {
         ...state,
