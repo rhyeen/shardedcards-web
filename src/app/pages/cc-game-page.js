@@ -48,7 +48,6 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
           height: calc(100vh - var(--nav-header-height) - var(--nav-footer-height));
           background-color: var(--overlay-white);
           z-index: 1;
-          transition: opacity 0.2s;
           padding: var(--nav-header-height) 0 var(--nav-footer-height) 0;
         }
 

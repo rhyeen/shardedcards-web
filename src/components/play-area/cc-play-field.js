@@ -23,10 +23,10 @@ import {
   SpendAllocatedEnergy } from '../../actions/status.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
-  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner, _attackingCard}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0, _attackingCard)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1, _attackingCard)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2, _attackingCard)
+  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner, _attackingCard, _replacingCard}) {
+    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0, _attackingCard, _replacingCard)
+    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1, _attackingCard, _replacingCard)
+    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2, _attackingCard, _replacingCard)
     return html`
       ${CcSharedStyles}
       <style>
@@ -55,6 +55,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     _rightCard: Object,
     _middleCard: Object,
     _attackingCard: Object,
+    _replacingCard: Object,
     _playingFromPlayAreaIndex: Number
   }};
 
@@ -65,6 +66,11 @@ export class CcPlayField extends connect(store)(LitElement) {
     } else {
       this._playingFromPlayAreaIndex = -1
       this._attackingCard = null
+    }
+    if (state.card.playFromHand.id) {
+      this._replacingCard = state.card.cards[state.card.playFromHand.id].instances[state.card.playFromHand.instance]
+    } else {
+      this._replacingCard = null      
     }
     switch(this.owner) {
       case PLAYER_OWNER:
@@ -104,7 +110,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     return attackingCard.conditions.exhausted
   }
 
-  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex, attackingCard) {
+  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex, attackingCard, replacingCard) {
     if (
       overlay && owner === OPPONENT_OWNER &&
       playingFromPlayAreaIndex !== -1 &&
@@ -113,13 +119,15 @@ export class CcPlayField extends connect(store)(LitElement) {
     ) {
       return html`
         <cc-attack-card
-            card="${card}"
+            attacked="${card}"
+            attacking="${attackingCard}"
             on-click="${() => store.dispatch(AttackCard(playAreaIndex))}"></cc-attack-card>`
     }
-    if (overlay && owner === PLAYER_OWNER && playingFromPlayAreaIndex === -1) {
+    if (overlay && owner === PLAYER_OWNER && playingFromPlayAreaIndex === -1 && replacingCard) {
       return html`
         <cc-replace-card
-            card="${card}"
+            replaced="${card}"
+            replacing="${replacingCard}"
             on-click="${() => {
               store.dispatch(SpendAllocatedEnergy())
               store.dispatch(PlaceOnPlayArea(playAreaIndex))

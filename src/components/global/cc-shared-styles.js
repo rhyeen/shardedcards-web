@@ -59,6 +59,7 @@ export const CcSharedStyles = html`
     
     --overlay-black: rgba(0, 0, 0, 0.5);
     --overlay-white: rgba(255, 255, 255, 0.8);
+    --overlay-card-white: rgba(255, 255, 255, 0.5); 
 
     --cc-elevation-1: 1px 1px 5px rgba(0, 0, 0, 0.4);
     --cc-elevation-n1: inset 1px 1px 5px rgba(0, 0, 0, 0.4);
@@ -137,6 +138,20 @@ export const CcSharedStyles = html`
 
   .health-svg-icon {
     fill: #D81B60;
+  }
+
+  .overlay-card-separator {
+    flex: 0, 0, 1px;
+    border-bottom: 2px dashed #8D6E63;
+    width: 100%;
+  }
+
+  .overlay-card-top,
+  .overlay-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
 </style>
 `;
