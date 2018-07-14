@@ -12,12 +12,6 @@ export const UPDATE_PAGE = 'UPDATE_PAGE';
 export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
-export const SAVE_SHOW_ANSWER = 'SAVE_SHOW_ANSWER';
-export const SAVE_SHOW_MNEMONIC = 'SAVE_SHOW_MNEMONIC';
-export const SAVE_SHOW_SETTINGS = 'SAVE_SHOW_SETTINGS';
-export const SAVE_SAY_SETTINGS = 'SAVE_SAY_SETTINGS';
-export const LOAD_STATS = 'LOAD_STATS';
-import { showNewCard, saveAvailableTypes } from './data.js';
 
 export const navigate = (path) => (dispatch) => {
   // Extract the page name from path.
@@ -69,30 +63,3 @@ export const updateOffline = (offline) => {
   };
 };
 
-export const saveShowAnswer = (shouldShow) => {
-  return {
-    type: SAVE_SHOW_ANSWER,
-    shouldShow
-  };
-};
-
-export const saveShowMnemonic = (shouldShow) => {
-  return {
-    type: SAVE_SHOW_MNEMONIC,
-    shouldShow
-  };
-};
-
-export const saveShowSettings = (showSettings) => {
-  return {
-    type: SAVE_SHOW_SETTINGS,
-    showSettings
-  };
-};
-
-export const saveSaySettings = (saySettings) => {
-  return {
-    type: SAVE_SAY_SETTINGS,
-    saySettings
-  };
-};

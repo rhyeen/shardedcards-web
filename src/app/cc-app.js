@@ -15,16 +15,15 @@ import { installOfflineWatcher } from 'pwa-helpers/network';
 
 import { store } from '../store.js';
 import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
-import { loadAll } from '../actions/data.js';
 
 import '../components/cc-snack-bar.js';
 import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
 
-import data from '../reducers/data.js';
+import turnaction from '../reducers/turnaction.js';
 import crafted from '../reducers/crafted.js';
 import card from '../reducers/card.js';
 import status from '../reducers/status.js';
-store.addReducers({data});
+store.addReducers({turnaction});
 store.addReducers({crafted});
 store.addReducers({card});
 store.addReducers({status});
@@ -72,7 +71,6 @@ class CcApp extends connect(store)(LitElement) {
   _firstRendered() {
     installRouter((location) => this._locationChanged(location));
     installOfflineWatcher((offline) => this._offlineChanged(offline));
-    store.dispatch(loadAll());
   }
 
   _stateChanged(state) {

@@ -9,12 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { UPDATE_PAGE, UPDATE_OFFLINE,
-         OPEN_SNACKBAR, CLOSE_SNACKBAR,
-         SAVE_SHOW_ANSWER, SAVE_SHOW_MNEMONIC,
-         SAVE_SHOW_SETTINGS, SAVE_SAY_SETTINGS } from '../actions/app.js';
+         OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
 
-const app = (state = {showSettings:'all', saySettings:'demand'}, action) => {
-  let json, value;
+const app = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
@@ -35,38 +32,6 @@ const app = (state = {showSettings:'all', saySettings:'demand'}, action) => {
       return {
         ...state,
         snackbarOpened: false
-      };
-    case SAVE_SHOW_ANSWER:
-      return {
-        ...state,
-        showAnswer: action.shouldShow
-      };
-    case SAVE_SHOW_MNEMONIC:
-      return {
-        ...state,
-        showMnemonic: action.shouldShow
-      };
-    case SAVE_SHOW_SETTINGS:
-      let showSettings = action.showSettings;
-      // If we saved a garbage value (from an old version of the app), reset.
-      if (showSettings !== 'onlyNew' && showSettings !== 'all' &&
-          showSettings !== 'mostlyRight' && showSettings !== 'mostlyWrong') {
-        showSettings = 'all';
-      }
-      return {
-        ...state,
-        showSettings
-      };
-    case SAVE_SAY_SETTINGS:
-      let saySettings = action.saySettings;
-      // If we saved a garbage value (from an old version of the app), reset.
-      if (saySettings !== 'demand' && saySettings !== 'start' &&
-          saySettings !== 'end') {
-        saySettings = 'demand';
-      }
-      return {
-        ...state,
-        saySettings
       };
     default:
       return state;
