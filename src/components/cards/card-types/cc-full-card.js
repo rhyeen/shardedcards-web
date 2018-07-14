@@ -11,8 +11,10 @@ import {
   PART_TYPE_RANGE,
   PART_TYPE_SHIELD } from '../card-parts/cc-card-static-value.js';
 
+import '../card-parts/cc-card-conditions.js';
+
 class CcFullCard extends LitElement {
-  _render({card}) {
+  _render({card, cardversion}) {
     return html`
       ${CcSharedStyles}
 
@@ -65,7 +67,9 @@ class CcFullCard extends LitElement {
         <cc-card-static-value card="${card}" valueType="${PART_TYPE_COST}"></cc-card-static-value>
         <div card-title>${card.title}</div>
       </header>
-      <section></section>
+      <section>
+        <cc-card-conditions card="${card}" cardversion="${cardversion}"></cc-card-conditions>
+      </section>
       <footer>
         <div class="footer-left">
           <cc-card-static-value card="${card}" valueType="${PART_TYPE_RANGE}"></cc-card-static-value>
@@ -80,7 +84,8 @@ class CcFullCard extends LitElement {
   };
   
   static get properties() { return {
-    card: Object
+    card: Object,
+    cardversion: Number
   }};
 }
 window.customElements.define('cc-full-card', CcFullCard);

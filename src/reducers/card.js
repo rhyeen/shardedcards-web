@@ -232,8 +232,8 @@ const defaultState = {
       instance: null,      
     },
     {
-      id: null,
-      instance: null,      
+      id: 'beast',
+      instance: '0',      
     },
     {
       id: 'monster',
@@ -330,8 +330,11 @@ const app = (state = defaultState, action) => {
         } else {
           newState.cards[cardId].instances[cardInstance].conditions.shield = shield
         }
-        newState.cards[cardId].instances[cardInstance].version += 1
       }
+      cardId = state.playFromHand.id
+      cardInstance = state.playFromHand.instance
+      newState.cards[cardId].instances[cardInstance].conditions.exhausted = true
+      newState.cards[cardId].instances[cardInstance].version += 1
       newState.playerField[action.playAreaIndex] = {
         id: state.playFromHand.id,
         instance: state.playFromHand.instance
@@ -424,6 +427,7 @@ const app = (state = defaultState, action) => {
         attackingCard.health -= attackedCard.attack - attackingCard.conditions.shield
         attackingCard.conditions.shield = 0
       }
+      attackingCard.conditions.exhausted = true
       attackedCard.version += 1
       attackingCard.version += 1
       if (attackedCard.health <= 0) {

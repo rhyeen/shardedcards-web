@@ -35,7 +35,7 @@ export class CcOpponentCardPane extends connect(store)(LitElement) {
           margin-left: 20px;
         }
       </style>
-      <cc-full-card card="${_selectedCard}"></cc-full-card>
+      <cc-full-card card="${_selectedCard}" cardversion$="${_selectedCard.version}"></cc-full-card>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
       </div>

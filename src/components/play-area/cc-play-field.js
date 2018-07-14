@@ -100,8 +100,17 @@ export class CcPlayField extends connect(store)(LitElement) {
     return attackingCard.range >= Math.abs(playAreaIndex - playingFromPlayAreaIndex) + 1
   }
 
+  _isExhausted(attackingCard) {
+    return attackingCard.conditions.exhausted
+  }
+
   _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex, attackingCard) {
-    if (overlay && owner === OPPONENT_OWNER && playingFromPlayAreaIndex !== -1 && this._isWithinRange(attackingCard, card, playAreaIndex, playingFromPlayAreaIndex)) {
+    if (
+      overlay && owner === OPPONENT_OWNER &&
+      playingFromPlayAreaIndex !== -1 &&
+      this._isWithinRange(attackingCard, card, playAreaIndex, playingFromPlayAreaIndex) &&
+      !this._isExhausted(attackingCard)
+    ) {
       return html`
         <cc-attack-card
             card="${card}"

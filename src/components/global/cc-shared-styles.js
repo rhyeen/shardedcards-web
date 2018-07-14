@@ -124,29 +124,6 @@ export const CcSharedStyles = html`
     font-size: 18px;
   }
 
-  [card-part] {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-  }
-
-  [card-part].reduced-card-part {
-    font-size: 14px;
-  }
-
-  [card-part].stack-card-part {
-    flex-direction: column;
-  }
-
-  [card-part] .icon .background-svg-icon {
-    fill: var(--default-svg-color);
-  }
-
-  [card-part].reduced-card-part .icon .background-svg-icon {
-    width: 15px;
-    height: 15px;
-  }
-
   .svg-icon {
     --default-svg-color: #212121;
     width: 24px;

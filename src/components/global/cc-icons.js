@@ -21,6 +21,7 @@ export function DrawIcon(customClass) { return getBaseSvg(customClass, 'draw-svg
 export function DiscardIcon(customClass) { return getBaseSvg(customClass, 'discard-svg-icon', svg`<path d="M5 2h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1m1 2v8h12V4H6m14 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1m0 4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1z"/>`) }
 export function LostCardsIcon(customClass) { return getBaseSvg(customClass, 'lost-cards-svg-icon', svg`<path d="M12 2a9 9 0 0 0-9 9c0 3.03 1.53 5.82 4 7.47V22h2v-3h2v3h2v-3h2v3h2v-3.54c2.47-1.65 4-4.46 4-7.46a9 9 0 0 0-9-9m-4 9a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m8 0a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m-4 3l1.5 3h-3l1.5-3z"/>`) }
 export function TargetIcon(customClass) { return getBaseSvg(customClass, 'target-svg-icon', svg`<path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m0 2a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 2a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2z"/>`) }
+export function ExhaustedIcon(customClass) { return getBaseSvg(customClass, 'exhausted-svg-icon', svg`<path d="M23 12h-6v-2l3.39-4H17V4h6v2l-3.38 4H23v2m-8 4H9v-2l3.39-4H9V8h6v2l-3.38 4H15v2m-8 4H1v-2l3.39-4H1v-2h6v2l-3.38 4H7v2z"/>`) }
 
 function getBaseSvg(customClass, definedClass, svgContent) {
   const classes = ['svg-icon', definedClass, customClass].join(' ');

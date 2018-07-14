@@ -41,6 +41,30 @@ class CcCardStaticValue extends LitElement {
       <style>
       :host {
         display: ${this._getDisplay(card, valueType)};
+        opacity: ${this._getOpacity(card, valueType)};
+      }
+
+      [card-part] {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+      }
+
+      [card-part].reduced-card-part {
+        font-size: 14px;
+      }
+
+      [card-part].stack-card-part {
+        flex-direction: column;
+      }
+
+      [card-part] .icon .background-svg-icon {
+        fill: var(--default-svg-color);
+      }
+
+      [card-part].reduced-card-part .icon .background-svg-icon {
+        width: 15px;
+        height: 15px;
       }
       </style>
 
@@ -64,6 +88,16 @@ class CcCardStaticValue extends LitElement {
       return 'none'
     }
     return 'block'
+  }
+
+  _getOpacity(card, valueType) {
+    switch (valueType) {
+      case PART_TYPE_RANGE:
+        if (card.conditions.exhausted) {
+          return '0.3'
+        }
+    }
+    return '1'
   }
 
   _cardPartValue(card, valueType) {
