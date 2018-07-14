@@ -61,7 +61,10 @@ const defaultState = {
           range: 1,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {
+            shield: 2
+          }
         },
         '1': {
           title: 'Hello World',
@@ -70,7 +73,8 @@ const defaultState = {
           range: 1,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         }
       }
     },
@@ -89,7 +93,8 @@ const defaultState = {
           range: 2,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         },
         '1': {
           title: 'Beast within',
@@ -98,7 +103,8 @@ const defaultState = {
           range: 2,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         }
       }
     },
@@ -117,7 +123,8 @@ const defaultState = {
           range: 3,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         },
         '1': {
           title: 'Hero within',
@@ -126,7 +133,8 @@ const defaultState = {
           range: 3,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         }
       }
     },
@@ -145,7 +153,8 @@ const defaultState = {
           range: 1,
           health: 5,
           attack: 3,
-          version: 0
+          version: 0,
+          conditions: {}
         },
         '1': {
           title: 'Monster within',
@@ -153,8 +162,9 @@ const defaultState = {
           cost: 1,
           range: 1,
           health: 5,
-          attack: 3,
-          version: 0
+          attack: 5,
+          version: 0,
+          conditions: {}
         }
       }
     },
@@ -173,7 +183,8 @@ const defaultState = {
           range: 1,
           health: 1,
           attack: 4,
-          version: 0
+          version: 0,
+          conditions: {}
         }
       }
     }
@@ -239,6 +250,8 @@ const app = (state = defaultState, action) => {
   let cardInstance
   let attackedCard
   let attackingCard
+  let shield
+  let playAreaCard
   switch (action.type) {
     case SELECT_HAND_CARD:
       newState = {
@@ -300,6 +313,24 @@ const app = (state = defaultState, action) => {
     case PLACE_ON_PLAY_AREA:
       newState = {
         ...state
+      }
+      shield = 0
+      cardId = newState.playerField[action.playAreaIndex].id
+      if (cardId) {
+        cardInstance = newState.playerField[action.playAreaIndex].instance
+        playAreaCard = newState.cards[cardId].instances[cardInstance]
+        shield = playAreaCard.health
+        if (playAreaCard.conditions.shield) {
+          shield += playAreaCard.conditions.shield
+        }
+        cardId = state.playFromHand.id
+        cardInstance = state.playFromHand.instance
+        if (newState.cards[cardId].instances[cardInstance].conditions.shield) {
+          newState.cards[cardId].instances[cardInstance].conditions.shield += shield
+        } else {
+          newState.cards[cardId].instances[cardInstance].conditions.shield = shield
+        }
+        newState.cards[cardId].instances[cardInstance].version += 1
       }
       newState.playerField[action.playAreaIndex] = {
         id: state.playFromHand.id,
@@ -375,8 +406,24 @@ const app = (state = defaultState, action) => {
       cardId = state.opponentField[action.playAreaIndex].id
       cardInstance = state.opponentField[action.playAreaIndex].instance
       attackedCard = state.cards[cardId].instances[cardInstance]
-      attackedCard.health -= attackingCard.attack
-      attackingCard.health -= attackedCard.attack
+      if (!attackedCard.conditions.shield) {
+        attackedCard.conditions.shield = 0
+      }
+      if (attackedCard.conditions.shield >= attackingCard.attack) {
+        attackedCard.conditions.shield -= attackingCard.attack
+      } else {
+        attackedCard.health -= attackingCard.attack - attackedCard.conditions.shield
+        attackedCard.conditions.shield = 0
+      }
+      if (!attackingCard.conditions.shield) {
+        attackingCard.conditions.shield = 0
+      }
+      if (attackingCard.conditions.shield >= attackedCard.attack) {
+        attackingCard.conditions.shield -= attackedCard.attack
+      } else {
+        attackingCard.health -= attackedCard.attack - attackingCard.conditions.shield
+        attackingCard.conditions.shield = 0
+      }
       attackedCard.version += 1
       attackingCard.version += 1
       if (attackedCard.health <= 0) {

@@ -5,6 +5,13 @@ import {
   CARD_RARITY_UNDEFINED_COLOR } from '../../global/cc-shared-styles.js';
 
 import '../card-parts/cc-card-static-value.js';
+import {
+  PART_TYPE_ATTACK,
+  PART_TYPE_COST,
+  PART_TYPE_HEALTH,
+  PART_TYPE_RANGE,
+  PART_TYPE_SHIELD } from '../card-parts/cc-card-static-value.js';
+
 
 class CcPawnCard extends LitElement {
   _render({card, cardversion}) {
@@ -62,9 +69,10 @@ class CcPawnCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <footer>
-        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'range'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
-        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'attack'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
-        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${'health'}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${PART_TYPE_RANGE}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${PART_TYPE_ATTACK}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${PART_TYPE_HEALTH}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" cardversion$="${cardversion}" valueType="${PART_TYPE_SHIELD}" stack?="${true}" reduced?="${true}"></cc-card-static-value>
       </footer>
     `;
   };

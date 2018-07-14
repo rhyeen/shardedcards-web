@@ -3,31 +3,46 @@ import { LitElement, html } from '@polymer/lit-element';
 import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
+import {
+  IsEmpty } from '../../global/cc-helper-functions.js';
+
 import { AttackIcon,
   EnergyIcon,
   HealthIcon,
-  TargetIcon } from '../../global/cc-icons.js';
+  TargetIcon,
+  ShieldIcon } from '../../global/cc-icons.js';
 
 export const PART_TYPE_ATTACK = 'attack';
 export const PART_TYPE_COST = 'cost';
 export const PART_TYPE_HEALTH = 'health';
 export const PART_TYPE_RANGE = 'range';
+export const PART_TYPE_SHIELD = 'shield';
 
 class CcCardStaticValue extends LitElement {
   _render({card, cardversion, stack, reduced, valueType}) {
     // @NOTE: `card === undefined` should never be reached, but it is when you add this mini-card to
     // the hand.  There is a double render happening: first time is bad (card = undefined)
     // the second pass works, however.
-    if (!card) {
+    if (IsEmpty(card)) {
       card = {
         attack: 0,
         cost: 0,
         health: 0,
-        range: 0
+        range: 0,
+        conditions: {}
       }
+    }
+    if (!card.conditions) {
+      card.conditions = {}
     }
     return html`
       ${CcSharedStyles}
+
+      <style>
+      :host {
+        display: ${this._getDisplay(card, valueType)};
+      }
+      </style>
 
       <div card-part class$="${this._cardPartClasses(stack, reduced)}">
         <div class="current">${this._cardPartValue(card, valueType)}</div>
@@ -44,6 +59,13 @@ class CcCardStaticValue extends LitElement {
     reduced: Boolean
   }};
 
+  _getDisplay(card, valueType) {
+    if (valueType === PART_TYPE_SHIELD && !card.conditions.shield) {
+      return 'none'
+    }
+    return 'block'
+  }
+
   _cardPartValue(card, valueType) {
     switch (valueType) {
       case PART_TYPE_ATTACK:
@@ -54,6 +76,8 @@ class CcCardStaticValue extends LitElement {
         return card.health
       case PART_TYPE_RANGE:
         return card.range
+      case PART_TYPE_SHIELD:
+        return card.conditions.shield
       default:
         return 0
     }
@@ -73,6 +97,9 @@ class CcCardStaticValue extends LitElement {
         break;
       case PART_TYPE_RANGE:
         iconFunction = TargetIcon
+        break;
+      case PART_TYPE_SHIELD:
+        iconFunction = ShieldIcon
         break;
       default:
         return ''

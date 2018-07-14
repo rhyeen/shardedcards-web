@@ -4,6 +4,12 @@ import {
   CardRarityColor } from '../../global/cc-shared-styles.js';
 
 import '../card-parts/cc-card-static-value.js';
+import {
+  PART_TYPE_ATTACK,
+  PART_TYPE_COST,
+  PART_TYPE_HEALTH,
+  PART_TYPE_RANGE,
+  PART_TYPE_SHIELD } from '../card-parts/cc-card-static-value.js';
 
 class CcFullCard extends LitElement {
   _render({card}) {
@@ -56,17 +62,18 @@ class CcFullCard extends LitElement {
       </style>
 
       <header>
-        <cc-card-static-value card="${card}" valueType="${'cost'}"></cc-card-static-value>
+        <cc-card-static-value card="${card}" valueType="${PART_TYPE_COST}"></cc-card-static-value>
         <div card-title>${card.title}</div>
       </header>
       <section></section>
       <footer>
         <div class="footer-left">
-          <cc-card-static-value card="${card}" valueType="${'range'}"></cc-card-static-value>
-          <cc-card-static-value card="${card}" valueType="${'attack'}"></cc-card-static-value>
+          <cc-card-static-value card="${card}" valueType="${PART_TYPE_RANGE}"></cc-card-static-value>
+          <cc-card-static-value card="${card}" valueType="${PART_TYPE_ATTACK}"></cc-card-static-value>
         </div>
         <div class="footer-right">
-          <cc-card-static-value card="${card}" valueType="${'health'}"></cc-card-static-value>
+          <cc-card-static-value card="${card}" valueType="${PART_TYPE_HEALTH}"></cc-card-static-value>
+          <cc-card-static-value card="${card}" valueType="${PART_TYPE_SHIELD}"></cc-card-static-value>
         </div>
       </footer>
     `;
