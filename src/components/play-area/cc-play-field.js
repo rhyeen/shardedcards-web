@@ -27,7 +27,7 @@ import {
   RecordAttackCard } from '../../actions/turnaction.js'; 
 
 export class CcPlayField extends connect(store)(LitElement) {
-  _render({_leftCard, _middleCard, _rightCard, overlay}) {
+  _render({_leftCard, _middleCard, _rightCard, overlay, _totalCardVersion}) {
     let leftCardHtml = this._getCardHtml(_leftCard, 0)
     let middleCardHtml = this._getCardHtml(_middleCard, 1)
     let rightCardHtml = this._getCardHtml(_rightCard, 2)
@@ -61,7 +61,8 @@ export class CcPlayField extends connect(store)(LitElement) {
     _attackingCard: Object,
     _replacingCard: Object,
     _handCardIndex: Number,
-    _playingFromPlayAreaIndex: Number
+    _playingFromPlayAreaIndex: Number,
+    _totalCardVersion: Number // meant soley to force an update, if need be
   }};
 
   _stateChanged(state) {
@@ -96,6 +97,21 @@ export class CcPlayField extends connect(store)(LitElement) {
         this._middleCard = null
         break;
     }
+    this._setTotalCardVersion()
+  }
+
+  _setTotalCardVersion() {
+    this._totalCardVersion = 0
+    this._totalCardVersion += this._getCardVersion(this._leftCard)
+    this._totalCardVersion += this._getCardVersion(this._middleCard)
+    this._totalCardVersion += this._getCardVersion(this._rightCard)
+  }
+
+  _getCardVersion(card) {
+    if (!card) {
+      return 0
+    }
+    return card.version
   }
 
   _getCard(state, cardId, cardInstance) {
@@ -220,7 +236,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     return html`
       <cc-pawn-card
           card="${card}"
-          cardversion="${card.version}"
+          cardversion$="${card.version}"
           on-click="${() => store.dispatch(PlayFromPlayArea(playAreaIndex))}"></cc-pawn-card>`
   }
 
@@ -228,7 +244,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     return html`
       <cc-pawn-card
           card="${card}"
-          cardversion="${card.version}"
+          cardversion$="${card.version}"
           on-click="${() => store.dispatch(SelectPlayerFieldCard(playAreaIndex))}"></cc-pawn-card>`
   }
 
@@ -236,7 +252,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     return html`
       <cc-pawn-card
           card="${card}"
-          cardversion="${card.version}"
+          cardversion$="${card.version}"
           on-click="${() => store.dispatch(SelectOpponentFieldCard(playAreaIndex))}"></cc-pawn-card>`
   }
 }

@@ -7,7 +7,6 @@ import {
 import '../card-parts/cc-card-static-value.js';
 import {
   PART_TYPE_ATTACK,
-  PART_TYPE_COST,
   PART_TYPE_HEALTH,
   PART_TYPE_RANGE,
   PART_TYPE_SHIELD } from '../card-parts/cc-card-static-value.js';

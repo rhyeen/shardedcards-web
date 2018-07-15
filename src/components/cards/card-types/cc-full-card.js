@@ -68,7 +68,7 @@ class CcFullCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <section>
-        <cc-card-conditions card="${card}" cardversion="${cardversion}"></cc-card-conditions>
+        <cc-card-conditions card="${card}" cardversion$="${cardversion}"></cc-card-conditions>
       </section>
       <footer>
         <div class="footer-left">
