@@ -12,7 +12,8 @@ import {
   CANCEL_SELECT_PLAYER_FIELD_CARD,
   ATTACK_CARD,
   CLEAR_HAND,
-  SET_HAND } from '../actions/card.js';
+  SET_HAND,
+  REFRESH_CARDS } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -249,6 +250,7 @@ const app = (state = defaultState, action) => {
   let handIndex
   let cardId
   let cardInstance
+  let card
   let attackedCard
   let attackingCard
   let replacingCard
@@ -424,6 +426,15 @@ const app = (state = defaultState, action) => {
         ...state,
         hand: action.hand
       }
+    case REFRESH_CARDS:
+      for (cardId in state.cards) {
+        card = state.cards[cardId]
+        for (cardInstance in card.instances) {
+          card.instances[cardInstance].conditions.exhausted = false
+          card.instances[cardInstance].version += 1
+        }
+      }
+      return state
     default:
       return state;
   }

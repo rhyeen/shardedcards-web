@@ -1,6 +1,9 @@
 import { CallEndTurn } from '../services/turnaction.js';
 import { CallGetHand } from '../services/card.js';
-import { SetHand } from './card.js';
+import { 
+  SetHand,
+  RefreshCards } from './card.js';
+import { ResetEnergy } from './status.js';
 
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
 export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
@@ -38,6 +41,8 @@ export const EndTurn = (turn) => (dispatch) => {
       dispatch(AppendOpponentHistory(opponentsTurn))
       dispatch(AppendPlayerHistory(turn))
       dispatch(BeginTurn())
+      dispatch(ResetEnergy())
+      dispatch(RefreshCards())
       CallGetHand()
       .then(hand => dispatch(SetHand(hand)))
       .catch(err => console.error(err)) 
@@ -46,6 +51,8 @@ export const EndTurn = (turn) => (dispatch) => {
       console.error(err)
       dispatch(AppendPlayerHistory(turn))
       dispatch(BeginTurn())
+      dispatch(ResetEnergy())
+      dispatch(RefreshCards())
     })
 }
 

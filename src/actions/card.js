@@ -12,6 +12,7 @@ export const CANCEL_SELECT_PLAYER_FIELD_CARD = 'CANCEL_SELECT_PLAYER_FIELD_CARD'
 export const ATTACK_CARD = 'ATTACK_CARD';
 export const CLEAR_HAND = 'CLEAR_HAND';
 export const SET_HAND = 'SET_HAND';
+export const REFRESH_CARDS = 'REFRESH_CARDS';
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -103,5 +104,11 @@ export const SetHand = (hand) => {
   return {
     type: SET_HAND,
     hand
+  }
+}
+
+export const RefreshCards = () => {
+  return {
+    type: REFRESH_CARDS
   }
 }
