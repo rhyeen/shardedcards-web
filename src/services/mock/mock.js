@@ -1,4 +1,4 @@
-export const POST_CALLBACK_TIME = 2000;
+export const POST_CALLBACK_TIME = 1000;
 export const GET_CALLBACK_TIME = 500;
 
 export const DebugRequest = (callFunction, requestData) => {

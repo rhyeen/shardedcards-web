@@ -1,4 +1,10 @@
-import { CallGetCards, CallGetHand, CallGetOpponentField } from "../services/card";
+import { 
+  CallGetCards,
+  CallGetHand,
+  CallGetOpponentField } from '../services/card.js';
+
+import {
+  CallStartGame } from '../services/turnaction.js'
 
 export const SELECT_HAND_CARD = 'SELECT_HAND_CARD';
 export const CANCEL_SELECT_HAND_CARD = 'CANCEL_SELECT_HAND_CARD';
@@ -118,18 +124,22 @@ export const RefreshCards = () => {
 }
 
 export const InitializeCards = () => (dispatch) => {
-  Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
-  .then(results => {
-    dispatch(_setCards(results[0]))
-    dispatch(SetHand(results[1]))
-    dispatch(_setOpponentField(results[2]))
+  CallStartGame()
+  .then(() => {
+    Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
+    .then(results => {
+      dispatch(_setCards(results[0]))
+      dispatch(SetHand(results[1]))
+      dispatch(_setOpponentField(results[2]))
+    })
+    .catch(err => {
+      console.error(err)
+      dispatch(_setOpponentField([{id: null, instance: null}, {id: null, instance: null}, {id: null, instance: null}]))
+      dispatch(SetHand([]))
+      dispatch(_setCards({}))
+    })
   })
-  .catch(err => {
-    console.err(err)
-    dispatch(_setOpponentField([{id: null, instance: null}, {id: null, instance: null}, {id: null, instance: null}]))
-    dispatch(SetHand([]))
-    dispatch(_setCards({}))
-  })
+  .catch(err => console.error(err))
 }
 
 const _setCards = (cards) => {

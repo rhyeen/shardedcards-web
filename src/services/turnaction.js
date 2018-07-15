@@ -4,10 +4,12 @@ import {
   InterfaceState } from './service-state.js';
 
 import {
-  CallHttpEndTurn } from './http/turns.js';
+  CallHttpEndTurn,
+  CallHttpStartGame } from './http/turns.js';
 
 import {
-  CallMockEndTurn } from './mock/turns.js';
+  CallMockEndTurn,
+  CallMockStartGame } from './mock/turns.js';
 
 export const CallEndTurn = (turn) => {
   switch(InterfaceState()) {
@@ -15,6 +17,17 @@ export const CallEndTurn = (turn) => {
       return CallHttpEndTurn(turn)
     case INTERFACE_MOCK:
       return CallMockEndTurn(turn)
+    default:
+      return InvalidInterfaceState()
+  }
+}
+
+export const CallStartGame = () => {
+  switch(InterfaceState()) {
+    case INTERFACE_HTTP:
+      return CallHttpStartGame()
+    case INTERFACE_MOCK:
+      return CallMockStartGame()
     default:
       return InvalidInterfaceState()
   }

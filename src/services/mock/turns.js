@@ -7,6 +7,8 @@ import {
   DebugSuccessfulResponse,
   POST_CALLBACK_TIME } from './mock.js';
 
+import { InitializeCards } from './storage/actions.js';
+
 export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockEndTurn, turn)
@@ -25,6 +27,17 @@ export const CallMockEndTurn = (turn) => {
       ]
       DebugSuccessfulResponse(CallMockEndTurn, response)
       resolve(response)
+    }, POST_CALLBACK_TIME)
+  })
+}
+
+export const CallMockStartGame = () => {
+  return new Promise((resolve, reject) => {
+    DebugRequest(CallMockStartGame)
+    setTimeout(() => {
+      InitializeCards()
+      DebugSuccessfulResponse(CallMockStartGame)
+      resolve()
     }, POST_CALLBACK_TIME)
   })
 }
