@@ -1,7 +1,7 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
-import '../cards/card-groups/cc-card-backlog';
+import '../cards/card-groups/cc-card-backlog.js';
 
 export class CcPlayFieldBacklog extends LitElement {
   _render({overlay}) {

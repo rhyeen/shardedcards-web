@@ -1,10 +1,10 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-import { connect } from 'pwa-helpers/connect-mixin.js';
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../../store.js';
 
-import '../card-types/cc-mini-card';
+import '../card-types/cc-mini-card.js';
 
 import { 
   SelectHandCard } from '../../../actions/card.js';

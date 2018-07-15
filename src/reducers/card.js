@@ -265,11 +265,9 @@ const app = (state = defaultState, action) => {
       }
     case CANCEL_SELECT_HAND_CARD:
       handIndex = state.selectedHandCard.handIndex
-      cardId = state.selectedHandCard.id
-      cardInstance = state.selectedHandCard.instance
       state.hand.splice(handIndex, 0, { 
-        id: cardId,
-        instance: cardInstance
+        id: state.selectedHandCard.id,
+        instance: state.selectedHandCard.instance
       })
       state.selectedHandCard = {
         id: null,
@@ -278,6 +276,8 @@ const app = (state = defaultState, action) => {
       }
       return state
     case PLAY_SELECTED_HAND_CARD:
+      cardId = state.selectedHandCard.id
+      cardInstance = state.selectedHandCard.instance
       return {
         ...state,
         playFromHand: {
@@ -294,11 +294,9 @@ const app = (state = defaultState, action) => {
       }
     case CANCEL_PLAY_SELECTED_HAND_CARD:
       handIndex = state.playFromHand.handIndex
-      cardId = state.playFromHand.id
-      cardInstance = state.playFromHand.instance
       state.hand.splice(handIndex, 0, {
-        id: cardId,
-        instance: cardInstance
+        id: state.playFromHand.id,
+        instance: state.playFromHand.instance
       })
       state.playFromHand = {
         id: null,
@@ -309,11 +307,11 @@ const app = (state = defaultState, action) => {
     case PLACE_ON_PLAY_AREA:
       cardId = state.playFromHand.id
       cardInstance = state.playFromHand.instance
-      replacingCard = state.cards[cardId].instances[cardInstance]
+      replacingCard = getCard(state, cardId, cardInstance)
       cardId = state.playerField[action.playAreaIndex].id
       if (cardId) {
         cardInstance = state.playerField[action.playAreaIndex].instance
-        replacedCard = state.cards[cardId].instances[cardInstance]
+        replacedCard = getCard(state, cardId, cardInstance)
       } else {
         replacedCard = null
       }
@@ -388,10 +386,10 @@ const app = (state = defaultState, action) => {
     case ATTACK_CARD:
       cardId = state.playerField[state.playFromPlayArea.playAreaIndex].id
       cardInstance = state.playerField[state.playFromPlayArea.playAreaIndex].instance
-      attackingCard = state.cards[cardId].instances[cardInstance]
+      attackingCard = getCard(state, cardId, cardInstance)
       cardId = state.opponentField[action.playAreaIndex].id
       cardInstance = state.opponentField[action.playAreaIndex].instance
-      attackedCard = state.cards[cardId].instances[cardInstance]
+      attackedCard = getCard(state, cardId, cardInstance)
       GetAttackedCardResults(attackingCard, attackedCard, true)
       GetAttackingCardResults(attackingCard, attackedCard, true)
       if (attackedCard.health <= 0) {
@@ -417,6 +415,10 @@ const app = (state = defaultState, action) => {
     default:
       return state;
   }
+}
+
+function getCard(state, cardId, cardInstance) {
+  return state.cards[cardId].instances[cardInstance]
 }
 
 export function GetAttackingCardResults(attacking, attacked, modifyOriginals) {

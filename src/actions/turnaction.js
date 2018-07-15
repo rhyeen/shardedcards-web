@@ -1,17 +1,17 @@
-export const ATTACK_CARD = 'ATTACK_CARD';
-export const PLACE_ON_PLAY_AREA = 'PLACE_ON_PLAY_AREA';
+export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
+export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
 
-export const AttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
+export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
-    type: ATTACK_CARD,
+    type: RECORD_ATTACK_CARD,
     playerFieldCardIndex,
     opponentFieldCardIndex
   }
 };
 
-export const PlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
+export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
   return {
-    type: PLACE_ON_PLAY_AREA,
+    type: RECORD_PLACE_ON_PLAY_AREA,
     playerFieldCardIndex,
     handCardIndex
   }

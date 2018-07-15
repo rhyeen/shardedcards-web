@@ -22,11 +22,15 @@ import {
 import {
   SpendAllocatedEnergy } from '../../actions/status.js';
 
+import {
+  RecordPlaceOnPlayArea,
+  RecordAttackCard } from '../../actions/turnaction.js'; 
+
 export class CcPlayField extends connect(store)(LitElement) {
-  _render({_leftCard, _middleCard, _rightCard, overlay, _playingFromPlayAreaIndex, owner, _attackingCard, _replacingCard}) {
-    let leftCardHtml = this._getCardHtml(_leftCard, owner, overlay, _playingFromPlayAreaIndex, 0, _attackingCard, _replacingCard)
-    let middleCardHtml = this._getCardHtml(_middleCard, owner, overlay, _playingFromPlayAreaIndex, 1, _attackingCard, _replacingCard)
-    let rightCardHtml = this._getCardHtml(_rightCard, owner, overlay, _playingFromPlayAreaIndex, 2, _attackingCard, _replacingCard)
+  _render({_leftCard, _middleCard, _rightCard, overlay}) {
+    let leftCardHtml = this._getCardHtml(_leftCard, 0)
+    let middleCardHtml = this._getCardHtml(_middleCard, 1)
+    let rightCardHtml = this._getCardHtml(_rightCard, 2)
     return html`
       ${CcSharedStyles}
       <style>
@@ -56,6 +60,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     _middleCard: Object,
     _attackingCard: Object,
     _replacingCard: Object,
+    _handCardIndex: Number,
     _playingFromPlayAreaIndex: Number
   }};
 
@@ -69,6 +74,7 @@ export class CcPlayField extends connect(store)(LitElement) {
     }
     if (state.card.playFromHand.id) {
       this._replacingCard = state.card.cards[state.card.playFromHand.id].instances[state.card.playFromHand.instance]
+      this._handCardIndex = state.card.playFromHand.handIndex
     } else {
       this._replacingCard = null      
     }
@@ -99,62 +105,139 @@ export class CcPlayField extends connect(store)(LitElement) {
     return state.card.cards[cardId].instances[cardInstance]
   }
 
-  _isWithinRange(attackingCard, opposingCard, playAreaIndex, playingFromPlayAreaIndex) {
-    if (!attackingCard || !opposingCard) {
-      return false;
+  _getCardHtml(card, playAreaIndex) {
+    if (this._showAttackCard(card, playAreaIndex)) {
+      return this._attackCard(card, playAreaIndex)
     }
-    return attackingCard.range >= Math.abs(playAreaIndex - playingFromPlayAreaIndex) + 1
-  }
-
-  _isExhausted(attackingCard) {
-    return attackingCard.conditions.exhausted
-  }
-
-  _getCardHtml(card, owner, overlay, playingFromPlayAreaIndex, playAreaIndex, attackingCard, replacingCard) {
-    if (
-      overlay && owner === OPPONENT_OWNER &&
-      playingFromPlayAreaIndex !== -1 &&
-      this._isWithinRange(attackingCard, card, playAreaIndex, playingFromPlayAreaIndex) &&
-      !this._isExhausted(attackingCard)
-    ) {
-      return html`
-        <cc-attack-card
-            attacked="${card}"
-            attacking="${attackingCard}"
-            on-click="${() => store.dispatch(AttackCard(playAreaIndex))}"></cc-attack-card>`
+    if (this._showReplaceCard(card, playAreaIndex)) {
+      return this._replaceCard(card, playAreaIndex)
     }
-    if (overlay && owner === PLAYER_OWNER && playingFromPlayAreaIndex === -1 && replacingCard) {
-      return html`
-        <cc-replace-card
-            replaced="${card}"
-            replacing="${replacingCard}"
-            on-click="${() => {
-              store.dispatch(SpendAllocatedEnergy())
-              store.dispatch(PlaceOnPlayArea(playAreaIndex))
-            }}"></cc-replace-card>`
+    if (this._showPlayerPawnCard(card)) {
+      return this._playerPawnCard(card, playAreaIndex)
     }
-    if (!overlay && card && owner === PLAYER_OWNER) {
-      return html`
-        <cc-pawn-card
-            card="${card}"
-            cardversion="${card.version}"
-            on-click="${() => store.dispatch(PlayFromPlayArea(playAreaIndex))}"></cc-pawn-card>`
+    if (this._showSelectedPawnCard(card, playAreaIndex)) {
+      return this._selectedPawnCard(card, playAreaIndex)
     }
-    if (overlay && playingFromPlayAreaIndex === playAreaIndex && card && owner === PLAYER_OWNER) {
-      return html`
-        <cc-pawn-card
-            card="${card}"
-            cardversion="${card.version}"
-            on-click="${() => store.dispatch(SelectPlayerFieldCard(playAreaIndex))}"></cc-pawn-card>`
-    }
-    if (!overlay && card && owner === OPPONENT_OWNER) {
-      return html`
-        <cc-pawn-card
-            card="${card}"
-            cardversion="${card.version}"
-            on-click="${() => store.dispatch(SelectOpponentFieldCard(playAreaIndex))}"></cc-pawn-card>`
+    if (this._showOpponentPawnCard(card)) {
+      return this._opponentPawnCard(card, playAreaIndex)
     }
     return html``
+  }
+
+  _showAttackCard(card, playAreaIndex) {
+    return (
+      this._isOverlay() &&
+      this._isOpponent() &&
+      this._playingFromPlayArea() &&
+      this._isWithinRange(card, playAreaIndex) &&
+      !this._isExhausted())
+  }
+
+  _showReplaceCard() {
+    return (
+      this._isOverlay() && 
+      this._isPlayer() && 
+      !this._playingFromPlayArea() && 
+      this._replacingCard)
+  }
+
+  _showPlayerPawnCard(card) {
+    return this._hasCardToShow(card) && !this._isOverlay() && this._isPlayer()
+  }
+
+  _showSelectedPawnCard(card, playAreaIndex) {
+    return (
+      this._hasCardToShow(card) && 
+      this._isOverlay() && 
+      this._isPlayer() && 
+      this._isCardBeingPlayed(playAreaIndex))
+  }
+
+  _showOpponentPawnCard(card) {
+    return this._hasCardToShow(card) && !this._isOverlay() && this._isOpponent()
+  }
+
+  _playingFromPlayArea() {
+    return this._playingFromPlayAreaIndex !== -1
+  }
+
+  _isWithinRange(opposingCard, playAreaIndex) {
+    if (!this._attackingCard || !opposingCard) {
+      return false;
+    }
+    return this._attackingCard.range >= Math.abs(playAreaIndex - this._playingFromPlayAreaIndex) + 1
+  }
+
+  _isExhausted() {
+    return this._attackingCard.conditions.exhausted
+  }
+
+  _isCardBeingPlayed(playAreaIndex) {
+    return this._playingFromPlayAreaIndex === playAreaIndex
+  }
+
+  _isOpponent() {
+    return this.owner === OPPONENT_OWNER
+  }
+
+  _isPlayer() {
+    return this.owner === PLAYER_OWNER
+  }
+
+  _isOverlay() {
+    return !!this.overlay
+  }
+
+  _hasCardToShow(card) {
+    return !!card
+  }
+
+  _attackCard(card, playAreaIndex) {
+    const hardCodedPlayerPlayAreaIndex = this._playingFromPlayAreaIndex
+    return html`
+      <cc-attack-card
+          attacked="${card}"
+          attacking="${this._attackingCard}"
+          on-click="${() => {
+            store.dispatch(AttackCard(playAreaIndex))
+            store.dispatch(RecordAttackCard(hardCodedPlayerPlayAreaIndex, playAreaIndex))
+          }}"></cc-attack-card>`
+  }
+
+  _replaceCard(card, playAreaIndex, handCardIndex) {
+    return html`
+      <cc-replace-card
+          replaced="${card}"
+          replacing="${this._replacingCard}"
+          on-click="${() => {
+            store.dispatch(SpendAllocatedEnergy())
+            store.dispatch(PlaceOnPlayArea(playAreaIndex))
+            store.dispatch(RecordPlaceOnPlayArea(playAreaIndex, this._handCardIndex))
+          }}"></cc-replace-card>`
+  }
+
+  _playerPawnCard(card, playAreaIndex) {
+    return html`
+      <cc-pawn-card
+          card="${card}"
+          cardversion="${card.version}"
+          on-click="${() => store.dispatch(PlayFromPlayArea(playAreaIndex))}"></cc-pawn-card>`
+  }
+
+  _selectedPawnCard(card, playAreaIndex) {
+    return html`
+      <cc-pawn-card
+          card="${card}"
+          cardversion="${card.version}"
+          on-click="${() => store.dispatch(SelectPlayerFieldCard(playAreaIndex))}"></cc-pawn-card>`
+  }
+
+  _opponentPawnCard(card, playAreaIndex) {
+    return html`
+      <cc-pawn-card
+          card="${card}"
+          cardversion="${card.version}"
+          on-click="${() => store.dispatch(SelectOpponentFieldCard(playAreaIndex))}"></cc-pawn-card>`
   }
 }
 

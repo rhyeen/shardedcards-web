@@ -1,6 +1,6 @@
 import { 
-  ATTACK_CARD,
-  PLACE_ON_PLAY_AREA } from '../actions/turnaction.js';
+  RECORD_ATTACK_CARD,
+  RECORD_PLACE_ON_PLAY_AREA } from '../actions/turnaction.js';
 
 
 export const FIRST_TURN_PLAYER = 'player';
@@ -15,14 +15,14 @@ const defaultState = {
 
 const app = (state = defaultState, action) => {
   switch (action.type) {
-    case ATTACK_CARD:
+    case RECORD_ATTACK_CARD:
       state.pendingTurn.push({
         type: action.type,
         playerFieldCardIndex: action.playerFieldCardIndex,
         opponentFieldCardIndex: action.opponentFieldCardIndex
       })
       return state
-    case PLACE_ON_PLAY_AREA:
+    case RECORD_PLACE_ON_PLAY_AREA:
       state.pendingTurn.push({
         type: action.type,
         playerFieldCardIndex: action.playerFieldCardIndex,
