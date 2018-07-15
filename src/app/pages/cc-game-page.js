@@ -5,6 +5,8 @@ import { CcSharedStyles } from '../../components/global/cc-shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
+import { InitializeCards } from '../../actions/card.js';
+
 import '../../components/cards/card-groups/cc-hand-card-pane.js';
 import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-card-pane.js';
@@ -70,12 +72,12 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   static get properties() { return {
     _showCardOverlay: Boolean,
     _overlayPaneHtml: html,
-
   }};
 
   constructor() {
     super()
     this._overlayPaneHtml = this._getHiddenPaneHtml()
+    store.dispatch(InitializeCards())
   }
 
   _getHiddenPaneHtml() {

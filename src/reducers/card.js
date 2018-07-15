@@ -13,7 +13,9 @@ import {
   ATTACK_CARD,
   CLEAR_HAND,
   SET_HAND,
-  REFRESH_CARDS } from '../actions/card.js';
+  REFRESH_CARDS,
+  SET_CARDS,
+  SET_OPPONENT_FIELD } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -48,186 +50,21 @@ const defaultState = {
     instance: null,    
     playAreaIndex: null
   },
-  cards: {
-    test: {
-      title: 'Hello World',
-      rarity: CARD_RARITY_COMMON,
-      cost: 3,
-      range: 1,
-      health: 5,
-      attack: 3,
-      instances: {
-        '0': {
-          title: 'Hello World',
-          rarity: CARD_RARITY_COMMON,
-          cost: 3,
-          range: 1,
-          health: 5,
-          attack: 3,
-          version: 0,
-          conditions: {
-            shield: 2
-          }
-        },
-        '1': {
-          title: 'Hello World',
-          rarity: CARD_RARITY_COMMON,
-          cost: 3,
-          range: 1,
-          health: 5,
-          attack: 3,
-          version: 0,
-          conditions: {}
-        }
-      }
-    },
-    beast: {
-      title: 'Beast within',
-      rarity: CARD_RARITY_RARE,
-      cost: 6,
-      range: 2,
-      health: 5,
-      attack: 2,
-      instances: {
-        '0': {
-          title: 'Beast within',
-          rarity: CARD_RARITY_RARE,
-          cost: 6,
-          range: 2,
-          health: 5,
-          attack: 2,
-          version: 0,
-          conditions: {}
-        },
-        '1': {
-          title: 'Beast within',
-          rarity: CARD_RARITY_RARE,
-          cost: 6,
-          range: 2,
-          health: 5,
-          attack: 2,
-          version: 0,
-          conditions: {}
-        }
-      }
-    },
-    hero: {
-      title: 'Hero within',
-      rarity: CARD_RARITY_EPIC,
-      cost: 0,
-      range: 3,
-      health: 5,
-      attack: 3,
-      instances: {
-        '0': {
-          title: 'Hero within',
-          rarity: CARD_RARITY_EPIC,
-          cost: 0,
-          range: 3,
-          health: 5,
-          attack: 3,
-          version: 0,
-          conditions: {}
-        },
-        '1': {
-          title: 'Hero within',
-          rarity: CARD_RARITY_EPIC,
-          cost: 0,
-          range: 3,
-          health: 5,
-          attack: 3,
-          version: 0,
-          conditions: {}
-        }
-      }
-    },
-    monster: {
-      title: 'Monster within',
-      rarity: CARD_RARITY_LEGENDARY,
-      cost: 1,
-      range: 1,
-      health: 5,
-      attack: 3,
-      instances: {
-        '0': {
-          title: 'Monster within',
-          rarity: CARD_RARITY_LEGENDARY,
-          cost: 1,
-          range: 1,
-          health: 5,
-          attack: 3,
-          version: 0,
-          conditions: {}
-        },
-        '1': {
-          title: 'Monster within',
-          rarity: CARD_RARITY_LEGENDARY,
-          cost: 1,
-          range: 1,
-          health: 5,
-          attack: 5,
-          version: 0,
-          conditions: {}
-        }
-      }
-    },
-    pawn: {
-      title: 'Pawn within',
-      rarity: CARD_RARITY_UNDEFINED,
-      cost: 3,
-      range: 1,
-      health: 1,
-      attack: 4,
-      instances: {
-        '0': {
-          title: 'Pawn within',
-          rarity: CARD_RARITY_UNDEFINED,
-          cost: 3,
-          range: 1,
-          health: 1,
-          attack: 4,
-          version: 0,
-          conditions: {}
-        }
-      }
-    }
-  },
-  hand: [
-    {
-      id: 'test',
-      instance: '0'
-    },
-    {
-      id: 'hero',
-      instance: '1'
-    },
-    {
-      id: 'pawn',
-      instance: '0'
-    },
-    {
-      id: 'monster',
-      instance: '0'
-    },
-    {
-      id: 'beast',
-      instance: '1'
-    }
-  ],
+  cards: {},
+  hand: [],
   playerField: [
     {
-      id: 'test',
-      instance: '1'
+      id: null,
+      instance: null,      
     },
     {
-      id: 'hero',
-      instance: '0'
+      id: null,
+      instance: null,      
     },
     {
       id: null,
       instance: null,      
     }
-
   ],
   opponentField: [
     {
@@ -235,14 +72,13 @@ const defaultState = {
       instance: null,      
     },
     {
-      id: 'beast',
-      instance: '0',      
+      id: null,
+      instance: null,      
     },
     {
-      id: 'monster',
-      instance: '1'
-    }
-
+      id: null,
+      instance: null,      
+    },
   ]
 }
 
@@ -436,6 +272,16 @@ const app = (state = defaultState, action) => {
         }
       }
       return state
+    case SET_CARDS:
+      return {
+        ...state,
+        cards: action.cards
+      }
+    case SET_OPPONENT_FIELD:
+      return {
+        ...state,
+        opponentField: action.opponentField
+      }
     default:
       return state;
   }

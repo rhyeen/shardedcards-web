@@ -1,3 +1,5 @@
+import { CallGetCards, CallGetHand, CallGetOpponentField } from "../services/card";
+
 export const SELECT_HAND_CARD = 'SELECT_HAND_CARD';
 export const CANCEL_SELECT_HAND_CARD = 'CANCEL_SELECT_HAND_CARD';
 export const PLAY_SELECTED_HAND_CARD = 'PLAY_SELECTED_HAND_CARD';
@@ -13,6 +15,8 @@ export const ATTACK_CARD = 'ATTACK_CARD';
 export const CLEAR_HAND = 'CLEAR_HAND';
 export const SET_HAND = 'SET_HAND';
 export const REFRESH_CARDS = 'REFRESH_CARDS';
+export const SET_CARDS = 'SET_CARDS';
+export const SET_OPPONENT_FIELD = 'SET_OPPONENT_FIELD';
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -110,5 +114,34 @@ export const SetHand = (hand) => {
 export const RefreshCards = () => {
   return {
     type: REFRESH_CARDS
+  }
+}
+
+export const InitializeCards = () => (dispatch) => {
+  Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
+  .then(results => {
+    dispatch(_setCards(results[0]))
+    dispatch(SetHand(results[1]))
+    dispatch(_setOpponentField(results[2]))
+  })
+  .catch(err => {
+    console.err(err)
+    dispatch(_setOpponentField([{id: null, instance: null}, {id: null, instance: null}, {id: null, instance: null}]))
+    dispatch(SetHand([]))
+    dispatch(_setCards({}))
+  })
+}
+
+const _setCards = (cards) => {
+  return {
+    type: SET_CARDS,
+    cards
+  }
+}
+
+const _setOpponentField = (opponentField) => {
+  return {
+    type: SET_OPPONENT_FIELD,
+    opponentField
   }
 }
