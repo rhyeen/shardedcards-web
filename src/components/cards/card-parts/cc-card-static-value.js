@@ -91,13 +91,15 @@ class CcCardStaticValue extends LitElement {
   }
 
   _getOpacity(card, valueType) {
-    switch (valueType) {
-      case PART_TYPE_RANGE:
-        if (card.conditions.exhausted) {
-          return '0.3'
-        }
-    }
     return '1'
+    // @NOTE: Having the opacity of the whole card reduced when exhausted instead of just target.
+    // switch (valueType) {
+    //   case PART_TYPE_RANGE:
+    //     if (card.conditions.exhausted) {
+    //       return '0.3'
+    //     }
+    // }
+    // return '1'
   }
 
   _cardPartValue(card, valueType) {

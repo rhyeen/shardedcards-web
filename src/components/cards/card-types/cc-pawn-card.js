@@ -40,6 +40,7 @@ class CcPawnCard extends LitElement {
           border-radius: 8px;
           background-color: var(${CardRarityColor(card.rarity)});
           padding: var(--card-padding);
+          opacity: ${this._getOpacity(card)};
         }
 
         header,
@@ -81,5 +82,12 @@ class CcPawnCard extends LitElement {
     card: Object,
     cardversion: Number
   }};
+  
+  _getOpacity(card) {
+    if (!card || !card.conditions) {
+      return '1';
+    }
+    return card.conditions.exhausted ? '0.5' : '1';
+  }
 }
 window.customElements.define('cc-pawn-card', CcPawnCard);
