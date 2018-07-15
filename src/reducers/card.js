@@ -431,6 +431,7 @@ const app = (state = defaultState, action) => {
         card = state.cards[cardId]
         for (cardInstance in card.instances) {
           card.instances[cardInstance].conditions.exhausted = false
+          card.instances[cardInstance].conditions.shield = 0
           card.instances[cardInstance].version += 1
         }
       }
