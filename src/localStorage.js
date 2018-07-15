@@ -24,8 +24,8 @@ export const loadState = () => {
     if (state.status) {
       delete state.status;
     }
-    if (state.action) {
-      delete state.action;
+    if (state.turnaction) {
+      delete state.turnaction;
     }
     return state;
   } else {

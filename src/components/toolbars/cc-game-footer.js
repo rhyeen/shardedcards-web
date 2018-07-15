@@ -5,6 +5,11 @@ import './cc-draw-pile-bar-item.js';
 import './cc-discard-pile-bar-item.js';
 import './cc-lost-pile-bar-item.js';
 
+import { store } from '../../store.js';
+
+import { EndTurn } from '../../actions/turnaction.js';
+import { ClearHand } from '../../actions/card.js';
+
 export class CcGameFooter extends LitElement {
   _render() {
     return html`
@@ -35,7 +40,8 @@ export class CcGameFooter extends LitElement {
   }};
 
   _endTurn() {
-
+    store.dispatch(ClearHand())
+    store.dispatch(EndTurn(store.getState().turnaction.pendingTurn))
   }
 }
 

@@ -10,7 +10,9 @@ import {
   CANCEL_SELECT_OPPONENT_FIELD_CARD,
   SELECT_PLAYER_FIELD_CARD,
   CANCEL_SELECT_PLAYER_FIELD_CARD,
-  ATTACK_CARD } from '../actions/card.js';
+  ATTACK_CARD,
+  CLEAR_HAND,
+  SET_HAND } from '../actions/card.js';
 
 import {
   CARD_RARITY_UNDEFINED,
@@ -411,6 +413,16 @@ const app = (state = defaultState, action) => {
           instance: null,
           playAreaIndex: null
         }
+      }
+    case CLEAR_HAND:
+      return {
+        ...state,
+        hand: []
+      }
+    case SET_HAND:
+      return {
+        ...state,
+        hand: action.hand
       }
     default:
       return state;
