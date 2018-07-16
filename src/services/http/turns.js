@@ -4,6 +4,6 @@ export const CallHttpEndTurn = (turn) => {
   return BaseHttpPost('turns', turn)
 }
 
-export const CallStartGame = () => {
+export const CallHttpStartGame = () => {
   return BaseHttpPost('games')
 }
