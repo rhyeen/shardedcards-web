@@ -1,8 +1,11 @@
 import { LitElement, html } from '@polymer/lit-element';
 import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-class CcCardBacklog extends LitElement {
-  _render({card}) {
+import { connect } from 'pwa-helpers/connect-mixin';
+import { store } from '../../../store.js';
+
+class CcCardBacklog extends connect(store)(LitElement) {
+  _render({_backlogNumber}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -31,12 +34,17 @@ class CcCardBacklog extends LitElement {
       </style>
 
       <div card-banner></div>
-      <div backlog-amount>${Math.floor(Math.random() * 25)}</div>
+      <div backlog-amount>${_backlogNumber}</div>
     `;
   };
   
   static get properties() { return {
-    card: Object
+    playareaindex: Number,
+    _backlogNumber: Number
   }};
+
+  _stateChanged(state) {
+    this._backlogNumber = state.card.opponentFieldBacklog[this.playareaindex]
+  }
 }
 window.customElements.define('cc-card-backlog', CcCardBacklog);

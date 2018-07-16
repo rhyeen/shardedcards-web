@@ -12,7 +12,7 @@ import {
 
 class CcReplaceCard extends LitElement {
   _render({replacing, replaced}) {
-    const replacedResultHtml = this._getReplacedResultHtml()
+    const replacedResultHtml = this._getReplacedResultHtml(replaced)
     const replacingResultHtml = this._getReplacingResultHtml(replacing, replaced)
 
     return html`
@@ -31,6 +31,10 @@ class CcReplaceCard extends LitElement {
           display: flex;
           flex-direction: column;
         }
+
+        .overlay-card-separator {
+          opacity: ${this._getCardSeparatorOpacity(replaced)};
+        }
       </style>
       
       <div class="overlay-card-top">
@@ -48,6 +52,10 @@ class CcReplaceCard extends LitElement {
     replaced: Object
   }};
 
+  _getCardSeparatorOpacity(replaced) {
+    return !replaced ? '0' : '1'
+  }
+
   _getReplacingResultHtml(replacing, replaced) {
     const _replacing = GetReplacingCardResults(replacing, replaced)
     let currentShield = 0
@@ -61,7 +69,10 @@ class CcReplaceCard extends LitElement {
     return this._getArmorResultHtml(newShield - currentShield)
   }
 
-  _getReplacedResultHtml() {
+  _getReplacedResultHtml(replaced) {
+    if (!replaced) {
+      return html``
+    }
     return html`${DeadIcon()}`
   }
 

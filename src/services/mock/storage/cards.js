@@ -21,7 +21,8 @@ const cards = {
         range: 1,
         health: 5,
         attack: 3,
-        version: 0
+        version: 0,
+        conditions: {}
       },
       '1': {
         title: 'Hello World',

@@ -7,12 +7,16 @@ import {
   DebugSuccessfulResponse,
   POST_CALLBACK_TIME } from './mock.js';
 
+import {
+  RedrawHand } from './storage/actions.js'; 
+
 import { InitializeCards } from './storage/actions.js';
 
 export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockEndTurn, turn)
     setTimeout(() => {
+      RedrawHand()
       const response = [
         {
           type: ATTACK_CARD,

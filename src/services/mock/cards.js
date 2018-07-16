@@ -20,7 +20,14 @@ export const CallMockGetOpponentField = () => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockGetOpponentField)
     setTimeout(() => {
-      const response = storage.card.opponentField
+      const response = {
+        opponentField: storage.card.opponentField,
+        opponentFieldBacklog: [
+          storage.card.opponentBacklog[0].length,
+          storage.card.opponentBacklog[1].length,
+          storage.card.opponentBacklog[2].length
+        ]
+      }
       DebugSuccessfulResponse(CallMockGetOpponentField, response)
       resolve(response)
     }, GET_CALLBACK_TIME)

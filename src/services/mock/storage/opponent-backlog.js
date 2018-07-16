@@ -22,9 +22,9 @@ const genericBacklog = [
 ]
 
 const opponentBacklog = {
-  leftOpponentBacklog: genericBacklog,
-  middleOpponentBacklog: genericBacklog,
-  rightOpponentBacklog: genericBacklog,
+  leftOpponentBacklog: genericBacklog.slice(),
+  middleOpponentBacklog: genericBacklog.slice(),
+  rightOpponentBacklog: genericBacklog.slice(),
 }
 
 export default opponentBacklog;

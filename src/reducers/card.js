@@ -66,6 +66,9 @@ const defaultState = {
       instance: null,      
     }
   ],
+  opponentFieldBacklog: [
+    0, 0, 0
+  ],
   opponentField: [
     {
       id: null,
@@ -280,7 +283,8 @@ const app = (state = defaultState, action) => {
     case SET_OPPONENT_FIELD:
       return {
         ...state,
-        opponentField: action.opponentField
+        opponentField: action.opponentField,
+        opponentFieldBacklog: action.opponentFieldBacklog
       }
     default:
       return state;
