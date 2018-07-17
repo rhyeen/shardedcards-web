@@ -58,6 +58,10 @@ class CcCardStaticValue extends LitElement {
         flex-direction: column;
       }
 
+      [card-part].no-value-card-part {
+        display: none;
+      }
+
       [card-part] .icon .background-svg-icon {
         fill: var(--default-svg-color);
       }
@@ -68,7 +72,7 @@ class CcCardStaticValue extends LitElement {
       }
       </style>
 
-      <div card-part class$="${this._cardPartClasses(stack, reduced)}">
+      <div card-part class$="${this._cardPartClasses(card, valueType, stack, reduced)}">
         <div class="current">${this._cardPartValue(card, valueType)}</div>
         <div class="icon">${this._cardPartIcon(valueType)}</div>
       </div>
@@ -143,13 +147,17 @@ class CcCardStaticValue extends LitElement {
     return iconFunction('background-svg-icon')
   }
 
-  _cardPartClasses(stack, reduced) {
+  _cardPartClasses(card, valueType, stack, reduced) {
     const classes = [];
     if (stack) {
       classes.push('stack-card-part')
     }
     if (reduced) {
       classes.push('reduced-card-part')      
+    }
+    const cardValue = this._cardPartValue(card, valueType)
+    if (!cardValue && cardValue !== 0) {
+      classes.push('no-value-card-part')
     }
     return classes.join(' ');
   }

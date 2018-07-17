@@ -36,6 +36,8 @@ const _setCardInstance = (cards, idInstance, catalog) => {
     cards[cardId].instances = {}
   }
   cards[cardId].instances[idInstance.instance] = JSON.parse(JSON.stringify(cards[cardId]))
+  cards[cardId].instances[idInstance.instance].conditions = {}
+  delete cards[cardId].instances[idInstance.instance].instances
 }
 
 export const InitializeCards = () => {

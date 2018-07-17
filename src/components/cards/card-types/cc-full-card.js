@@ -13,6 +13,10 @@ import {
 
 import '../card-parts/cc-card-conditions.js';
 
+import {
+  OPPONENT_OWNER,
+  PLAYER_OWNER } from '../../../data/owner.js';
+
 class CcFullCard extends LitElement {
   _render({card, cardversion}) {
     return html`
@@ -85,6 +89,7 @@ class CcFullCard extends LitElement {
   
   static get properties() { return {
     card: Object,
+    owner: String,
     cardversion: Number
   }};
 }

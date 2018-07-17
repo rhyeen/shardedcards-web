@@ -269,6 +269,10 @@ const app = (state = defaultState, action) => {
       for (cardId in state.cards) {
         card = state.cards[cardId]
         for (cardInstance in card.instances) {
+          // @DEBUG:
+          if (!cardInstance || !card.instances[cardInstance]) {
+            debugger
+          }
           card.instances[cardInstance].conditions.exhausted = false
           card.instances[cardInstance].conditions.shield = 0
           card.instances[cardInstance].version += 1
@@ -297,7 +301,7 @@ function _addOpponentFieldCards(state, cards) {
     if (!(cardId in state.cards)) {
       state.cards[cardId] = cards[cardId]
     }
-    for (let cardInstance in cards[cardId]) {
+    for (let cardInstance in cards[cardId].instances) {
       state.cards[cardId].instances[cardInstance] = cards[cardId].instances[cardInstance]
     }
   }

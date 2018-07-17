@@ -11,6 +11,8 @@ import {
 import {
   AllocateEnergy } from '../../../actions/status.js';
 
+import { PLAYER_OWNER } from '../../../data/owner.js';  
+
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';
 
@@ -39,7 +41,10 @@ export class CcHandCardPane extends connect(store)(LitElement) {
           margin-left: 20px;
         }
       </style>
-      <cc-full-card card="${_selectedCard}" cardversion$="${_selectedCard.version}"></cc-full-card>
+      <cc-full-card
+          card="${_selectedCard}"
+          cardversion$="${_selectedCard.version}"
+          owner="${PLAYER_OWNER}"></cc-full-card>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
         <cc-btn btntype="play" on-click="${() => this._play()}" disabled?="${_cannotAfford}"></cc-btn>
