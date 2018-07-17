@@ -4,6 +4,9 @@ import {
   GET_CALLBACK_TIME } from './mock.js';
 
 import {default as storage} from './storage/storage.js';
+import {
+  GetOpponentField,
+  GetOpponentFieldCards } from './storage/actions.js';
 
 export const CallMockGetHand = (turn) => {
   return new Promise((resolve, reject) => {
@@ -21,12 +24,13 @@ export const CallMockGetOpponentField = () => {
     DebugRequest(CallMockGetOpponentField)
     setTimeout(() => {
       const response = {
-        opponentField: storage.card.opponentField,
+        opponentField: GetOpponentField(),
         opponentFieldBacklog: [
           storage.card.opponentBacklog[0].length,
           storage.card.opponentBacklog[1].length,
           storage.card.opponentBacklog[2].length
-        ]
+        ],
+        opponentFieldCards: GetOpponentFieldCards()
       }
       DebugSuccessfulResponse(CallMockGetOpponentField, response)
       resolve(response)

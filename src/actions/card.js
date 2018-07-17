@@ -146,10 +146,11 @@ const _setCards = (cards) => {
   }
 }
 
-const _setOpponentField = ({opponentField, opponentFieldBacklog}) => {
+const _setOpponentField = ({opponentField, opponentFieldBacklog, opponentFieldCards}) => {
   return {
     type: SET_OPPONENT_FIELD,
     opponentField,
-    opponentFieldBacklog
+    opponentFieldBacklog,
+    opponentFieldCards
   }
 }

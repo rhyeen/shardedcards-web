@@ -1,15 +1,14 @@
 import {default as initialCards} from './cards.js';
 import {default as initialDeck} from './deck.js';
-import {default as opponentBacklog} from './opponent-backlog.js';
+import {default as opponentCards} from './opponent-cards.js';
 
 const storage = {
   card: {
     cards: initialCards,
     deck: initialDeck,
+    opponentCards,
     opponentBacklog: [
-      opponentBacklog.leftOpponentBacklog,
-      opponentBacklog.middleOpponentBacklog,
-      opponentBacklog.rightOpponentBacklog
+      [], [], []
     ],
     discardPile: [],
     hand: [],

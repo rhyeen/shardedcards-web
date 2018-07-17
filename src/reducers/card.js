@@ -281,13 +281,25 @@ const app = (state = defaultState, action) => {
         cards: action.cards
       }
     case SET_OPPONENT_FIELD:
+    _addOpponentFieldCards(state, action.opponentFieldCards)
       return {
         ...state,
         opponentField: action.opponentField,
-        opponentFieldBacklog: action.opponentFieldBacklog
+        opponentFieldBacklog: action.opponentFieldBacklog,
       }
     default:
       return state;
+  }
+}
+
+function _addOpponentFieldCards(state, cards) {
+  for (let cardId in cards) {
+    if (!(cardId in state.cards)) {
+      state.cards[cardId] = cards[cardId]
+    }
+    for (let cardInstance in cards[cardId]) {
+      state.cards[cardId].instances[cardInstance] = cards[cardId].instances[cardInstance]
+    }
   }
 }
 
