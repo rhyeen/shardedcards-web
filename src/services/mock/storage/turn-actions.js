@@ -10,7 +10,7 @@ import {
 import {default as storage} from './storage.js';
 
 export const RecordPlayerTurn = (turn) => {
-  for (action in turn) {
+  for (let action in turn) {
     _recordPlayerAction(action)
   }
 }

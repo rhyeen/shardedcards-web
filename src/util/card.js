@@ -82,7 +82,7 @@ export function RefreshPlayerCards(cards, hand, playerField) {
   for (let card in hand) {
     _refreshCard(cards, card.id, card.instance)
   }
-  for (let card in playerField) {
+  for (let card of playerField) {
     _refreshCard(cards, card.id, card.instance)    
   }
 }
@@ -101,7 +101,7 @@ export function GetCard(cards, cardId, cardInstance) {
   if (!cardId || !cards[cardId] || !cards[cardId].instances) {
     return null
   }
-  return !cards[cardId].instances[cardInstance]
+  return cards[cardId].instances[cardInstance]
 }
 
 export function GetParentCard(cards, cardId) {
@@ -112,7 +112,7 @@ export function GetParentCard(cards, cardId) {
 }
 
 export function RefreshOpponentCards(cards, opponentField) {
-  for (let card in opponentField) {
+  for (let card of opponentField) {
     _refreshCard(cards, card.id, card.instance)    
   }
 }

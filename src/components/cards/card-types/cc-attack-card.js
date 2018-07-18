@@ -4,7 +4,7 @@ import {
 
 import {
   GetAttackingCardResults,
-  GetAttackedCardResults } from '../../../reducers/card.js';
+  GetAttackedCardResults } from '../../../util/card.js';
 
 import {
   DeadIcon,

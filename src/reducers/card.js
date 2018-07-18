@@ -214,7 +214,7 @@ const app = (state = defaultState, action) => {
         }
       }
     case ATTACK_CARD:
-      AttackOpponentCardResults(state, state.playFromPlayArea.playAreaIndex, state.playAreaIndex)
+      AttackOpponentCardResults(state, state.playFromPlayArea.playAreaIndex, action.playAreaIndex)
       return {
         ...state,
         playFromPlayArea: {
