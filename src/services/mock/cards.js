@@ -7,7 +7,7 @@ import {
 import {default as storage} from './storage/storage.js';
 import {
   GetOpponentField,
-  GetOpponentFieldCards } from './storage/actions.js';
+  GetOpponentFieldCards } from './storage/card-actions.js';
 
 export const CallMockGetHand = (turn) => {
   return new Promise((resolve, reject) => {

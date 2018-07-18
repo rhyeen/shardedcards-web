@@ -1,37 +1,26 @@
-import {
-  ATTACK_CARD,
-  PLACE_ON_PLAY_AREA } from '../../actions/card.js';
-
 import { 
   DebugRequest,
   DebugSuccessfulResponse,
   PrepareResponse,
   POST_CALLBACK_TIME } from './mock.js';
 
-import {
-  RedrawHand } from './storage/actions.js'; 
+import { 
+  RedrawHand,
+  InitializeCards } from './storage/card-actions.js';
 
-import { InitializeCards } from './storage/actions.js';
+import {
+  RecordPlayerTurn, 
+  GetOpponentTurn } from './storage/turn-actions.js';
 
 export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockEndTurn, turn)
     setTimeout(() => {
       RedrawHand()
-      const response = [
-        {
-          type: ATTACK_CARD,
-          playerFieldCardIndex: 0,
-          opponentFieldCardIndex: 1
-        },
-        {
-          type: PLACE_ON_PLAY_AREA,
-          playerFieldCardIndex: 0,
-          handCardIndex: 4
-        }
-      ]
-      DebugSuccessfulResponse(CallMockEndTurn, response)
-      resolve(PrepareResponse(response))
+      RecordPlayerTurn(turn)
+      opponentTurn = GetOpponentTurn()
+      DebugSuccessfulResponse(CallMockEndTurn, opponentTurn)
+      resolve(PrepareResponse(opponentTurn))
     }, POST_CALLBACK_TIME)
   })
 }
