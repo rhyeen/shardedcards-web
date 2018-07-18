@@ -130,7 +130,7 @@ export const InitializeCards = () => (dispatch) => {
     .then(results => {
       dispatch(_setCards(results[0]))
       dispatch(SetHand(results[1]))
-      dispatch(_setOpponentField(results[2]))
+      dispatch(SetOpponentField(results[2]))
     })
     .catch(err => {
       console.error(err)
@@ -146,7 +146,7 @@ const _setCards = (cards) => {
   }
 }
 
-const _setOpponentField = ({opponentField, opponentFieldBacklog, opponentFieldCards}) => {
+export const SetOpponentField = ({opponentField, opponentFieldBacklog, opponentFieldCards}) => {
   return {
     type: SET_OPPONENT_FIELD,
     opponentField,

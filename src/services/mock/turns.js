@@ -5,6 +5,7 @@ import {
 import { 
   DebugRequest,
   DebugSuccessfulResponse,
+  PrepareResponse,
   POST_CALLBACK_TIME } from './mock.js';
 
 import {
@@ -30,7 +31,7 @@ export const CallMockEndTurn = (turn) => {
         }
       ]
       DebugSuccessfulResponse(CallMockEndTurn, response)
-      resolve(response)
+      resolve(PrepareResponse(response))
     }, POST_CALLBACK_TIME)
   })
 }

@@ -14,3 +14,7 @@ export const DebugSuccessfulResponse = (callFunction, responseData) => {
     console.log(responseData)
   }
 }
+
+export const PrepareResponse = (response) => {
+  return JSON.parse(JSON.stringify(response))
+}

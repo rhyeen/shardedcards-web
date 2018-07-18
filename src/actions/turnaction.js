@@ -1,8 +1,9 @@
 import { CallEndTurn } from '../services/turnaction.js';
-import { CallGetHand } from '../services/card.js';
+import { CallGetHand, CallGetOpponentField } from '../services/card.js';
 import { 
   SetHand,
-  RefreshCards } from './card.js';
+  RefreshCards,
+  SetOpponentField } from './card.js';
 import { ResetEnergy } from './status.js';
 
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
@@ -45,7 +46,10 @@ export const EndTurn = (turn) => (dispatch) => {
       dispatch(RefreshCards())
       CallGetHand()
       .then(hand => dispatch(SetHand(hand)))
-      .catch(err => console.error(err)) 
+      .catch(err => console.error(err))
+      CallGetOpponentField()
+      .then(opponentField => dispatch(SetOpponentField(opponentField)))
+      .catch(err => console.error(err))
     })
     .catch(err => {
       console.error(err)

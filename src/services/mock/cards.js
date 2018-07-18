@@ -1,6 +1,7 @@
 import { 
   DebugRequest,
   DebugSuccessfulResponse,
+  PrepareResponse,
   GET_CALLBACK_TIME } from './mock.js';
 
 import {default as storage} from './storage/storage.js';
@@ -14,7 +15,7 @@ export const CallMockGetHand = (turn) => {
     setTimeout(() => {
       const response = storage.card.hand
       DebugSuccessfulResponse(CallMockGetHand, response)
-      resolve(response)
+      resolve(PrepareResponse(response))
     }, GET_CALLBACK_TIME)
   })
 }
@@ -33,7 +34,7 @@ export const CallMockGetOpponentField = () => {
         opponentFieldCards: GetOpponentFieldCards()
       }
       DebugSuccessfulResponse(CallMockGetOpponentField, response)
-      resolve(response)
+      resolve(PrepareResponse(response))
     }, GET_CALLBACK_TIME)
   })
 }
@@ -44,7 +45,7 @@ export const CallMockGetCards = () => {
     setTimeout(() => {
       const response = storage.card.cards
       DebugSuccessfulResponse(CallMockGetCards, response)
-      resolve(response)
+      resolve(PrepareResponse(response))
     }, GET_CALLBACK_TIME)
   })
 }
