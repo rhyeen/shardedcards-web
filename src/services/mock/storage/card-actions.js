@@ -4,7 +4,10 @@ import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../../data/card-rarity.js';
+  CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
+
+import {
+  RefreshOpponentCards } from '../../../util/card.js';
 
 export const OPPONENT_BACKLOG_COMMON_SIZE = 12;
 export const OPPONENT_BACKLOG_RARE_SIZE = 8;
@@ -190,6 +193,7 @@ export const RefreshOpponentField = () => {
   _refreshOpponentField(0)
   _refreshOpponentField(1)
   _refreshOpponentField(2)
+  RefreshOpponentCards(storage.card.opponentCards, storage.card.opponentField)
 }
 
 const _refreshOpponentField = (playFieldIndex)  => {

@@ -3,7 +3,6 @@
   "shell": "src/app/cc-app.js",
   "sources": [
     "images/**/*",
-    "src/data/*",
     "_redirects"
   ],
   "extraDependencies": [

@@ -10,7 +10,8 @@ import {
 
 import {
   RecordPlayerTurn, 
-  GetOpponentTurn } from './storage/turn-actions.js';
+  GetOpponentTurn,
+  RefreshCards } from './storage/turn-actions.js';
 
 export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
@@ -18,6 +19,7 @@ export const CallMockEndTurn = (turn) => {
     setTimeout(() => {
       RedrawHand()
       RecordPlayerTurn(turn)
+      RefreshCards()
       opponentTurn = GetOpponentTurn()
       DebugSuccessfulResponse(CallMockEndTurn, opponentTurn)
       resolve(PrepareResponse(opponentTurn))

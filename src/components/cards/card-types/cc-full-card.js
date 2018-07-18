@@ -15,7 +15,7 @@ import '../card-parts/cc-card-conditions.js';
 
 import {
   OPPONENT_OWNER,
-  PLAYER_OWNER } from '../../../data/owner.js';
+  PLAYER_OWNER } from '../../../util/owner.js';
 
 class CcFullCard extends LitElement {
   _render({card, cardversion}) {

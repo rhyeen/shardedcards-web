@@ -11,7 +11,7 @@ import {
 import {
   AllocateEnergy } from '../../../actions/status.js';
 
-import { PLAYER_OWNER } from '../../../data/owner.js';  
+import { PLAYER_OWNER } from '../../../util/owner.js';  
 
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';

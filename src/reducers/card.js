@@ -18,11 +18,9 @@ import {
   SET_OPPONENT_FIELD } from '../actions/card.js';
 
 import {
-  CARD_RARITY_UNDEFINED,
-  CARD_RARITY_COMMON,
-  CARD_RARITY_RARE,
-  CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../data/card-rarity.js';
+  PlaceOnPlayAreaResults,
+  RefreshPlayerCards,
+  AttackOpponentCardResults } from '../util/card.js';
 
 const defaultState = {
   selectedHandCard: {
@@ -51,7 +49,9 @@ const defaultState = {
     playAreaIndex: null
   },
   cards: {},
+  opponentCards: {},
   hand: [],
+  handSize: 5,
   playerField: [
     {
       id: null,
@@ -86,14 +86,7 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let handIndex
-  let cardId
-  let cardInstance
-  let card
-  let attackedCard
-  let attackingCard
-  let replacingCard
-  let replacedCard
+  let handIndex, cardId, cardInstance
   switch (action.type) {
     case SELECT_HAND_CARD:
       state.hand.splice(action.handIndex, 1)
@@ -148,27 +141,21 @@ const app = (state = defaultState, action) => {
       }
       return state
     case PLACE_ON_PLAY_AREA:
-      cardId = state.playFromHand.id
-      cardInstance = state.playFromHand.instance
-      replacingCard = getCard(state, cardId, cardInstance)
-      cardId = state.playerField[action.playAreaIndex].id
-      if (cardId) {
-        cardInstance = state.playerField[action.playAreaIndex].instance
-        replacedCard = getCard(state, cardId, cardInstance)
-      } else {
-        replacedCard = null
-      }
-      GetReplacingCardResults(replacingCard, replacedCard, true)
-      state.playerField[action.playAreaIndex] = {
+      // @NOTE: need to temporarily add card back in hand so the helper function can find it.
+      // the helper function will remove it in the end.
+      state.hand.splice(state.playFromHand.handIndex, 0, {
         id: state.playFromHand.id,
         instance: state.playFromHand.instance
+      })
+      PlaceOnPlayAreaResults(state, action.playAreaIndex, state.playFromHand.handIndex)
+      return {
+        ...state,
+        playFromHand: {
+          id: null,
+          instance: null,
+          handIndex: null
+        }
       }
-      state.playFromHand = {
-        id: null,
-        instance: null,
-        handIndex: null
-      }
-      return state
     case PLAY_FROM_PLAY_AREA:
       return {
         ...state,
@@ -227,26 +214,7 @@ const app = (state = defaultState, action) => {
         }
       }
     case ATTACK_CARD:
-      cardId = state.playerField[state.playFromPlayArea.playAreaIndex].id
-      cardInstance = state.playerField[state.playFromPlayArea.playAreaIndex].instance
-      attackingCard = getCard(state, cardId, cardInstance)
-      cardId = state.opponentField[action.playAreaIndex].id
-      cardInstance = state.opponentField[action.playAreaIndex].instance
-      attackedCard = getCard(state, cardId, cardInstance)
-      GetAttackedCardResults(attackingCard, attackedCard, true)
-      GetAttackingCardResults(attackingCard, attackedCard, true)
-      if (attackedCard.health <= 0) {
-        state.opponentField[action.playAreaIndex] = {
-          id: null,
-          instance: null
-        }
-      }
-      if (attackingCard.health <= 0) {
-        state.playerField[state.playFromPlayArea.playAreaIndex] = {
-          id: null,
-          instance: null
-        }
-      }
+      AttackOpponentCardResults(state, state.playFromPlayArea.playAreaIndex, state.playAreaIndex)
       return {
         ...state,
         playFromPlayArea: {
@@ -266,18 +234,7 @@ const app = (state = defaultState, action) => {
         hand: action.hand
       }
     case REFRESH_CARDS:
-      for (cardId in state.cards) {
-        card = state.cards[cardId]
-        for (cardInstance in card.instances) {
-          // @DEBUG:
-          if (!cardInstance || !card.instances[cardInstance]) {
-            debugger
-          }
-          card.instances[cardInstance].conditions.exhausted = false
-          card.instances[cardInstance].conditions.shield = 0
-          card.instances[cardInstance].version += 1
-        }
-      }
+      RefreshPlayerCards(state.cards, state.hand, state.playerField)
       return state
     case SET_CARDS:
       return {
@@ -285,7 +242,7 @@ const app = (state = defaultState, action) => {
         cards: action.cards
       }
     case SET_OPPONENT_FIELD:
-    _addOpponentFieldCards(state, action.opponentFieldCards)
+      _addOpponentFieldCards(state, action.opponentFieldCards)
       return {
         ...state,
         opponentField: action.opponentField,
@@ -299,95 +256,12 @@ const app = (state = defaultState, action) => {
 function _addOpponentFieldCards(state, cards) {
   for (let cardId in cards) {
     if (!(cardId in state.cards)) {
-      state.cards[cardId] = cards[cardId]
+      state.opponentCards[cardId] = cards[cardId]
     }
     for (let cardInstance in cards[cardId].instances) {
-      state.cards[cardId].instances[cardInstance] = cards[cardId].instances[cardInstance]
+      state.opponentCards[cardId].instances[cardInstance] = cards[cardId].instances[cardInstance]
     }
   }
-}
-
-function getCard(state, cardId, cardInstance) {
-  return state.cards[cardId].instances[cardInstance]
-}
-
-export function GetAttackingCardResults(attacking, attacked, modifyOriginals) {
-  if (!modifyOriginals) {
-    const _attacking = _getAttackResults(attacked, attacking, modifyOriginals)
-    _attacking.conditions.exhausted = true
-    return _attacking
-  } else {
-    _setAttackResults(attacked, attacking)
-    attacking.conditions.exhausted = true
-    return
-  }
-}
-
-function _getAttackResults(attacking, attacked) {
-  const _attacked = {
-    ...attacked,
-    conditions: {
-      ...attacked.conditions
-    }
-  }
-  _setAttackResults(attacking, _attacked)
-  return _attacked
-}
-
-function _setAttackResults(attacking, attacked) {
-  if (!attacked.conditions.shield) {
-    attacked.conditions.shield = 0
-  }
-  if (attacked.conditions.shield >= attacking.attack) {
-    attacked.conditions.shield -= attacking.attack
-  } else {
-    attacked.health -= attacking.attack - attacked.conditions.shield
-    attacked.conditions.shield = 0
-  }
-  attacked.version += 1
-}
-
-export function GetAttackedCardResults(attacking, attacked, modifyOriginals) {
-  if (!modifyOriginals) {
-    return _getAttackResults(attacking, attacked, modifyOriginals)
-  } else {
-    return _setAttackResults(attacking, attacked)    
-  }
-}
-
-export function GetReplacingCardResults(replacing, replaced, modifyOriginals) {
-  if (!modifyOriginals) {
-    return _getReplaceResults(replacing, replaced)
-  } else {
-    return _setReplaceResults(replacing, replaced)
-  }
-}
-
-function _getReplaceResults(replacing, replaced) {
-  const _replacing = {
-    ...replacing,
-    conditions: {
-      ...replacing.conditions
-    }
-  }
-  _setReplaceResults(_replacing, replaced)
-  return _replacing
-}
-
-function _setReplaceResults(replacing, replaced) {
-  if (replaced) {
-    let shield = replaced.health
-    if (replaced.conditions.shield) {
-      shield += replaced.conditions.shield
-    }
-    if (replacing.conditions.shield) {
-      replacing.conditions.shield += shield
-    } else {
-      replacing.conditions.shield = shield
-    }
-  }
-  replacing.conditions.exhausted = true
-  replacing.version += 1
 }
 
 export default app;

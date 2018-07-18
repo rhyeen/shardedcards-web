@@ -15,7 +15,7 @@ import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../data/card-rarity.js';
+  CARD_RARITY_LEGENDARY } from '../../util/card-rarity.js';
 
 export const CARD_RARITY_UNDEFINED_COLOR = '--card-rarity-undefined-color';
 export const CARD_RARITY_COMMON_COLOR = '--card-rarity-common-color';

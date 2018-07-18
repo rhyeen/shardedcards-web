@@ -7,12 +7,19 @@ import {
 import {default as storage} from './storage/storage.js';
 import {
   GetOpponentField,
-  GetOpponentFieldCards } from './storage/card-actions.js';
+  GetOpponentFieldCards,
+  RefreshPlayerCards } from './storage/card-actions.js';
+
+import {
+  BeginPlayerTurn } from './storage/turn-actions.js';
 
 export const CallMockGetHand = (turn) => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockGetHand, turn)
     setTimeout(() => {
+      // @NOTE: may not be the best spot to refresh the player cards, but it needs to happen at
+      // the beginning of the player's turn.
+      BeginPlayerTurn()
       const response = storage.card.hand
       DebugSuccessfulResponse(CallMockGetHand, response)
       resolve(PrepareResponse(response))

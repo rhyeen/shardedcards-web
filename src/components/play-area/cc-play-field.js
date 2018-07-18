@@ -10,7 +10,7 @@ import '../cards/card-types/cc-attack-card.js';
 
 import {
   PLAYER_OWNER,
-  OPPONENT_OWNER } from '../../data/owner.js';
+  OPPONENT_OWNER } from '../../util/owner.js';
 
 import { 
   PlaceOnPlayArea,
@@ -86,9 +86,9 @@ export class CcPlayField extends connect(store)(LitElement) {
         this._rightCard = this._getCard(state, state.card.playerField[2].id, state.card.playerField[2].instance)
         break;
       case OPPONENT_OWNER:
-        this._leftCard = this._getCard(state, state.card.opponentField[0].id, state.card.opponentField[0].instance)
-        this._middleCard = this._getCard(state, state.card.opponentField[1].id, state.card.opponentField[1].instance)
-        this._rightCard = this._getCard(state, state.card.opponentField[2].id, state.card.opponentField[2].instance)
+        this._leftCard = this._getOpponentCard(state, state.card.opponentField[0].id, state.card.opponentField[0].instance)
+        this._middleCard = this._getOpponentCard(state, state.card.opponentField[1].id, state.card.opponentField[1].instance)
+        this._rightCard = this._getOpponentCard(state, state.card.opponentField[2].id, state.card.opponentField[2].instance)
         break;
       default:
         console.error(`Invalid owner: ${this.owner}`)
@@ -119,6 +119,13 @@ export class CcPlayField extends connect(store)(LitElement) {
       return null
     }
     return state.card.cards[cardId].instances[cardInstance]
+  }
+
+  _getOpponentCard(state, cardId, cardInstance) {
+    if (!cardId) {
+      return null
+    }
+    return state.card.opponentCards[cardId].instances[cardInstance]
   }
 
   _getCardHtml(card, playAreaIndex) {

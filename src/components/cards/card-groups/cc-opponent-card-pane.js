@@ -7,7 +7,7 @@ import { store } from '../../../store.js';
 import { 
   CancelSelectOpponentFieldCard } from '../../../actions/card.js';
 
-import { OPPONENT_OWNER } from '../../../data/owner.js';
+import { OPPONENT_OWNER } from '../../../util/owner.js';
 
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';
@@ -62,7 +62,7 @@ export class CcOpponentCardPane extends connect(store)(LitElement) {
       this._selectedCard = {}
       return
     }
-    this._selectedCard = state.card.cards[cardid].instances[cardInstance]
+    this._selectedCard = state.card.opponentCards[cardid].instances[cardInstance]
   }
 }
 

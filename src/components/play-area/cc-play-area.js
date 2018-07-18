@@ -3,7 +3,7 @@ import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
 import {
   PLAYER_OWNER,
-  OPPONENT_OWNER } from '../../data/owner.js';
+  OPPONENT_OWNER } from '../../util/owner.js';
 
 import './cc-play-field.js';
 import './cc-play-field-backlog.js';

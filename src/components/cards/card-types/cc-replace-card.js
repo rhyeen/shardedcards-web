@@ -3,7 +3,7 @@ import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import {
-  GetReplacingCardResults } from '../../../reducers/card.js';
+  GetReplacingCardResults } from '../../../util/card.js';
 
 import {
   DeadIcon,
