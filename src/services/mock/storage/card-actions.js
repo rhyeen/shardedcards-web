@@ -34,14 +34,12 @@ const _setOpponentFieldCardInstance = (cards, playFieldIndex) => {
 
 const _setCardInstance = (cards, idInstance, catalog) => {
   const cardId = idInstance.id
+  const cardInstance = idInstance.instance
   if (!cards[cardId]) {
     cards[cardId] = JSON.parse(JSON.stringify(catalog[cardId]))
     cards[cardId].instances = {}
   }
-  cards[cardId].instances[idInstance.instance] = JSON.parse(JSON.stringify(cards[cardId]))
-  cards[cardId].instances[idInstance.instance].conditions = {}
-  cards[cardId].instances[idInstance.instance].version = 0
-  delete cards[cardId].instances[idInstance.instance].instances
+  cards[cardId].instances[cardInstance] = JSON.parse(JSON.stringify(catalog[cardId].instances[cardInstance]))
 }
 
 export const InitializeCards = () => {
@@ -64,6 +62,7 @@ const _prepareOpponentFieldBacklog = (playFieldIndex) => {
   backlog.push(..._getOpponentCardsByRarity(CARD_RARITY_EPIC, OPPONENT_BACKLOG_EPIC_SIZE, playFieldIndex))
   backlog.push(..._getOpponentCardsByRarity(CARD_RARITY_LEGENDARY, OPPONENT_BACKLOG_LEGENDARY_SIZE, playFieldIndex))
   storage.card.opponentBacklog[playFieldIndex] = backlog
+  _addOpponentFieldInstancesToOpponentCards(playFieldIndex)
 }
 
 /**
@@ -147,6 +146,22 @@ const _getOpponentCardsByRarityThenLevel = (rarity) => {
   }
   cardsByLevel.levels.sort()
   return cardsByLevel
+}
+
+const _addOpponentFieldInstancesToOpponentCards = (playFieldIndex) => {
+  for (let fieldCard of storage.card.opponentBacklog[playFieldIndex]) {
+    _addInstanceToCard(storage.card.opponentCards, fieldCard.id, fieldCard.instance)
+  }
+}
+
+const _addInstanceToCard = (cards, cardId, cardInstance) => {
+  if (!cards[cardId].instances) {
+    cards[cardId].instances = {}
+  }
+  cards[cardId].instances[cardInstance] = JSON.parse(JSON.stringify(cards[cardId]))
+  cards[cardId].instances[cardInstance].conditions = {}
+  cards[cardId].instances[cardInstance].version = 0
+  delete cards[cardId].instances[cardInstance].instances
 }
 
 export const ShuffleDrawDeck = () => {

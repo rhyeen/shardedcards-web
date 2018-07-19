@@ -7,7 +7,7 @@ import { store } from '../../../store.js';
 import { 
   CancelSelectPlayerFieldCard } from '../../../actions/card.js';
 
-import { PLAYER_OWNER } from '../../../data/owner.js';
+import { PLAYER_OWNER } from '../../../util/owner.js';
 
 import '../card-types/cc-full-card.js';
 import '../../global/cc-btn.js';

@@ -10,7 +10,7 @@ import {
 import {default as storage} from './storage.js';
 
 export const RecordPlayerTurn = (turn) => {
-  for (let action in turn) {
+  for (let action of turn) {
     _recordPlayerAction(action)
   }
 }
@@ -20,11 +20,13 @@ export const BeginPlayerTurn = () => {
 }
 
 const _recordPlayerAction = (action) => {
-  switch(action) {
+  switch(action.type) {
     case ATTACK_CARD:
       return _recordAttackCardAction(action)
     case PLACE_ON_PLAY_AREA:
       return _recordPlaceOnPlayAreaAction(action)
+    default:
+      console.error(`Unexpected action type: ${action.type}`)
   }
 }
 

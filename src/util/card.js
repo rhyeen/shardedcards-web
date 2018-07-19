@@ -140,8 +140,8 @@ export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardInde
   const cardInstance = state.playerField[playerFieldCardIndex].instance
   ResetCard(state.cards, cardId, cardInstance)
   state.playerField[playerFieldCardIndex] = {
-    id: state.playFromHand.id,
-    instance: state.playFromHand.instance
+    id: state.hand[handCardIndex].id,
+    instance: state.hand[handCardIndex].instance
   }
   state.hand.splice(handCardIndex, 1)
 }
