@@ -6,8 +6,8 @@ import {
   CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
 
 const cards = {
-  test: {
-    title: 'Hello World',
+  hello: {
+    title: 'Hello',
     rarity: CARD_RARITY_COMMON,
     cost: 3,
     range: 1,
@@ -15,7 +15,7 @@ const cards = {
     attack: 3,
     instances: {
       '0': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -25,7 +25,7 @@ const cards = {
         conditions: {}
       },
       '1': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -35,7 +35,7 @@ const cards = {
         conditions: {}
       },
       '2': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -45,7 +45,7 @@ const cards = {
         conditions: {}
       },
       '3': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -55,7 +55,7 @@ const cards = {
         conditions: {}
       },
       '4': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -65,7 +65,7 @@ const cards = {
         conditions: {}
       },
       '5': {
-        title: 'Hello World',
+        title: 'Hello',
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -77,7 +77,7 @@ const cards = {
     }
   },
   beast: {
-    title: 'Beast within',
+    title: 'Beast',
     rarity: CARD_RARITY_RARE,
     cost: 6,
     range: 2,
@@ -85,7 +85,7 @@ const cards = {
     attack: 2,
     instances: {
       '0': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -95,7 +95,7 @@ const cards = {
         conditions: {}
       },
       '1': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -105,7 +105,7 @@ const cards = {
         conditions: {}
       },
       '2': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -115,7 +115,7 @@ const cards = {
         conditions: {}
       },
       '3': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -125,7 +125,7 @@ const cards = {
         conditions: {}
       },
       '4': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -135,7 +135,7 @@ const cards = {
         conditions: {}
       },
       '5': {
-        title: 'Beast within',
+        title: 'Beast',
         rarity: CARD_RARITY_RARE,
         cost: 6,
         range: 2,
@@ -147,7 +147,7 @@ const cards = {
     }
   },
   hero: {
-    title: 'Hero within',
+    title: 'Hero',
     rarity: CARD_RARITY_EPIC,
     cost: 0,
     range: 3,
@@ -155,7 +155,7 @@ const cards = {
     attack: 3,
     instances: {
       '0': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -165,7 +165,7 @@ const cards = {
         conditions: {}
       },
       '1': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -175,7 +175,7 @@ const cards = {
         conditions: {}
       },
       '2': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -185,7 +185,7 @@ const cards = {
         conditions: {}
       },
       '3': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -195,7 +195,7 @@ const cards = {
         conditions: {}
       },
       '4': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -205,7 +205,7 @@ const cards = {
         conditions: {}
       },
       '5': {
-        title: 'Hero within',
+        title: 'Hero',
         rarity: CARD_RARITY_EPIC,
         cost: 0,
         range: 3,
@@ -217,7 +217,7 @@ const cards = {
     }
   },
   monster: {
-    title: 'Monster within',
+    title: 'Monster',
     rarity: CARD_RARITY_LEGENDARY,
     cost: 1,
     range: 1,
@@ -225,7 +225,7 @@ const cards = {
     attack: 3,
     instances: {
       '0': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -235,7 +235,7 @@ const cards = {
         conditions: {}
       },
       '1': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -245,7 +245,7 @@ const cards = {
         conditions: {}
       },
       '2': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -255,7 +255,7 @@ const cards = {
         conditions: {}
       },
       '3': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -265,7 +265,7 @@ const cards = {
         conditions: {}
       },
       '4': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -275,7 +275,7 @@ const cards = {
         conditions: {}
       },
       '5': {
-        title: 'Monster within',
+        title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
         cost: 1,
         range: 1,
@@ -287,7 +287,7 @@ const cards = {
     }
   },
   pawn: {
-    title: 'Pawn within',
+    title: 'Pawn',
     rarity: CARD_RARITY_UNDEFINED,
     cost: 3,
     range: 1,
@@ -295,7 +295,7 @@ const cards = {
     attack: 4,
     instances: {
       '0': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,
@@ -305,7 +305,7 @@ const cards = {
         conditions: {}
       },
       '1': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,
@@ -315,7 +315,7 @@ const cards = {
         conditions: {}
       },
       '2': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,
@@ -325,7 +325,7 @@ const cards = {
         conditions: {}
       },
       '3': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,
@@ -335,7 +335,7 @@ const cards = {
         conditions: {}
       },
       '4': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,
@@ -345,7 +345,7 @@ const cards = {
         conditions: {}
       },
       '5': {
-        title: 'Pawn within',
+        title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
         cost: 3,
         range: 1,

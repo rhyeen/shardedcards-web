@@ -108,7 +108,7 @@ export function GetParentCard(cards, cardId) {
   if (!cardId) {
     return null
   }
-  return !cards[cardId]
+  return cards[cardId]
 }
 
 export function RefreshOpponentCards(cards, opponentField) {
@@ -125,7 +125,7 @@ export function ResetCard(cards, cardId, cardInstance) {
   }
   card.conditions.exhausted = false
   card.conditions.shield = 0
-  card.verison += 1
+  card.version += 1
   card.health = parentCard.health
   card.attack = parentCard.attack
   card.range = parentCard.range
@@ -138,7 +138,7 @@ export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardInde
   GetReplacingCardResults(handCard, playerCard, true)
   const cardId = state.playerField[playerFieldCardIndex].id
   const cardInstance = state.playerField[playerFieldCardIndex].instance
-  ResetCard(state.cards, cardId, cardInstance)
+  AddCardToDiscardPile(state, cardId, cardInstance)
   state.playerField[playerFieldCardIndex] = {
     id: state.hand[handCardIndex].id,
     instance: state.hand[handCardIndex].instance
@@ -166,11 +166,24 @@ export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentF
   if (playerCard.health <= 0) {
     const cardId = state.playerField[playerFieldCardIndex].id
     const cardInstance = state.playerField[playerFieldCardIndex].instance
-    ResetCard(state.cards, cardId, cardInstance)
+    AddCardToDiscardPile(state, cardId, cardInstance)
     state.playerField[playerFieldCardIndex] = {
       id: null,
       instance: null
     }
+  }
+}
+
+export const AddCardToDiscardPile = (state, cardId, cardInstance) => {
+  if (!cardId) {
+    return
+  }
+  ResetCard(state.cards, cardId, cardInstance)
+  if (state.discardPile) {
+    state.discardPile.push({
+      id: cardId,
+      instance: cardInstance
+    })
   }
 }
 
@@ -236,4 +249,10 @@ const _playerCardCanAttackOpponent = (playerCard, playerFieldCardIndex, opponent
     return false
   }
   return true
+}
+
+export const ResetDiscardedHand = (hand, cards) => {
+  for (let card of hand) {
+    ResetCard(cards, card.id, card.instance)
+  }
 }

@@ -7,7 +7,7 @@ import {
   CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
 
 import {
-  RefreshOpponentCards } from '../../../util/card.js';
+  RefreshOpponentCards, ResetDiscardedHand } from '../../../util/card.js';
 
 export const OPPONENT_BACKLOG_COMMON_SIZE = 12;
 export const OPPONENT_BACKLOG_RARE_SIZE = 8;
@@ -45,7 +45,6 @@ const _setCardInstance = (cards, idInstance, catalog) => {
 export const InitializeCards = () => {
   PrepareOpponentFieldBacklogs()
   ShuffleDrawDeck()
-  RedrawHand()
   RefreshOpponentField()
 }
 
@@ -183,6 +182,7 @@ export const ShuffleDiscardIntoDrawDeck = () => {
 }
 
 export const RedrawHand = () => {
+  ResetDiscardedHand(storage.card.hand, storage.card.cards)
   storage.card.discardPile.push.apply(storage.card.discardPile, storage.card.hand)
   storage.card.hand = []
   DrawCards(storage.card.handSize)

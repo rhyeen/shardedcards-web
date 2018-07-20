@@ -20,7 +20,8 @@ import {
 import {
   PlaceOnPlayAreaResults,
   RefreshPlayerCards,
-  AttackOpponentCardResults } from '../util/card.js';
+  AttackOpponentCardResults,
+  ResetDiscardedHand } from '../util/card.js';
 
 const defaultState = {
   selectedHandCard: {
@@ -224,6 +225,7 @@ const app = (state = defaultState, action) => {
         }
       }
     case CLEAR_HAND:
+      ResetDiscardedHand(state.hand, state.cards)
       return {
         ...state,
         hand: []

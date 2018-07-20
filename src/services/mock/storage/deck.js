@@ -8,7 +8,7 @@ const deck = [
     instance: '1'
   },
   {
-    id: 'test',
+    id: 'hello',
     instance: '2'
   },
   {
@@ -28,7 +28,7 @@ const deck = [
     instance: '3'
   },
   {
-    id: 'test',
+    id: 'hello',
     instance: '4'
   },
   {
@@ -38,14 +38,6 @@ const deck = [
   {
     id: 'pawn',
     instance: '4'
-  },
-  {
-    id: 'monster',
-    instance: '4'
-  },
-  {
-    id: 'beast',
-    instance: '5'
   }
 ]
 

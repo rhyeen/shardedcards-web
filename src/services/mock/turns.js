@@ -5,7 +5,6 @@ import {
   POST_CALLBACK_TIME } from './mock.js';
 
 import { 
-  RedrawHand,
   InitializeCards } from './storage/card-actions.js';
 
 import {
@@ -16,7 +15,6 @@ export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
     DebugRequest(CallMockEndTurn, turn)
     setTimeout(() => {
-      RedrawHand()
       RecordPlayerTurn(turn)
       const opponentTurn = GetOpponentTurn()
       DebugSuccessfulResponse(CallMockEndTurn, opponentTurn)

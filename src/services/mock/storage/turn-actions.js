@@ -10,13 +10,16 @@ import {
 import {default as storage} from './storage.js';
 
 export const RecordPlayerTurn = (turn) => {
+  console.log(JSON.parse(JSON.stringify(storage.card)))
   for (let action of turn) {
     _recordPlayerAction(action)
   }
+  console.log(JSON.parse(JSON.stringify(storage.card)))
 }
 
 export const BeginPlayerTurn = () => {
   RefreshPlayerCards(storage.card.cards, storage.card.hand, storage.card.playerField)
+  console.log(JSON.parse(JSON.stringify(storage.card)))
 }
 
 const _recordPlayerAction = (action) => {
