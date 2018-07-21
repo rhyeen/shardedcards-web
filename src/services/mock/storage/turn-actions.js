@@ -7,6 +7,9 @@ import {
   AttackOpponentCardResults, 
   RefreshPlayerCards } from '../../../util/card.js';
 
+import { GetOpponentTurnResults } from '../../../util/opponent-turn.js';
+
+
 import {default as storage} from './storage.js';
 
 export const RecordPlayerTurn = (turn) => {
@@ -42,16 +45,5 @@ const _recordPlaceOnPlayAreaAction = (action) => {
 }
 
 export const GetOpponentTurn = () => {
-  return [
-    {
-      type: ATTACK_CARD,
-      playerFieldCardIndex: 0,
-      opponentFieldCardIndex: 1
-    },
-    {
-      type: PLACE_ON_PLAY_AREA,
-      playerFieldCardIndex: 0,
-      handCardIndex: 4
-    }
-  ]
+  return GetOpponentTurnResults(storage.card)
 }

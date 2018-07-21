@@ -1,5 +1,10 @@
 
-export function GetAttackingCardResults(attacking, attacked, modifyOriginals) {
+export function GetAttackingPlayerResults(opponentCard) {
+  opponentCard.conditions.exhausted = true
+  return opponentCard.attack
+}
+
+export function GetAttackingCardResults(attacking, attacked, modifyOriginals = false) {
   if (!modifyOriginals) {
     const _attacking = _getAttackResults(attacked, attacking, modifyOriginals)
     _attacking.conditions.exhausted = true
@@ -35,7 +40,7 @@ function _setAttackResults(attacking, attacked) {
   attacked.version += 1
 }
 
-export function GetAttackedCardResults(attacking, attacked, modifyOriginals) {
+export function GetAttackedCardResults(attacking, attacked, modifyOriginals = false) {
   if (!modifyOriginals) {
     return _getAttackResults(attacking, attacked, modifyOriginals)
   } else {
@@ -43,7 +48,7 @@ export function GetAttackedCardResults(attacking, attacked, modifyOriginals) {
   }
 }
 
-export function GetReplacingCardResults(replacing, replaced, modifyOriginals) {
+export function GetReplacingCardResults(replacing, replaced, modifyOriginals = false) {
   if (!modifyOriginals) {
     return _getReplaceResults(replacing, replaced)
   } else {
