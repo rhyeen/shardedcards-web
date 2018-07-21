@@ -21,7 +21,12 @@ export const CallMockGetHand = (turn) => {
       // the beginning of the player's turn.
       RedrawHand()      
       BeginPlayerTurn()
-      const response = storage.card.hand
+      const response = {
+        hand: storage.card.hand,
+        deckSize: storage.card.deck.length,
+        discardPileSize: storage.card.discardPile.length,
+        lostCardsSize: 0
+      }
       DebugSuccessfulResponse(CallMockGetHand, response)
       resolve(PrepareResponse(response))
     }, GET_CALLBACK_TIME)

@@ -4,7 +4,10 @@ import {
   CallGetOpponentField } from '../services/card.js';
 
 import {
-  CallStartGame } from '../services/turnaction.js'
+  CallStartGame } from '../services/turnaction.js';
+
+import {
+  SetStatus } from './status.js';
 
 export const SELECT_HAND_CARD = 'SELECT_HAND_CARD';
 export const CANCEL_SELECT_HAND_CARD = 'CANCEL_SELECT_HAND_CARD';
@@ -24,6 +27,7 @@ export const SET_HAND = 'SET_HAND';
 export const REFRESH_CARDS = 'REFRESH_CARDS';
 export const SET_CARDS = 'SET_CARDS';
 export const SET_OPPONENT_FIELD = 'SET_OPPONENT_FIELD';
+export const SET_FIELD_FROM_OPPONENT_TURN = 'SET_FIELD_FROM_OPPONENT_TURN';
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -111,10 +115,13 @@ export const ClearHand = () => {
   }
 }
 
-export const SetHand = (hand) => {
+export const SetHand = ({hand, deckSize, discardPileSize, lostCardsSize}) => {
   return {
     type: SET_HAND,
-    hand
+    hand,
+    deckSize,
+    discardPileSize,
+    lostCardsSize
   }
 }
 
@@ -126,7 +133,8 @@ export const RefreshCards = () => {
 
 export const InitializeCards = () => (dispatch) => {
   CallStartGame()
-  .then(() => {
+  .then((initialGame) => {
+    dispatch(SetStatus(initialGame.status))
     Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
     .then(results => {
       dispatch(_setCards(results[0]))
@@ -153,5 +161,12 @@ export const SetOpponentField = ({opponentField, opponentFieldBacklog, opponentF
     opponentField,
     opponentFieldBacklog,
     opponentFieldCards
+  }
+}
+
+export const SetFieldFromOpponentTurn = (opponentTurn) => {
+  return {
+    type: SET_FIELD_FROM_OPPONENT_TURN,
+    opponentTurn
   }
 }

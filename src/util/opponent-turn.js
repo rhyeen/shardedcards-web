@@ -2,7 +2,9 @@ import {
   GetCard,
   GetAttackedCardResults,
   GetAttackingCardResults,
-  GetAttackingPlayerResults } from './card.js';
+  GetAttackingPlayerResults,
+  AttackPlayerCardResults,
+  AttackPlayerResults } from './card.js';
 
 import { 
   ATTACK_CARD,
@@ -257,4 +259,33 @@ function _healthRemainingFromAttack(state, playFieldIndex, targetFieldIndex) {
   const playerCard = GetCard(state.cards, cardId, cardInstance)
   const resultingPlayerCard = GetAttackedCardResults(opponentCard, playerCard)
   return resultingPlayerCard.health
+}
+
+export const SetOpponentTurnResults = (turn, state = null, status = null) => {
+  for (let action of turn) {
+    _recordOpponentAction(state, status, action)
+  }
+  if (!status) {
+    return null
+  }
+  return status.health.current
+}
+
+const _recordOpponentAction = (state, status, action) => {
+  switch(action.type) {
+    case ATTACK_CARD:
+      return _recordAttackPlayerCardAction(state, action)
+    case ATTACK_PLAYER:
+      return _recordAttackPlayerAction(state, status, action)
+    default:
+      console.error(`Unexpected action type: ${action.type}`)
+  }
+}
+
+const _recordAttackPlayerCardAction = (state, action) => {
+  AttackPlayerCardResults(state, action.playerFieldCardIndex, action.opponentFieldCardIndex)
+}
+
+const _recordAttackPlayerAction = (state, status, action) => {
+  AttackPlayerResults(state, action.opponentFieldCardIndex, status)
 }

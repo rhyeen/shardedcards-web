@@ -1,3 +1,5 @@
+import {default as storage} from './storage/storage.js';
+
 import { 
   DebugRequest,
   DebugSuccessfulResponse,
@@ -9,7 +11,9 @@ import {
 
 import {
   RecordPlayerTurn, 
-  GetOpponentTurn } from './storage/turn-actions.js';
+  GetOpponentTurn,
+  InitializeStatus,
+  RecordOpponentTurn } from './storage/turn-actions.js';
 
 export const CallMockEndTurn = (turn) => {
   return new Promise((resolve, reject) => {
@@ -17,8 +21,13 @@ export const CallMockEndTurn = (turn) => {
     setTimeout(() => {
       RecordPlayerTurn(turn)
       const opponentTurn = GetOpponentTurn()
-      DebugSuccessfulResponse(CallMockEndTurn, opponentTurn)
-      resolve(PrepareResponse(opponentTurn))
+      const remainingPlayerHealth = RecordOpponentTurn(opponentTurn)
+      const results = {
+        opponentTurn,
+        remainingPlayerHealth
+      }
+      DebugSuccessfulResponse(CallMockEndTurn, results)
+      resolve(PrepareResponse(results))
     }, POST_CALLBACK_TIME)
   })
 }
@@ -28,8 +37,12 @@ export const CallMockStartGame = () => {
     DebugRequest(CallMockStartGame)
     setTimeout(() => {
       InitializeCards()
-      DebugSuccessfulResponse(CallMockStartGame)
-      resolve()
+      InitializeStatus()
+      const initialGame = {
+        status: storage.status
+      }
+      DebugSuccessfulResponse(CallMockStartGame, initialGame)
+      resolve(PrepareResponse(initialGame))
     }, POST_CALLBACK_TIME)
   })
 }

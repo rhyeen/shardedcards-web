@@ -3,6 +3,16 @@ import {default as initialDeck} from './deck.js';
 import {default as opponentCards} from './opponent-cards.js';
 
 const storage = {
+  status: {
+    energy: {
+      max: 0,
+      current: 0
+    },
+    health: {
+      max: 0,
+      current: 0
+    }
+  },
   card: {
     cards: initialCards,
     deck: initialDeck,

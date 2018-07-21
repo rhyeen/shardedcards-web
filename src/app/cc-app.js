@@ -20,11 +20,9 @@ import '../components/cc-snack-bar.js';
 import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
 
 import turnaction from '../reducers/turnaction.js';
-import crafted from '../reducers/crafted.js';
 import card from '../reducers/card.js';
 import status from '../reducers/status.js';
 store.addReducers({turnaction});
-store.addReducers({crafted});
 store.addReducers({card});
 store.addReducers({status});
 

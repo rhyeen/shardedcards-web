@@ -3,8 +3,11 @@ import { CallGetHand, CallGetOpponentField } from '../services/card.js';
 import { 
   SetHand,
   RefreshCards,
-  SetOpponentField } from './card.js';
-import { ResetEnergy } from './status.js';
+  SetOpponentField,
+  SetFieldFromOpponentTurn } from './card.js';
+import { 
+  ResetEnergy,
+  SetPlayerHealth } from './status.js';
 
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
 export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
@@ -38,8 +41,10 @@ export const BeginTurn = () => {
 export const EndTurn = (turn) => (dispatch) => {
   dispatch(_endTurn(turn))
   CallEndTurn(turn)
-    .then(opponentsTurn => {
-      dispatch(AppendOpponentHistory(opponentsTurn))
+    .then(results => {
+      dispatch(SetPlayerHealth(results.remainingPlayerHealth))
+      dispatch(SetFieldFromOpponentTurn(results.opponentTurn))
+      dispatch(AppendOpponentHistory(results.opponentTurn))
       dispatch(AppendPlayerHistory(turn))
       dispatch(BeginTurn())
       dispatch(ResetEnergy())

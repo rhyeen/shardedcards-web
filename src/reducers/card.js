@@ -15,13 +15,17 @@ import {
   SET_HAND,
   REFRESH_CARDS,
   SET_CARDS,
-  SET_OPPONENT_FIELD } from '../actions/card.js';
+  SET_OPPONENT_FIELD,
+  SET_FIELD_FROM_OPPONENT_TURN } from '../actions/card.js';
 
 import {
   PlaceOnPlayAreaResults,
   RefreshPlayerCards,
   AttackOpponentCardResults,
   ResetDiscardedHand } from '../util/card.js';
+
+import {
+  SetOpponentTurnResults } from '../util/opponent-turn.js';
 
 const defaultState = {
   selectedHandCard: {
@@ -53,6 +57,9 @@ const defaultState = {
   opponentCards: {},
   hand: [],
   handSize: 5,
+  deckSize: 0,
+  discardPileSize: 0,
+  lostCardsSize: 0,
   playerField: [
     {
       id: null,
@@ -233,7 +240,10 @@ const app = (state = defaultState, action) => {
     case SET_HAND:
       return {
         ...state,
-        hand: action.hand
+        hand: action.hand,
+        deckSize: action.deckSize,
+        discardPileSize: action.discardPileSize,
+        lostCardsSize: action.lostCardsSize
       }
     case REFRESH_CARDS:
       RefreshPlayerCards(state.cards, state.hand, state.playerField)
@@ -250,6 +260,9 @@ const app = (state = defaultState, action) => {
         opponentField: action.opponentField,
         opponentFieldBacklog: action.opponentFieldBacklog,
       }
+    case SET_FIELD_FROM_OPPONENT_TURN:
+      SetOpponentTurnResults(action.opponentTurn, state)
+      return state
     default:
       return state;
   }

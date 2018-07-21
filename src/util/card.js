@@ -137,8 +137,13 @@ export function ResetCard(cards, cardId, cardInstance) {
   card.cost = parentCard.cost
 }
 
-export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardIndex) {
+export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardIndex, status = null) {
   const handCard = _getHandCard(state, handCardIndex)
+  if (status) {
+    if (_canAffordCard(handCard, status)) {
+      _payForCard(handCard, status)
+    }
+  }
   const playerCard = _getPlayerFieldCard(state, playerFieldCardIndex, true)
   GetReplacingCardResults(handCard, playerCard, true)
   const cardId = state.playerField[playerFieldCardIndex].id
@@ -151,6 +156,14 @@ export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardInde
   state.hand.splice(handCardIndex, 1)
 }
 
+export function _canAffordCard(card, status) {
+  return card.cost <= status.energy.current
+}
+
+export function _payForCard(card, status) {
+  status.energy.current -= card.cost
+}
+
 export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentFieldCardIndex) {
   const opponentCard = _getOpponentFieldCard(state, opponentFieldCardIndex)
   const playerCard = _getPlayerFieldCard(state, playerFieldCardIndex)
@@ -159,6 +172,10 @@ export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentF
   }
   GetAttackedCardResults(playerCard, opponentCard, true)
   GetAttackingCardResults(playerCard, opponentCard, true)
+  _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex)
+}
+
+function _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex) {
   if (opponentCard.health <= 0) {
     const cardId = state.opponentField[opponentFieldCardIndex].id
     const cardInstance = state.opponentField[opponentFieldCardIndex].instance
@@ -176,6 +193,25 @@ export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentF
       id: null,
       instance: null
     }
+  }
+}
+
+export function AttackPlayerCardResults(state, playerFieldCardIndex, opponentFieldCardIndex) {
+  const opponentCard = _getOpponentFieldCard(state, opponentFieldCardIndex)
+  const playerCard = _getPlayerFieldCard(state, playerFieldCardIndex)
+  GetAttackedCardResults(opponentCard, playerCard, true)
+  GetAttackingCardResults(opponentCard, playerCard, true)
+  _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex)
+}
+
+export function AttackPlayerResults(state, opponentFieldCardIndex, status) {
+  if (!status) {
+    return
+  }
+  const opponentCard = _getOpponentFieldCard(state, opponentFieldCardIndex)
+  status.health.current -= opponentCard.attack
+  if (status.health.current <= 0) {
+    status.health.current = 0
   }
 }
 

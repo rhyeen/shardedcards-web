@@ -176,14 +176,14 @@ const _shuffleArray = (arr) => {
 }
 
 export const ShuffleDiscardIntoDrawDeck = () => {
-  storage.card.deck.push.apply(storage.card.deck, storage.card.discardPile)
+  storage.card.deck.push(...storage.card.discardPile)
   storage.card.discardPile = []
   ShuffleDrawDeck()
 }
 
 export const RedrawHand = () => {
   ResetDiscardedHand(storage.card.hand, storage.card.cards)
-  storage.card.discardPile.push.apply(storage.card.discardPile, storage.card.hand)
+  storage.card.discardPile.push(...storage.card.hand)
   storage.card.hand = []
   DrawCards(storage.card.handSize)
 }
@@ -201,7 +201,7 @@ export const DrawCards = (amount) => {
 
 const _drawCards = (amount) => {
   const newCards = storage.card.deck.splice(0, amount)
-  storage.card.hand.push.apply(storage.card.hand, newCards)
+  storage.card.hand.push(...newCards)
 }
 
 export const RefreshOpponentField = () => {

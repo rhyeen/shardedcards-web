@@ -20,6 +20,11 @@ export class CcGameFooter extends LitElement {
         bottom: 0;
         border-top: 1px solid var(--near-white-border);
       }
+
+      cc-discard-pile-bar-item,
+      cc-lost-pile-bar-item {
+        margin-left: 20px;
+      }
       </style>
 
       <div bar-items>
