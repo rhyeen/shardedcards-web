@@ -1,9 +1,12 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
+import { store } from '../../store.js';
+
 import './cc-energy-bar-item.js';
 import './cc-health-bar-item.js';
 import './cc-game-menu-bar-item.js';
+import { ShowInGameMenu } from '../../actions/game.js';
 
 export class CcGameHeader extends LitElement {
   _render() {
@@ -28,7 +31,7 @@ export class CcGameHeader extends LitElement {
         </div>
 
         <div class="item-group right-items">
-          <cc-game-menu-bar-item></cc-game-menu-bar-item>
+          <cc-game-menu-bar-item on-click="${() => this._openMenu()}"></cc-game-menu-bar-item>
         </div>
       </div>
     `
@@ -36,6 +39,10 @@ export class CcGameHeader extends LitElement {
 
   static get properties() { return {
   }};
+
+  _openMenu() {
+    store.dispatch(ShowInGameMenu())
+  }
 }
 
 window.customElements.define('cc-game-header', CcGameHeader);

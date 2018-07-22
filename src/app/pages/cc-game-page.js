@@ -14,6 +14,7 @@ import '../../components/cards/card-groups/cc-place-card-pane.js';
 import '../../components/cards/card-groups/cc-pawn-card-pane.js';
 import '../../components/cards/card-groups/cc-card-hand.js';
 import '../../components/cards/card-groups/cc-opponent-turn-pane.js';
+import '../../components/menus/cc-game-menu-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
 import '../../components/toolbars/cc-game-header.js';
@@ -103,6 +104,9 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     } else if (state.card.playFromPlayArea.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-pawn-card-pane></cc-pawn-card-pane>`
+    } else if (state.game.showMenu) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-game-menu-pane></cc-game-menu-pane>`
     } else {
       this._showCardOverlay = false
       this._overlayPaneHtml = this._getHiddenPaneHtml()

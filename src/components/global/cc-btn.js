@@ -1,6 +1,9 @@
 import { LitElement, html } from '@polymer/lit-element';
 import { CcSharedStyles } from './cc-shared-styles.js';
 
+export const BTN_TYPE_RESET_GAME = 'resetgame';
+export const BTN_TYPE_END_TURN = 'endturn';
+
 class CcBtn extends LitElement {
   _render({btntype, disabled}) {
     return html`
@@ -31,7 +34,8 @@ class CcBtn extends LitElement {
           box-shadow: var(--cc-elevation-n1);
         }
 
-        button.cancel {
+        button.cancel,
+        button.resetgame {
           background-color: #f44336;
           color: var(--dark-btn-text-color);
         }
@@ -90,10 +94,14 @@ class CcBtn extends LitElement {
   }
 
   _getBtnTypeText() {
-    if (this.btntype === 'endturn') {
-      return 'end turn'
+    switch (this.btntype) {
+      case BTN_TYPE_RESET_GAME:
+        return 'reset game'
+      case BTN_TYPE_END_TURN:
+        return 'end turn'
+      default:
+        return this.btntype
     }
-    return this.btntype
   }
 }
 window.customElements.define('cc-btn', CcBtn);

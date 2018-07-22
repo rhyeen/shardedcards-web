@@ -22,9 +22,11 @@ import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
 import turnaction from '../reducers/turnaction.js';
 import card from '../reducers/card.js';
 import status from '../reducers/status.js';
+import game from '../reducers/game.js';
 store.addReducers({turnaction});
 store.addReducers({card});
 store.addReducers({status});
+store.addReducers({game});
 
 class CcApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {
