@@ -15,6 +15,7 @@ export const BEGIN_TURN = 'BEGIN_TURN';
 export const END_TURN = 'END_TURN';
 export const APPEND_PLAYER_HISTORY = 'APPEND_PLAYER_HISTORY';
 export const APPEND_OPPONENT_HISTORY = 'APPEND_OPPONENT_HISTORY';
+export const RESET_TURNS = 'RESET_TURNS';
 
 export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
@@ -82,5 +83,11 @@ export const AppendOpponentHistory = (turn) => {
   return {
     type: APPEND_OPPONENT_HISTORY,
     turn
+  }
+}
+
+export const ResetTurns = () => {
+  return {
+    type: RESET_TURNS
   }
 }

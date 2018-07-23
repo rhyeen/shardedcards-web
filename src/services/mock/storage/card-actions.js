@@ -1,5 +1,9 @@
 import {default as storage} from './storage.js';
 
+import {default as initialCards} from './cards.js';
+import {default as initialDeck} from './deck.js';
+import {default as opponentCards} from './opponent-cards.js';
+
 import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
@@ -43,9 +47,50 @@ const _setCardInstance = (cards, idInstance, catalog) => {
 }
 
 export const InitializeCards = () => {
+  ResetCards()
   PrepareOpponentFieldBacklogs()
   ShuffleDrawDeck()
   RefreshOpponentField()
+}
+
+export const ResetCards = () => {
+  storage.card.cards = JSON.parse(JSON.stringify(initialCards))
+  storage.card.deck = JSON.parse(JSON.stringify(initialDeck))
+  storage.card.opponentCards = JSON.parse(JSON.stringify(opponentCards))
+  storage.card.opponentBacklog = [
+    [], [], []
+  ]
+  storage.card.discardPile = []
+  storage.card.hand = []
+  storage.card.handSize = 5
+  storage.card.opponentField = [
+    {
+      id: null,
+      instance: null
+    },
+    {
+      id: null,
+      instance: null
+    },
+    {
+      id: null,
+      instance: null
+    }
+  ]
+  storage.card.playerField = [
+    {
+      id: null,
+      instance: null
+    },
+    {
+      id: null,
+      instance: null
+    },
+    {
+      id: null,
+      instance: null
+    }
+  ]
 }
 
 export const PrepareOpponentFieldBacklogs = () => {

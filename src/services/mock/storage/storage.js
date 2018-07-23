@@ -14,9 +14,9 @@ const storage = {
     }
   },
   card: {
-    cards: initialCards,
-    deck: initialDeck,
-    opponentCards,
+    cards: JSON.parse(JSON.stringify(initialCards)),
+    deck: JSON.parse(JSON.stringify(initialDeck)),
+    opponentCards: JSON.parse(JSON.stringify(opponentCards)),
     opponentBacklog: [
       [], [], []
     ],

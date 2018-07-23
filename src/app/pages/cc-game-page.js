@@ -5,8 +5,6 @@ import { CcSharedStyles } from '../../components/global/cc-shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
-import { InitializeCards } from '../../actions/card.js';
-
 import '../../components/cards/card-groups/cc-hand-card-pane.js';
 import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-card-pane.js';
@@ -18,7 +16,7 @@ import '../../components/menus/cc-game-menu-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
 import '../../components/toolbars/cc-game-header.js';
-
+import { ResetGame } from '../../actions/game.js';
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
   _render(props) {
@@ -78,7 +76,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   constructor() {
     super()
     this._overlayPaneHtml = this._getHiddenPaneHtml()
-    store.dispatch(InitializeCards())
+    store.dispatch(ResetGame())
   }
 
   _getHiddenPaneHtml() {
