@@ -13,9 +13,9 @@ import {
 import {
   RefreshOpponentCards, ResetDiscardedHand } from '../../../util/card.js';
 
-export const OPPONENT_BACKLOG_COMMON_SIZE = 12;
-export const OPPONENT_BACKLOG_RARE_SIZE = 8;
-export const OPPONENT_BACKLOG_EPIC_SIZE = 4;
+export const OPPONENT_BACKLOG_COMMON_SIZE = 5;
+export const OPPONENT_BACKLOG_RARE_SIZE = 5;
+export const OPPONENT_BACKLOG_EPIC_SIZE = 5;
 export const OPPONENT_BACKLOG_LEGENDARY_SIZE = 1;
 export const CHANCE_OF_NEXT_LEVEL_CARD = 0.3;
 
@@ -38,6 +38,9 @@ const _setOpponentFieldCardInstance = (cards, playFieldIndex) => {
 
 const _setCardInstance = (cards, idInstance, catalog) => {
   const cardId = idInstance.id
+  if (!cardId) {
+    return
+  }
   const cardInstance = idInstance.instance
   if (!cards[cardId]) {
     cards[cardId] = JSON.parse(JSON.stringify(catalog[cardId]))
@@ -116,7 +119,7 @@ const _getOpponentCardsByRarity = (rarity, size, playFieldIndex) => {
   const instanceOffset = size * playFieldIndex
   const cards = []
   const cardsByLevel = _getOpponentCardsByRarityThenLevel(rarity)
-  const cardsPerLevel = Math.ceil(size / cardsByLevel.levels.length)
+  const cardsPerLevel = Math.floor(size / cardsByLevel.levels.length)
   const cardsInLastLevel = size - (cardsPerLevel * (cardsByLevel.levels.length - 1))
   for (let level of cardsByLevel.levels) {
     if (_lastLevelInRarity(level, cardsByLevel)) {

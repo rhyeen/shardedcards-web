@@ -20,6 +20,9 @@ import {
 
 export const SHOW_IN_GAME_MENU = 'SHOW_IN_GAME_MENU';
 export const HIDE_IN_GAME_MENU = 'HIDE_IN_GAME_MENU';
+export const RESET_GAME = 'RESET_GAME';
+export const WIN_GAME = 'WIN_GAME';
+export const LOSE_GAME = 'LOSE_GAME';
 
 export const ShowInGameMenu = () => {
   return {
@@ -34,6 +37,7 @@ export const HideInGameMenu = () => {
 };
 
 export const ResetGame = () => (dispatch) => {
+  dispatch(_resetGame())
   CallStartGame()
   .then((initialGame) => {
     dispatch(SetStatus(initialGame.status))
@@ -51,3 +55,21 @@ export const ResetGame = () => (dispatch) => {
   })
   .catch(err => console.error(err))
 };
+
+const _resetGame = () => {
+  return {
+    type: RESET_GAME
+  }
+}
+
+export const WinGame = () => {
+  return {
+    type: WIN_GAME
+  }
+}
+
+export const LoseGame = () => {
+  return {
+    type: LOSE_GAME
+  }
+}

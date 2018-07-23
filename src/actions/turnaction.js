@@ -8,6 +8,9 @@ import {
 import { 
   ResetEnergy,
   SetPlayerHealth } from './status.js';
+import {
+  LoseGame,
+  WinGame } from './game.js';
 
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
 export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
@@ -44,6 +47,9 @@ export const EndTurn = (turn) => (dispatch) => {
   CallEndTurn(turn)
     .then(results => {
       dispatch(SetPlayerHealth(results.remainingPlayerHealth))
+      if (results.remainingPlayerHealth <= 0) {
+        dispatch(LoseGame())
+      }
       dispatch(SetFieldFromOpponentTurn(results.opponentTurn))
       dispatch(AppendOpponentHistory(results.opponentTurn))
       dispatch(AppendPlayerHistory(turn))
@@ -54,7 +60,12 @@ export const EndTurn = (turn) => (dispatch) => {
       .then(hand => dispatch(SetHand(hand)))
       .catch(err => console.error(err))
       CallGetOpponentField()
-      .then(opponentField => dispatch(SetOpponentField(opponentField)))
+      .then(result => {
+        dispatch(SetOpponentField(result))
+        if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
+          dispatch(WinGame())
+        }
+      })
       .catch(err => console.error(err))
     })
     .catch(err => {

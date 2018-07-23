@@ -13,10 +13,12 @@ import '../../components/cards/card-groups/cc-pawn-card-pane.js';
 import '../../components/cards/card-groups/cc-card-hand.js';
 import '../../components/cards/card-groups/cc-opponent-turn-pane.js';
 import '../../components/menus/cc-game-menu-pane.js';
+import '../../components/menus/cc-end-game-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
 import '../../components/toolbars/cc-game-header.js';
 import { ResetGame } from '../../actions/game.js';
+import { GAME_STATE_PLAYING } from '../../reducers/game.js';
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
   _render(props) {
@@ -105,6 +107,9 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     } else if (state.game.showMenu) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-game-menu-pane></cc-game-menu-pane>`
+    } else if (state.game.gameState !== GAME_STATE_PLAYING) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-end-game-pane></cc-end-game-pane>`
     } else {
       this._showCardOverlay = false
       this._overlayPaneHtml = this._getHiddenPaneHtml()
