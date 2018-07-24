@@ -1,13 +1,20 @@
 import {
   CARD_RARITY_UNDEFINED,
   CARD_RARITY_COMMON,
+  CARD_RARITY_STANDARD,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
+  CARD_RARITY_LEGENDARY,
+  ENERGY_SHARD_CARD_ID,
+  ENERGY_SHARD_CARD_INSTANCE,
+  CARD_TYPE_UNIT,
+  CARD_TYPE_INSTANT,
+  ABILITY_ENERGIZE } from '../../../util/card-constants.js';
 
 const cards = {
   hello: {
     title: 'Hello',
+    type: CARD_TYPE_UNIT,
     rarity: CARD_RARITY_COMMON,
     cost: 3,
     range: 1,
@@ -16,6 +23,7 @@ const cards = {
     instances: {
       '0': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -26,6 +34,7 @@ const cards = {
       },
       '1': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -36,6 +45,7 @@ const cards = {
       },
       '2': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -46,6 +56,7 @@ const cards = {
       },
       '3': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -56,6 +67,7 @@ const cards = {
       },
       '4': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -66,6 +78,7 @@ const cards = {
       },
       '5': {
         title: 'Hello',
+        type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
         cost: 3,
         range: 1,
@@ -357,5 +370,27 @@ const cards = {
     }
   }
 }
+
+cards[ENERGY_SHARD_CARD_ID] = {
+  title: 'Energy Shard',
+  type: CARD_TYPE_INSTANT,
+  rarity: CARD_RARITY_STANDARD,
+  cost: 0,
+  abilities: [
+    {
+      id: ABILITY_ENERGIZE,
+      amount: 1
+    }
+  ],
+  instances: {}
+}
+
+cards[ENERGY_SHARD_CARD_ID].instances[ENERGY_SHARD_CARD_INSTANCE] = {
+  ...cards[ENERGY_SHARD_CARD_ID],
+  version: 0,
+  conditions: {}
+}
+
+delete cards[ENERGY_SHARD_CARD_ID].instances[ENERGY_SHARD_CARD_INSTANCE].instances
 
 export default cards

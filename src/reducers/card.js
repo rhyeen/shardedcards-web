@@ -17,16 +17,23 @@ import {
   SET_CARDS,
   SET_OPPONENT_FIELD,
   SET_FIELD_FROM_OPPONENT_TURN,
-  RESET_CARDS } from '../actions/card.js';
+  RESET_CARDS,
+  CANCEL_CASTING_CARD,
+  FINISH_CASTING_CARD } from '../actions/card.js';
 
 import {
   PlaceOnPlayAreaResults,
   RefreshPlayerCards,
   AttackOpponentCardResults,
-  ResetDiscardedHand } from '../util/card.js';
+  ResetDiscardedHand, 
+  GetCard} from '../util/card.js';
 
 import {
   SetOpponentTurnResults } from '../util/opponent-turn.js';
+
+import {
+  CARD_TYPE_UNIT,
+  CARD_TYPE_INSTANT } from '../util/card-constants.js';
 
 const defaultState = {
   selectedHandCard: {
@@ -43,6 +50,11 @@ const defaultState = {
     id: null,
     instance: null,    
     playAreaIndex: null
+  },
+  selectedCastingCard: {
+    id: null,
+    instance: null,
+    handIndex: null
   },
   playFromHand: {
     id: null,
@@ -95,7 +107,10 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let handIndex, cardId, cardInstance
+  let handIndex
+  let cardId
+  let cardInstance
+  let card
   switch (action.type) {
     case SELECT_HAND_CARD:
       state.hand.splice(action.handIndex, 1)
@@ -123,14 +138,27 @@ const app = (state = defaultState, action) => {
     case PLAY_SELECTED_HAND_CARD:
       cardId = state.selectedHandCard.id
       cardInstance = state.selectedHandCard.instance
+      card = GetCard(state.cards, cardId, cardInstance)
+      switch (card.type) {
+        case CARD_TYPE_UNIT:
+          state.playFromHand = {
+            id: state.selectedHandCard.id,
+            instance: state.selectedHandCard.instance,          
+            handIndex: state.selectedHandCard.handIndex
+          }
+          break
+        case CARD_TYPE_INSTANT:
+          state.selectedCastingCard = {
+            id: state.selectedHandCard.id,
+            instance: state.selectedHandCard.instance,  
+            handIndex: state.selectedHandCard.handIndex     
+          }
+          break
+        default:
+          console.error(`Unexpected card type: ${card.type}`)
+      }
       return {
         ...state,
-        playFromHand: {
-          ...state.selectedHandCard,
-          id: state.selectedHandCard.id,
-          instance: state.selectedHandCard.instance,          
-          handIndex: state.selectedHandCard.handIndex
-        },
         selectedHandCard: {
           id: null,
           instance: null,
@@ -304,6 +332,29 @@ const app = (state = defaultState, action) => {
             instance: null,      
           }
         ]
+      }
+    case CANCEL_CASTING_CARD:
+      handIndex = state.selectedCastingCard.handIndex
+      if (handIndex || handIndex === 0) {
+        state.hand.splice(handIndex, 0, {
+          id: state.selectedCastingCard.id,
+          instance: state.selectedCastingCard.instance
+        })
+      }
+      state.selectedCastingCard = {
+        id: null,
+        instance: null,
+        handIndex: null
+      }
+      return state
+    case FINISH_CASTING_CARD:
+      return {
+        ...state,
+        selectedCastingCard: {
+          id: null,
+          instance: null,
+          handIndex: null
+        }
       }
     default:
       return state;

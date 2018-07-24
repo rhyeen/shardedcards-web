@@ -6,11 +6,12 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
 import '../../components/cards/card-groups/cc-hand-card-pane.js';
-import '../../components/cards/card-groups/cc-cast-card-pane.js';
+import '../../components/cards/card-groups/cc-unit-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-card-pane.js';
 import '../../components/cards/card-groups/cc-place-card-pane.js';
 import '../../components/cards/card-groups/cc-pawn-card-pane.js';
 import '../../components/cards/card-groups/cc-card-hand.js';
+import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-turn-pane.js';
 import '../../components/menus/cc-game-menu-pane.js';
 import '../../components/menus/cc-end-game-pane.js';
@@ -90,6 +91,9 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-opponent-turn-pane></cc-opponent-turn-pane>`
     } else if (state.card.selectedPlayerFieldCard.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-unit-card-pane></cc-unit-card-pane>`
+    } else if (state.card.selectedCastingCard.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-cast-card-pane></cc-cast-card-pane>`
     } else if (state.card.selectedOpponentFieldCard.id) {

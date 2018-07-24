@@ -2,7 +2,7 @@ import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
+  CARD_RARITY_LEGENDARY } from '../../../util/card-constants.js';
 
 const opponentCards = {
   CD_GOBLIN_PEON: {

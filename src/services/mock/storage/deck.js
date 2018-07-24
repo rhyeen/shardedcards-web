@@ -1,4 +1,12 @@
+import {
+  ENERGY_SHARD_CARD_ID,
+  ENERGY_SHARD_CARD_INSTANCE } from '../../../util/card-constants.js';
+
 const deck = [
+  {
+    id: ENERGY_SHARD_CARD_ID,
+    instance: ENERGY_SHARD_CARD_INSTANCE
+  },
   {
     id: 'hero',
     instance: '1'

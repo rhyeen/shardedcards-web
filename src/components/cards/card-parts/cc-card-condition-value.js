@@ -73,15 +73,6 @@ class CcCardConditionValue extends LitElement {
     }
   }
 
-  _cardConditionTooltip(valueType) {
-    switch (valueType) {
-      case CONDITION_TYPE_EXHAUSTED:
-        return 'exhausted'
-      default:
-        return ''
-    }
-  }
-
   _cardConditionTooltipDescription(valueType) {
     switch (valueType) {
       case CONDITION_TYPE_EXHAUSTED:

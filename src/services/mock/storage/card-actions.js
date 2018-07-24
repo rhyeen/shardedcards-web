@@ -8,7 +8,8 @@ import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../../util/card-rarity.js';
+  CARD_RARITY_LEGENDARY,
+  ENERGY_SHARD_CARD_ID } from '../../../util/card-constants.js';
 
 import {
   RefreshOpponentCards, ResetDiscardedHand } from '../../../util/card.js';
@@ -52,7 +53,7 @@ const _setCardInstance = (cards, idInstance, catalog) => {
 export const InitializeCards = () => {
   ResetCards()
   PrepareOpponentFieldBacklogs()
-  ShuffleDrawDeck()
+  ShuffleDrawDeck(true)
   RefreshOpponentField()
 }
 
@@ -211,9 +212,11 @@ const _addInstanceToCard = (cards, cardId, cardInstance) => {
   delete cards[cardId].instances[cardInstance].instances
 }
 
-export const ShuffleDrawDeck = () => {
-  const deck = storage.card.deck
-  _shuffleArray(deck)
+export const ShuffleDrawDeck = (initial = false) => {
+  _shuffleArray(storage.card.deck)
+  if (initial) {
+    _placeEnergyShardOnTop(storage.card.deck)
+  }
 }
 
 const _shuffleArray = (arr) => {
@@ -221,6 +224,19 @@ const _shuffleArray = (arr) => {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+}
+
+const _placeEnergyShardOnTop = (deck) => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    if (deck[i].id === ENERGY_SHARD_CARD_ID) {
+      if (i === 0) {
+        return
+      }
+      [deck[i], deck[0]] = [deck[0], deck[i]]
+      return
+    }
+  }
+  console.error(`UNABLE TO FIND ${ENERGY_SHARD_CARD_ID}`)
 }
 
 export const ShuffleDiscardIntoDrawDeck = () => {

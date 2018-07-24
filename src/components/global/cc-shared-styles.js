@@ -15,13 +15,15 @@ import {
   CARD_RARITY_COMMON,
   CARD_RARITY_RARE,
   CARD_RARITY_EPIC,
-  CARD_RARITY_LEGENDARY } from '../../util/card-rarity.js';
+  CARD_RARITY_LEGENDARY,
+  CARD_RARITY_STANDARD } from '../../util/card-constants.js';
 
 export const CARD_RARITY_UNDEFINED_COLOR = '--card-rarity-undefined-color';
 export const CARD_RARITY_COMMON_COLOR = '--card-rarity-common-color';
 export const CARD_RARITY_RARE_COLOR = '--card-rarity-rare-color';
 export const CARD_RARITY_EPIC_COLOR = '--card-rarity-epic-color';
 export const CARD_RARITY_LEGENDARY_COLOR = '--card-rarity-legendary-color';
+export const CARD_RARITY_STANDARD_COLOR = '--card-rarity-standard-color';
 
 export const CardRarityColor = function(rarity) {
   switch (rarity) {
@@ -35,6 +37,8 @@ export const CardRarityColor = function(rarity) {
       return CARD_RARITY_EPIC_COLOR
     case CARD_RARITY_LEGENDARY:
       return CARD_RARITY_LEGENDARY_COLOR
+    case CARD_RARITY_STANDARD:
+      return CARD_RARITY_STANDARD_COLOR
     default:
       return CARD_RARITY_COMMON_COLOR
   }
@@ -48,6 +52,7 @@ export const CcSharedStyles = html`
     --card-rarity-rare-color: #64B5F6;
     --card-rarity-epic-color: #BA68C8;
     --card-rarity-legendary-color: #FFD54F;
+    --card-rarity-standard-color: #B2DFDB;
 
     --nav-header-height: 46px;
     --nav-footer-height: 46px;

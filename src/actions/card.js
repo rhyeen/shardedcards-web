@@ -18,6 +18,8 @@ export const SET_CARDS = 'SET_CARDS';
 export const SET_OPPONENT_FIELD = 'SET_OPPONENT_FIELD';
 export const SET_FIELD_FROM_OPPONENT_TURN = 'SET_FIELD_FROM_OPPONENT_TURN';
 export const RESET_CARDS = 'RESET_CARDS';
+export const CANCEL_CASTING_CARD = 'CANCEL_CASTING_CARD';
+export const FINISH_CASTING_CARD = 'FINISH_CASTING_CARD';
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -147,5 +149,17 @@ export const SetFieldFromOpponentTurn = (opponentTurn) => {
 export const ResetCards = () => {
   return {
     type: RESET_CARDS
+  }
+}
+
+export const CancelCastingCard = () => {
+  return {
+    type: CANCEL_CASTING_CARD
+  }
+}
+
+export const FinishCastingCard = () => {
+  return {
+    type: FINISH_CASTING_CARD
   }
 }

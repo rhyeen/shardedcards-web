@@ -12,6 +12,7 @@ import {
   PART_TYPE_SHIELD } from '../card-parts/cc-card-static-value.js';
 
 import '../card-parts/cc-card-conditions.js';
+import '../card-parts/cc-card-abilities.js';
 
 import {
   OPPONENT_OWNER,
@@ -65,6 +66,11 @@ class CcFullCard extends LitElement {
         cc-card-static-value {
           margin-left: 10px;
         }
+
+        cc-card-conditions {
+          margin-top: 20px;
+          display: block;
+        }
       </style>
 
       <header>
@@ -72,6 +78,7 @@ class CcFullCard extends LitElement {
         <div card-title>${card.title}</div>
       </header>
       <section>
+        <cc-card-abilities card="${card}" cardversion$="${cardversion}"></cc-card-abilities>
         <cc-card-conditions card="${card}" cardversion$="${cardversion}"></cc-card-conditions>
       </section>
       <footer>

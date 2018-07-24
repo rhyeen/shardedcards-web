@@ -46,7 +46,8 @@ class CcBtn extends LitElement {
         }
 
         button.confirm,
-        button.play {
+        button.play,
+        button.done {
           background-color: #2196F3;
           color: var(--dark-btn-text-color);
         }
