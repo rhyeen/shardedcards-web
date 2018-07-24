@@ -92,6 +92,7 @@ const cards = {
   beast: {
     title: 'Beast',
     rarity: CARD_RARITY_RARE,
+    type: CARD_TYPE_UNIT,
     cost: 6,
     range: 2,
     health: 5,
@@ -100,6 +101,7 @@ const cards = {
       '0': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -110,6 +112,7 @@ const cards = {
       '1': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -120,6 +123,7 @@ const cards = {
       '2': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -130,6 +134,7 @@ const cards = {
       '3': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -140,6 +145,7 @@ const cards = {
       '4': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -150,6 +156,7 @@ const cards = {
       '5': {
         title: 'Beast',
         rarity: CARD_RARITY_RARE,
+        type: CARD_TYPE_UNIT,
         cost: 6,
         range: 2,
         health: 5,
@@ -162,6 +169,7 @@ const cards = {
   hero: {
     title: 'Hero',
     rarity: CARD_RARITY_EPIC,
+    type: CARD_TYPE_UNIT,
     cost: 0,
     range: 3,
     health: 5,
@@ -170,6 +178,7 @@ const cards = {
       '0': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -180,6 +189,7 @@ const cards = {
       '1': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -190,6 +200,7 @@ const cards = {
       '2': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -200,6 +211,7 @@ const cards = {
       '3': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -210,6 +222,7 @@ const cards = {
       '4': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -220,6 +233,7 @@ const cards = {
       '5': {
         title: 'Hero',
         rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_UNIT,
         cost: 0,
         range: 3,
         health: 5,
@@ -232,6 +246,7 @@ const cards = {
   monster: {
     title: 'Monster',
     rarity: CARD_RARITY_LEGENDARY,
+    type: CARD_TYPE_UNIT,
     cost: 1,
     range: 1,
     health: 5,
@@ -240,6 +255,7 @@ const cards = {
       '0': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -250,6 +266,7 @@ const cards = {
       '1': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -260,6 +277,7 @@ const cards = {
       '2': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -270,6 +288,7 @@ const cards = {
       '3': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -280,6 +299,7 @@ const cards = {
       '4': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -290,6 +310,7 @@ const cards = {
       '5': {
         title: 'Monster',
         rarity: CARD_RARITY_LEGENDARY,
+        type: CARD_TYPE_UNIT,
         cost: 1,
         range: 1,
         health: 5,
@@ -302,6 +323,7 @@ const cards = {
   pawn: {
     title: 'Pawn',
     rarity: CARD_RARITY_UNDEFINED,
+    type: CARD_TYPE_UNIT,
     cost: 3,
     range: 1,
     health: 1,
@@ -310,6 +332,7 @@ const cards = {
       '0': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,
@@ -320,6 +343,7 @@ const cards = {
       '1': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,
@@ -330,6 +354,7 @@ const cards = {
       '2': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,
@@ -340,6 +365,7 @@ const cards = {
       '3': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,
@@ -350,6 +376,7 @@ const cards = {
       '4': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,
@@ -360,6 +387,7 @@ const cards = {
       '5': {
         title: 'Pawn',
         rarity: CARD_RARITY_UNDEFINED,
+        type: CARD_TYPE_UNIT,
         cost: 3,
         range: 1,
         health: 1,

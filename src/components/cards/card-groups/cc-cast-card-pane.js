@@ -20,7 +20,8 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   _render({_selectedCard}) {
     if (!_selectedCard) {
       _selectedCard = {
-        version: 0
+        version: 0,
+        abilities: []
       }
     }
 
@@ -37,12 +38,17 @@ export class CcCastCardPane extends connect(store)(LitElement) {
           align-items: center;
           justify-content: space-between;
         }
+        .ability-selections {
+          display: flex;
+          justify-content: flex-end;
+          flex-direction: column;
+          align-items: center;
+          height: 100%;
+          width: 240px;
+        }
 
         .action-selections {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          flex: 0 0 calc(var(--card-hand-height));
+          margin: 20px 0 40px 0;
         }
 
         .action-selections cc-btn:first-child {
@@ -54,7 +60,9 @@ export class CcCastCardPane extends connect(store)(LitElement) {
         }
       </style>
 
-      ${abilitiesHtml}
+      <div class="ability-selections">
+        ${abilitiesHtml}
+      </div>
       <div class="action-selections">
         <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
         <cc-btn btntype="done" on-click="${() => this._done()}"></cc-btn>
@@ -72,7 +80,8 @@ export class CcCastCardPane extends connect(store)(LitElement) {
     let cardInstance = state.card.selectedCastingCard.instance
     if (!cardId) {
       this._selectedCard = {
-        version: 0
+        version: 0,
+        abilities: []
       }
       return
     }
