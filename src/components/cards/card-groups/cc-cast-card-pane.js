@@ -12,6 +12,13 @@ import {
   CancelAllocateEnergy,
   SpendAllocatedEnergy } from '../../../actions/status.js';
 
+import { 
+  RecordCastFromHand,
+  RecordCastFromPlayArea,
+  RecordCastAbilityEnergize } from '../../../actions/turnaction.js';
+
+import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';  
+
 import '../card-parts/cc-card-ability-selection.js';
 
 import '../../global/cc-btn.js';
@@ -74,12 +81,14 @@ export class CcCastCardPane extends connect(store)(LitElement) {
     _selectedCard: Object,
     _cannotAfford: Boolean,
     _cardId: String,
-    _cardInstance: String
+    _cardInstance: String,
+    _handIndex: Number
   }};
 
   _stateChanged(state) {
     this._cardId = state.card.selectedCastingCard.id
     this._cardInstance = state.card.selectedCastingCard.instance
+    this._handIndex = state.card.selectedCastingCard.handIndex
     if (!this._cardId) {
       this._selectedCard = {
         version: 0,
@@ -115,9 +124,21 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   }
 
   _castAbility(ability) {
-    console.log(ability.id)
-    console.log(this._cardId)
-    console.log(this._cardInstance)
+    if (this._handIndex === 0 || this._handIndex) {
+      store.dispatch(RecordCastFromHand(this._cardId, this._cardInstance, this._handIndex))
+    } else if (this._playFieldIndex === 0 || this._playFieldIndex) {
+      store.dispatch(RecordCastFromPlayArea(this._cardId, this._cardInstance, this._playFieldIndex))
+    } else {
+      console.error('Unexpected casting origin: not from hand nor play area.')
+      return
+    }
+    switch (ability.id) {
+      case ABILITY_ENERGIZE:
+        return store.dispatch(RecordCastAbilityEnergize(ability.id))
+      default:
+        console.error(`Unexpected ability: ${ability.id}`)
+        return
+    }
   }
 }
 

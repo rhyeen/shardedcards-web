@@ -19,6 +19,9 @@ export const END_TURN = 'END_TURN';
 export const APPEND_PLAYER_HISTORY = 'APPEND_PLAYER_HISTORY';
 export const APPEND_OPPONENT_HISTORY = 'APPEND_OPPONENT_HISTORY';
 export const RESET_TURNS = 'RESET_TURNS';
+export const RECORD_CAST_FROM_HAND = 'RECORD_CAST_FROM_HAND';
+export const RECORD_CAST_FROM_PLAY_AREA = 'RECORD_CAST_FROM_PLAY_AREA';
+export const RECORD_CAST_ABILITY_ENERGIZE = 'RECORD_CAST_ABILITY_ENERGIZE';
 
 export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
@@ -33,6 +36,31 @@ export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
     type: RECORD_PLACE_ON_PLAY_AREA,
     playerFieldCardIndex,
     handCardIndex
+  }
+};
+
+export const RecordCastFromHand = (cardId, cardInstance, handCardIndex) => {
+  return {
+    type: RECORD_CAST_FROM_HAND,
+    handCardIndex,
+    cardId,
+    cardInstance
+  }
+};
+
+export const RecordCastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => {
+  return {
+    type: RECORD_CAST_FROM_PLAY_AREA,
+    playerFieldCardIndex,
+    cardId,
+    cardInstance
+  }
+};
+
+export const RecordCastAbilityEnergize = (abilityId) => {
+  return {
+    type: RECORD_CAST_ABILITY_ENERGIZE,
+    abilityId
   }
 };
 

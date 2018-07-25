@@ -20,6 +20,8 @@ export const SET_FIELD_FROM_OPPONENT_TURN = 'SET_FIELD_FROM_OPPONENT_TURN';
 export const RESET_CARDS = 'RESET_CARDS';
 export const CANCEL_CASTING_CARD = 'CANCEL_CASTING_CARD';
 export const FINISH_CASTING_CARD = 'FINISH_CASTING_CARD';
+export const CAST_CARD_FROM_HAND = 'CAST_CARD_FROM_HAND';
+export const CAST_CARD_FROM_PLAY_AREA = 'CAST_CARD_FROM_PLAY_AREA';
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   return {
