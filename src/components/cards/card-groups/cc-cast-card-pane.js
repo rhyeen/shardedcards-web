@@ -25,7 +25,7 @@ export class CcCastCardPane extends connect(store)(LitElement) {
       }
     }
 
-    let abilitiesHtml = this._getAbilitiesHtml(_selectedCard, _selectedCard.version)
+    let abilitiesHtml = this._getAbilitiesHtml()
 
     return html`
       ${CcSharedStyles}
@@ -72,20 +72,22 @@ export class CcCastCardPane extends connect(store)(LitElement) {
 
   static get properties() { return {
     _selectedCard: Object,
-    _cannotAfford: Boolean
+    _cannotAfford: Boolean,
+    _cardId: String,
+    _cardInstance: String
   }};
 
   _stateChanged(state) {
-    let cardId = state.card.selectedCastingCard.id
-    let cardInstance = state.card.selectedCastingCard.instance
-    if (!cardId) {
+    this._cardId = state.card.selectedCastingCard.id
+    this._cardInstance = state.card.selectedCastingCard.instance
+    if (!this._cardId) {
       this._selectedCard = {
         version: 0,
         abilities: []
       }
       return
     }
-    this._selectedCard = state.card.cards[cardId].instances[cardInstance]
+    this._selectedCard = state.card.cards[this._cardId].instances[this._cardInstance]
   }
 
   _cancel() {
@@ -98,14 +100,24 @@ export class CcCastCardPane extends connect(store)(LitElement) {
     store.dispatch(SpendAllocatedEnergy())
   }
 
-  _getAbilitiesHtml(card, cardversion) {
+  _getAbilitiesHtml() {
+    return html`${this._selectedCard.abilities.map((ability) => this._getAbilityHtml(ability))}`
+  }
+
+  _getAbilityHtml(ability) {
     return html`
-    ${card.abilities.map((ability) => this._getAbilityHtml(card, cardversion, ability))}
+      <cc-card-ability-selection
+          card="${this._selectedCard}"
+          cardversion$="${this._selectedCard.version}"
+          ability="${ability}"
+          on-click="${() => this._castAbility(ability)}"></cc-card-ability-selection>
     `
   }
 
-  _getAbilityHtml(card, cardversion, ability) {
-    return html`<cc-card-ability-selection card="${card}" cardversion$="${cardversion}" ability="${ability}"></cc-card-ability-selection>`
+  _castAbility(ability) {
+    console.log(ability.id)
+    console.log(this._cardId)
+    console.log(this._cardInstance)
   }
 }
 

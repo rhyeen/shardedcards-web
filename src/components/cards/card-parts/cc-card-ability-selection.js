@@ -97,6 +97,15 @@ class CcCardAbilitySelection extends LitElement {
     ability: Object
   }};
 
+  _castAbility(ability) {
+    switch (ability.id) {
+      case ABILITY_ENERGIZE:
+        return 'energize'
+      default:
+        return
+    }
+  }
+
   _cardAbilityTooltip(ability) {
     switch (ability.id) {
       case ABILITY_ENERGIZE:
