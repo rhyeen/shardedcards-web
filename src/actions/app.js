@@ -6,12 +6,17 @@ import {
 import {
   showInGameMenu,
   hideInGameMenu,
-  resetGame } from './domains/game.js';
+  resetGame,
+  loseGame,
+  winGame } from './domains/game.js';
 
 import {
   spendAllocatedEnergy,
   allocateEnergy,
-  cancelAllocateEnergy } from './domains/status.js';
+  cancelAllocateEnergy,
+  setStatus,
+  resetEnergy,
+  setPlayerHealth } from './domains/status.js';
 
 import {
   recordAttackCard,
@@ -19,7 +24,11 @@ import {
   recordCastFromHand,
   recordCastFromPlayArea,
   recordCastAbilityEnergize,
-  endTurn } from './domains/turnaction.js';
+  endTurn,
+  resetTurns,
+  appendOpponentHistory,
+  appendPlayerHistory,
+  beginTurn } from './domains/turnaction.js';
 
 import {
   selectHandCard,
@@ -36,8 +45,22 @@ import {
   attackCard,
   clearHand,
   cancelCastingCard,
-  finishCastingCard } from './domains/card.js';
+  finishCastingCard,
+  resetCards,
+  setCards,
+  setHand,
+  setOpponentField,
+  refreshCards,
+  setFieldFromOpponentTurn } from './domains/card.js';
 
+import {
+  CallStartGame,
+  CallEndTurn } from '../services/turnaction.js';
+
+import { 
+  CallGetCards,
+  CallGetHand,
+  CallGetOpponentField } from '../services/card.js';
 
 export const Navigate = (path) => (dispatch) => {
   dispatch(navigate(path))
@@ -61,6 +84,23 @@ export const HideInGameMenu = () => (dispatch) => {
 
 export const ResetGame = () => (dispatch) => {
   dispatch(resetGame())
+  CallStartGame()
+  .then((initialGame) => {
+    dispatch(setStatus(initialGame.status))
+    dispatch(resetCards())
+    dispatch(resetTurns())
+    Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
+    .then(results => {
+      dispatch(setCards(results[0]))
+      dispatch(setHand(results[1]))
+      dispatch(setOpponentField(results[2]))
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  })
+  .catch(err => console.error(err))
+
 }
 
 export const SpendAllocatedEnergy = () => (dispatch) => {
@@ -96,7 +136,38 @@ export const RecordCastAbilityEnergize = (cardId, cardInstance, playerFieldCardI
 }
 
 export const EndTurn = (turn) => (dispatch) => {
-  dispatch(endTurn(turn))
+  dispatch(endTurn())
+  CallEndTurn(turn)
+  .then(results => {
+    dispatch(setPlayerHealth(results.remainingPlayerHealth))
+    if (results.remainingPlayerHealth <= 0) {
+      dispatch(loseGame())
+    }
+    dispatch(setFieldFromOpponentTurn(results.opponentTurn))
+    dispatch(appendOpponentHistory(results.opponentTurn))
+    dispatch(appendPlayerHistory(turn))
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+    CallGetHand()
+    .then(hand => dispatch(setHand(hand)))
+    .catch(err => console.error(err))
+    CallGetOpponentField()
+    .then(result => {
+      dispatch(setOpponentField(result))
+      if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
+        dispatch(winGame())
+      }
+    })
+    .catch(err => console.error(err))
+  })
+  .catch(err => {
+    console.error(err)
+    dispatch(appendPlayerHistory(turn))
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+  })
 }
 
 export const SelectHandCard = (cardId, cardInstance, handIndex) => (dispatch) => {

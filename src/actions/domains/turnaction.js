@@ -1,17 +1,3 @@
-import { CallEndTurn } from '../../services/turnaction.js';
-import { CallGetHand, CallGetOpponentField } from '../../services/card.js';
-import { 
-  setHand,
-  refreshCards,
-  setOpponentField,
-  setFieldFromOpponentTurn } from './card.js';
-import { 
-  resetEnergy,
-  setPlayerHealth } from './status.js';
-import {
-  loseGame,
-  winGame } from './game.js';
-
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
 export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
 export const BEGIN_TURN = 'BEGIN_TURN';
@@ -70,42 +56,7 @@ export const beginTurn = () => {
   }
 }
 
-export const endTurn = (turn) => (dispatch) => {
-  dispatch(_endTurn(turn))
-  CallEndTurn(turn)
-    .then(results => {
-      dispatch(setPlayerHealth(results.remainingPlayerHealth))
-      if (results.remainingPlayerHealth <= 0) {
-        dispatch(loseGame())
-      }
-      dispatch(setFieldFromOpponentTurn(results.opponentTurn))
-      dispatch(appendOpponentHistory(results.opponentTurn))
-      dispatch(appendPlayerHistory(turn))
-      dispatch(beginTurn())
-      dispatch(resetEnergy())
-      dispatch(refreshCards())
-      CallGetHand()
-      .then(hand => dispatch(setHand(hand)))
-      .catch(err => console.error(err))
-      CallGetOpponentField()
-      .then(result => {
-        dispatch(setOpponentField(result))
-        if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
-          dispatch(winGame())
-        }
-      })
-      .catch(err => console.error(err))
-    })
-    .catch(err => {
-      console.error(err)
-      dispatch(appendPlayerHistory(turn))
-      dispatch(beginTurn())
-      dispatch(resetEnergy())
-      dispatch(refreshCards())
-    })
-}
-
-const _endTurn = () => {
+export const endTurn = () => {
   return {
     type: END_TURN
   }
