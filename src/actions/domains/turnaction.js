@@ -1,16 +1,16 @@
-import { CallEndTurn } from '../services/turnaction.js';
-import { CallGetHand, CallGetOpponentField } from '../services/card.js';
+import { CallEndTurn } from '../../services/turnaction.js';
+import { CallGetHand, CallGetOpponentField } from '../../services/card.js';
 import { 
-  SetHand,
-  RefreshCards,
-  SetOpponentField,
-  SetFieldFromOpponentTurn } from './card.js';
+  setHand,
+  refreshCards,
+  setOpponentField,
+  setFieldFromOpponentTurn } from './card.js';
 import { 
-  ResetEnergy,
-  SetPlayerHealth } from './status.js';
+  resetEnergy,
+  setPlayerHealth } from './status.js';
 import {
-  LoseGame,
-  WinGame } from './game.js';
+  loseGame,
+  winGame } from './game.js';
 
 export const RECORD_ATTACK_CARD = 'RECORD_ATTACK_CARD';
 export const RECORD_PLACE_ON_PLAY_AREA = 'RECORD_PLACE_ON_PLAY_AREA';
@@ -23,7 +23,7 @@ export const RECORD_CAST_FROM_HAND = 'RECORD_CAST_FROM_HAND';
 export const RECORD_CAST_FROM_PLAY_AREA = 'RECORD_CAST_FROM_PLAY_AREA';
 export const RECORD_CAST_ABILITY_ENERGIZE = 'RECORD_CAST_ABILITY_ENERGIZE';
 
-export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
+export const recordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
     type: RECORD_ATTACK_CARD,
     playerFieldCardIndex,
@@ -31,7 +31,7 @@ export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) =
   }
 };
 
-export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
+export const recordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
   return {
     type: RECORD_PLACE_ON_PLAY_AREA,
     playerFieldCardIndex,
@@ -39,7 +39,7 @@ export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => {
   }
 };
 
-export const RecordCastFromHand = (cardId, cardInstance, handCardIndex) => {
+export const recordCastFromHand = (cardId, cardInstance, handCardIndex) => {
   return {
     type: RECORD_CAST_FROM_HAND,
     handCardIndex,
@@ -48,7 +48,7 @@ export const RecordCastFromHand = (cardId, cardInstance, handCardIndex) => {
   }
 };
 
-export const RecordCastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => {
+export const recordCastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => {
   return {
     type: RECORD_CAST_FROM_PLAY_AREA,
     playerFieldCardIndex,
@@ -57,51 +57,51 @@ export const RecordCastFromPlayArea = (cardId, cardInstance, playerFieldCardInde
   }
 };
 
-export const RecordCastAbilityEnergize = (abilityId) => {
+export const recordCastAbilityEnergize = (abilityId) => {
   return {
     type: RECORD_CAST_ABILITY_ENERGIZE,
     abilityId
   }
 };
 
-export const BeginTurn = () => {
+export const beginTurn = () => {
   return {
     type: BEGIN_TURN
   }
 }
 
-export const EndTurn = (turn) => (dispatch) => {
+export const endTurn = (turn) => (dispatch) => {
   dispatch(_endTurn(turn))
   CallEndTurn(turn)
     .then(results => {
-      dispatch(SetPlayerHealth(results.remainingPlayerHealth))
+      dispatch(setPlayerHealth(results.remainingPlayerHealth))
       if (results.remainingPlayerHealth <= 0) {
-        dispatch(LoseGame())
+        dispatch(loseGame())
       }
-      dispatch(SetFieldFromOpponentTurn(results.opponentTurn))
-      dispatch(AppendOpponentHistory(results.opponentTurn))
-      dispatch(AppendPlayerHistory(turn))
-      dispatch(BeginTurn())
-      dispatch(ResetEnergy())
-      dispatch(RefreshCards())
+      dispatch(setFieldFromOpponentTurn(results.opponentTurn))
+      dispatch(appendOpponentHistory(results.opponentTurn))
+      dispatch(appendPlayerHistory(turn))
+      dispatch(beginTurn())
+      dispatch(resetEnergy())
+      dispatch(refreshCards())
       CallGetHand()
-      .then(hand => dispatch(SetHand(hand)))
+      .then(hand => dispatch(setHand(hand)))
       .catch(err => console.error(err))
       CallGetOpponentField()
       .then(result => {
-        dispatch(SetOpponentField(result))
+        dispatch(setOpponentField(result))
         if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
-          dispatch(WinGame())
+          dispatch(winGame())
         }
       })
       .catch(err => console.error(err))
     })
     .catch(err => {
       console.error(err)
-      dispatch(AppendPlayerHistory(turn))
-      dispatch(BeginTurn())
-      dispatch(ResetEnergy())
-      dispatch(RefreshCards())
+      dispatch(appendPlayerHistory(turn))
+      dispatch(beginTurn())
+      dispatch(resetEnergy())
+      dispatch(refreshCards())
     })
 }
 
@@ -111,21 +111,21 @@ const _endTurn = () => {
   }
 }
 
-export const AppendPlayerHistory = (turn) => {
+export const appendPlayerHistory = (turn) => {
   return {
     type: APPEND_PLAYER_HISTORY,
     turn
   }
 }
 
-export const AppendOpponentHistory = (turn) => {
+export const appendOpponentHistory = (turn) => {
   return {
     type: APPEND_OPPONENT_HISTORY,
     turn
   }
 }
 
-export const ResetTurns = () => {
+export const resetTurns = () => {
   return {
     type: RESET_TURNS
   }

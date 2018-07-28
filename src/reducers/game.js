@@ -3,7 +3,7 @@ import {
   HIDE_IN_GAME_MENU,
   RESET_GAME,
   WIN_GAME,
-  LOSE_GAME } from '../actions/game.js';
+  LOSE_GAME } from '../actions/domains/game.js';
 
 export const GAME_STATE_PLAYING = 'playing';
 export const GAME_STATE_LOSE = 'lose';

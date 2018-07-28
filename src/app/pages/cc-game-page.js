@@ -18,7 +18,7 @@ import '../../components/menus/cc-end-game-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
 import '../../components/toolbars/cc-game-header.js';
-import { ResetGame } from '../../actions/game.js';
+import { ResetGame } from '../../actions/app.js';
 import { GAME_STATE_PLAYING } from '../../reducers/game.js';
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {

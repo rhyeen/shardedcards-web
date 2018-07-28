@@ -17,14 +17,10 @@ import {
   PlayFromPlayArea,
   SelectOpponentFieldCard,
   SelectPlayerFieldCard,
-  AttackCard } from '../../actions/card.js';
-
-import {
-  SpendAllocatedEnergy } from '../../actions/status.js';
-
-import {
-  RecordPlaceOnPlayArea,
-  RecordAttackCard } from '../../actions/turnaction.js'; 
+  AttackCard,
+  SpendAllocatedEnergy,
+  RecordAttackCard,
+  RecordPlaceOnPlayArea } from '../../actions/app.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, _totalCardVersion}) {

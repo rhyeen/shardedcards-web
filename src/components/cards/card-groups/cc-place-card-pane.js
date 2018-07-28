@@ -3,9 +3,9 @@ import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import { store } from '../../../store.js';
 
-import { CancelPlaySelectedHandCard } from '../../../actions/card.js';
-
-import { CancelAllocateEnergy } from '../../../actions/status.js';
+import { 
+  CancelPlaySelectedHandCard,
+  CancelAllocateEnergy } from '../../../actions/app.js';
 
 import '../../global/cc-btn.js';
 

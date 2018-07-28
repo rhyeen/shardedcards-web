@@ -6,10 +6,8 @@ import { store } from '../../../store.js';
 
 import { 
   CancelSelectHandCard,
-  PlaySelectedHandCard } from '../../../actions/card.js';
-
-import {
-  AllocateEnergy } from '../../../actions/status.js';
+  PlaySelectedHandCard,
+  AllocateEnergy } from '../../../actions/app.js';
 
 import { PLAYER_OWNER } from '../../../util/owner.js';  
 

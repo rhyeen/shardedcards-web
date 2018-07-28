@@ -1,65 +1,160 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+import {
+  navigate,
+  showSnackbar,
+  updateOffline } from './domains/page.js';
 
-export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
-export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+import {
+  showInGameMenu,
+  hideInGameMenu,
+  resetGame } from './domains/game.js';
 
-export const navigate = (path) => (dispatch) => {
-  // Extract the page name from path.
-  const page = path === '/' ? 'game' : path.slice(1);
+import {
+  spendAllocatedEnergy,
+  allocateEnergy,
+  cancelAllocateEnergy } from './domains/status.js';
 
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here
-  dispatch(loadPage(page));
-};
+import {
+  recordAttackCard,
+  recordPlaceOnPlayArea,
+  recordCastFromHand,
+  recordCastFromPlayArea,
+  recordCastAbilityEnergize,
+  endTurn } from './domains/turnaction.js';
 
-const loadPage = (page) => async (dispatch) => {
-  switch(page) {
-    case 'game':
-      await import('../app/pages/cc-game-page.js');
-      break;
-    case 'about':
-      await import('../app/pages/cc-about-page.js');
-      break;
-    default:
-      page = 'view404';
-      await import('../app/pages/cc-view404.js');
-      break;
-  }
-  dispatch(updatePage(page));
+import {
+  selectHandCard,
+  cancelSelectHandCard,
+  playSelectedHandCard,
+  cancelPlaySelectedHandCard,
+  placeOnPlayArea,
+  playFromPlayArea,
+  cancelPlayFromPlayArea,
+  selectOpponentFieldCard,
+  cancelSelectOpponentFieldCard,
+  selectPlayerFieldCard,
+  cancelSelectPlayerFieldCard,
+  attackCard,
+  clearHand,
+  cancelCastingCard,
+  finishCastingCard } from './domains/card.js';
+
+
+export const Navigate = (path) => (dispatch) => {
+  dispatch(navigate(path))
 }
 
-const updatePage = (page) => {
-  return {
-    type: UPDATE_PAGE,
-    page
-  };
+export const ShowSnackbar = () => (dispatch) => {
+  dispatch(showSnackbar())
 }
 
-let snackbarTimer;
+export const UpdateOffline = (offline) => (dispatch) => {
+  dispatch(updateOffline(offline))
+}
 
-export const showSnackbar = () => (dispatch) => {
-  dispatch({
-    type: OPEN_SNACKBAR
-  });
-  clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
-    dispatch({ type: CLOSE_SNACKBAR }), 3000);
-};
+export const ShowInGameMenu = () => (dispatch) => {
+  dispatch(showInGameMenu())
+}
 
-export const updateOffline = (offline) => {
-  return {
-    type: UPDATE_OFFLINE,
-    offline
-  };
-};
+export const HideInGameMenu = () => (dispatch) => {
+  dispatch(hideInGameMenu())
+}
 
+export const ResetGame = () => (dispatch) => {
+  dispatch(resetGame())
+}
+
+export const SpendAllocatedEnergy = () => (dispatch) => {
+  dispatch(spendAllocatedEnergy())
+}
+
+export const AllocateEnergy = (energyCost) => (dispatch) => {
+  dispatch(allocateEnergy(energyCost))
+}
+
+export const CancelAllocateEnergy = () => (dispatch) => {
+  dispatch(cancelAllocateEnergy())
+}
+
+export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => (dispatch) => {
+  dispatch(recordAttackCard(playerFieldCardIndex, opponentFieldCardIndex))
+}
+
+export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => (dispatch) => {
+  dispatch(recordPlaceOnPlayArea(playerFieldCardIndex, handCardIndex))
+}
+
+export const RecordCastFromHand = (cardId, cardInstance, handCardIndex) => (dispatch) => {
+  dispatch(recordCastFromHand(cardId, cardInstance, handCardIndex))
+}
+
+export const RecordCastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
+  dispatch(recordCastFromPlayArea(cardId, cardInstance, playerFieldCardIndex))
+}
+
+export const RecordCastAbilityEnergize = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
+  dispatch(recordCastAbilityEnergize(cardId, cardInstance, playerFieldCardIndex))
+}
+
+export const EndTurn = (turn) => (dispatch) => {
+  dispatch(endTurn(turn))
+}
+
+export const SelectHandCard = (cardId, cardInstance, handIndex) => (dispatch) => {
+  dispatch(selectHandCard(cardId, cardInstance, handIndex))
+}
+
+export const CancelSelectHandCard = () => (dispatch) => {
+  dispatch(cancelSelectHandCard())
+}
+
+export const PlaySelectedHandCard = () => (dispatch) => {
+  dispatch(playSelectedHandCard())
+}
+
+export const CancelPlaySelectedHandCard = () => (dispatch) => {
+  dispatch(cancelPlaySelectedHandCard())
+}
+
+export const PlaceOnPlayArea = (playAreaIndex) => (dispatch) => {
+  dispatch(placeOnPlayArea(playAreaIndex))
+}
+
+export const PlayFromPlayArea = (playAreaIndex) => (dispatch) => {
+  dispatch(playFromPlayArea(playAreaIndex))
+}
+
+export const CancelPlayFromPlayArea = () => (dispatch) => {
+  dispatch(cancelPlayFromPlayArea())
+}
+
+export const SelectOpponentFieldCard = (playAreaIndex) => (dispatch) => {
+  dispatch(selectOpponentFieldCard(playAreaIndex))
+}
+
+export const CancelSelectOpponentFieldCard = () => (dispatch) => {
+  dispatch(cancelSelectOpponentFieldCard())
+}
+
+export const SelectPlayerFieldCard = (playAreaIndex) => (dispatch) => {
+  dispatch(selectPlayerFieldCard(playAreaIndex))
+}
+
+export const CancelSelectPlayerFieldCard = () => (dispatch) => {
+  dispatch(cancelSelectPlayerFieldCard())
+}
+
+export const AttackCard = (playAreaIndex) => (dispatch) => {
+  dispatch(attackCard(playAreaIndex))
+}
+
+export const ClearHand = () => (dispatch) => {
+  dispatch(clearHand())
+}
+
+export const CancelCastingCard = () => (dispatch) => {
+  dispatch(cancelCastingCard())
+}
+
+export const FinishCastingCard = () => (dispatch) => {
+  dispatch(finishCastingCard())
+}

@@ -7,13 +7,13 @@ import {
   BEGIN_TURN,
   RECORD_CAST_FROM_HAND,
   RECORD_CAST_FROM_PLAY_AREA,
-  RECORD_CAST_ABILITY_ENERGIZE } from '../actions/turnaction.js';
+  RECORD_CAST_ABILITY_ENERGIZE } from '../actions/domains/turnaction.js';
 
 import {
   ATTACK_CARD,
   PLACE_ON_PLAY_AREA,
   CAST_CARD_FROM_HAND,
-  CAST_CARD_FROM_PLAY_AREA } from '../actions/card.js';
+  CAST_CARD_FROM_PLAY_AREA } from '../actions/domains/card.js';
 
 
 export const FIRST_TURN_PLAYER = 'player';

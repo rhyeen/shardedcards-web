@@ -1,6 +1,6 @@
 import {
   ATTACK_CARD,
-  PLACE_ON_PLAY_AREA } from '../../../actions/card.js';
+  PLACE_ON_PLAY_AREA } from '../../../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,

@@ -5,7 +5,7 @@ import { store } from '../../store.js';
 
 import { 
   HideInGameMenu,
-  ResetGame } from '../../actions/game.js';
+  ResetGame } from '../../actions/app.js';
 
 import '../global/cc-btn.js';
 

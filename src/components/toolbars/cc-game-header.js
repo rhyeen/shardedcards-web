@@ -6,7 +6,7 @@ import { store } from '../../store.js';
 import './cc-energy-bar-item.js';
 import './cc-health-bar-item.js';
 import './cc-game-menu-bar-item.js';
-import { ShowInGameMenu } from '../../actions/game.js';
+import { ShowInGameMenu } from '../../actions/app.js';
 
 export class CcGameHeader extends LitElement {
   _render() {

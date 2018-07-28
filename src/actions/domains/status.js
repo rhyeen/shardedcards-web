@@ -5,40 +5,39 @@ export const CANCEL_ALLOCATE_ENERGY = 'CANCEL_ALLOCATE_ENERGY';
 export const SET_STATUS = 'SET_STATUS';
 export const SET_PLAYER_HEALTH = 'SET_PLAYER_HEALTH';
 
-export const ResetEnergy = () => {
+export const resetEnergy = () => {
   return {
     type: RESET_ENERGY
   }
 };
 
-export const SpendAllocatedEnergy = (energyCost) => {
+export const spendAllocatedEnergy = () => {
   return {
-    type: SPEND_ALLOCATED_ENERGY,
-    energyCost
+    type: SPEND_ALLOCATED_ENERGY
   }
 };
 
-export const AllocateEnergy = (energyCost) => {
+export const allocateEnergy = (energyCost) => {
   return {
     type: ALLOCATE_ENERGY,
     energyCost
   }
 };
 
-export const CancelAllocateEnergy = () => {
+export const cancelAllocateEnergy = () => {
   return {
     type: CANCEL_ALLOCATE_ENERGY
   }
 };
 
-export const SetStatus = (status) => {
+export const setStatus = (status) => {
   return {
     type: SET_STATUS,
     status
   }
 };
 
-export const SetPlayerHealth = (health) => {
+export const setPlayerHealth = (health) => {
   return {
     type: SET_PLAYER_HEALTH,
     health

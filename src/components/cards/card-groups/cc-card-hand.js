@@ -7,7 +7,7 @@ import { store } from '../../../store.js';
 import '../card-types/cc-mini-card.js';
 
 import { 
-  SelectHandCard } from '../../../actions/card.js';
+  SelectHandCard } from '../../../actions/app.js';
 
 export class CcCardHand extends connect(store)(LitElement) {
   _render({_selectedCard, _hand}) {
