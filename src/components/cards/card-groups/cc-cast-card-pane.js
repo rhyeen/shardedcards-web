@@ -7,8 +7,6 @@ import { store } from '../../../store.js';
 import {
   CancelCastingCard,
   FinishCastingCard,
-  CastFromHand,
-  CastFromPlayArea,
   CastAbilityEnergize } from '../../../actions/app.js';
 
 import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';  
@@ -72,25 +70,20 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
-    _selectedCard: Object,
-    _cannotAfford: Boolean,
-    _cardId: String,
-    _cardInstance: String,
-    _handIndex: Number
+    _selectedCard: Object
   }};
 
   _stateChanged(state) {
-    this._cardId = state.card.selectedCastingCard.id
-    this._cardInstance = state.card.selectedCastingCard.instance
-    this._handIndex = state.card.selectedCastingCard.handIndex
-    if (!this._cardId) {
+    const cardId = state.card.selectedCastingCard.id
+    const cardInstance = state.card.selectedCastingCard.instance
+    if (!cardId) {
       this._selectedCard = {
         version: 0,
         abilities: []
       }
       return
     }
-    this._selectedCard = state.card.cards[this._cardId].instances[this._cardInstance]
+    this._selectedCard = state.card.cards[cardId].instances[cardInstance]
   }
 
   _cancel() {
@@ -116,14 +109,6 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   }
 
   _castAbility(ability) {
-    if (this._handIndex === 0 || this._handIndex) {
-      store.dispatch(CastFromHand(this._cardId, this._cardInstance, this._handIndex))
-    } else if (this._playFieldIndex === 0 || this._playFieldIndex) {
-      store.dispatch(CastFromPlayArea(this._cardId, this._cardInstance, this._playFieldIndex))
-    } else {
-      console.error('Unexpected casting origin: not from hand nor play area.')
-      return
-    }
     switch (ability.id) {
       case ABILITY_ENERGIZE:
         return store.dispatch(CastAbilityEnergize(ability.id))

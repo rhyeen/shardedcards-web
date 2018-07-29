@@ -204,16 +204,25 @@ export const AttackCard = (playAreaIndex) => (dispatch) => {
   dispatch(attackCard(playAreaIndex))
 }
 
-export const CastFromHand = (cardId, cardInstance, handCardIndex) => (dispatch) => {
-  dispatch(recordCastFromHand(cardId, cardInstance, handCardIndex))
+export const CastAbilityEnergize = (abilityId) => (dispatch) => {
+  _recordCastFromPosition(dispatch)
+  dispatch(recordCastAbilityEnergize(abilityId))
 }
 
-export const CastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
-  dispatch(recordCastFromPlayArea(cardId, cardInstance, playerFieldCardIndex))
-}
-
-export const CastAbilityEnergize = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
-  dispatch(recordCastAbilityEnergize(cardId, cardInstance, playerFieldCardIndex))
+function _recordCastFromPosition(dispatch) {
+  const selectedCastingCard = store.getState().card.selectedCastingCard
+  const cardId = selectedCastingCard.id
+  const cardInstance = selectedCastingCard.instance
+  const handIndex = selectedCastingCard.handIndex
+  const playAreaIndex = selectedCastingCard.playAreaIndex
+  if (handIndex === 0 || handIndex) {
+    dispatch(recordCastFromHand(cardId, cardInstance, handIndex))
+  } else if (playAreaIndex === 0 || playAreaIndex) {
+    dispatch(recordCastFromPlayArea(cardId, cardInstance, playAreaIndex))
+  } else {
+    console.error('Unexpected casting origin: not from hand nor play area.')
+    return
+  }
 }
 
 export const CancelCastingCard = () => (dispatch) => {
