@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { UPDATE_PAGE, UPDATE_OFFLINE,
-         OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/app.js';
+         OPEN_SNACKBAR, CLOSE_SNACKBAR } from '../actions/domains/page.js';
 
 const app = (state = {}, action) => {
   switch (action.type) {
