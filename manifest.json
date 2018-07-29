@@ -1,7 +1,7 @@
 {
-  "name": "Card Craft",
-  "short_name": "CC",
-  "description": "Card Craft",
+  "name": "Sharded Cards",
+  "short_name": "Sharded Cards",
+  "description": "Sharded Cards",
   "start_url": "/index.html",
   "display": "standalone",
   "theme_color": "#d66b8e",
