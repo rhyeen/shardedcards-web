@@ -1,7 +1,7 @@
 {
-  "name": "cardcraft",
+  "name": "shardedcards-web",
   "version": "0.1.0",
-  "description": "Card Craft",
+  "description": "Sharded Cards",
   "main": "index.js",
   "scripts": {
     "start": "polymer serve",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhyeen/cardcraft.git"
+    "url": "git+https://github.com/rhyeen/shardedcards-web.git"
   },
   "author": "Ryan Saunders <contact.ryan.saunders@gmail.com>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/rhyeen/cardcraft/issues"
+    "url": "https://github.com/rhyeen/shardedcards-web/issues"
   },
-  "homepage": "https://github.com/rhyeen/cardcraft#readme",
+  "homepage": "https://github.com/rhyeen/shardedcards-web#readme",
   "dependencies": {
     "@polymer/lit-element": "^0.5.2",
     "@webcomponents/webcomponentsjs": "^2.0.0-beta.2",

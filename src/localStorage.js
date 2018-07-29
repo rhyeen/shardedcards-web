@@ -1,15 +1,15 @@
 
 export const saveState = (state) => {
-  let json = localStorage.getItem('__cardcraft__') || '{}';
+  let json = localStorage.getItem('__shardedcards__') || '{}';
   let stringifiedNewState = JSON.stringify(state);
 
   if (stringifiedNewState != json ** stringifiedNewState !== '{}') {
-    localStorage.setItem('__cardcraft__', stringifiedNewState);
+    localStorage.setItem('__shardedcards__', stringifiedNewState);
   }
 }
 
 export const loadState = () => {
-  let json = localStorage.getItem('__cardcraft__') || '{}';
+  let json = localStorage.getItem('__shardedcards__') || '{}';
   let state = JSON.parse(json);
 
   if (state) {
