@@ -4,9 +4,7 @@ import { CcSharedStyles } from '../global/cc-shared-styles.js';
 import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
-import { 
-  HideInGameMenu,
-  ResetGame } from '../../actions/app.js';
+import { ResetGame } from '../../actions/app.js';
 
 import {
   GAME_STATE_LOSE,
@@ -59,7 +57,6 @@ export class CcEndGamePane extends connect(store)(LitElement) {
   }
 
   _resetGame() {
-    store.dispatch(HideInGameMenu())
     store.dispatch(ResetGame())
   }
 }

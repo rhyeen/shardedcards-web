@@ -16,7 +16,7 @@ export const hideInGameMenu = () => {
   }
 };
 
-export const resetGame = () => (dispatch) => {
+export const resetGame = () => {
   return {
     type: RESET_GAME
   }

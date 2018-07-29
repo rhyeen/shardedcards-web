@@ -6,8 +6,7 @@ import { store } from '../../../store.js';
 
 import { 
   CancelSelectHandCard,
-  PlaySelectedHandCard,
-  AllocateEnergy } from '../../../actions/app.js';
+  PlaySelectedHandCard } from '../../../actions/app.js';
 
 import { PLAYER_OWNER } from '../../../util/owner.js';  
 
@@ -60,7 +59,6 @@ export class CcHandCardPane extends connect(store)(LitElement) {
   }
 
   _play() {
-    store.dispatch(AllocateEnergy(this._selectedCard.cost))
     store.dispatch(PlaySelectedHandCard())
   }
 

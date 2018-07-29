@@ -43,7 +43,6 @@ export class CcGameMenuPane extends LitElement {
   }
 
   _resetGame() {
-    store.dispatch(HideInGameMenu())
     store.dispatch(ResetGame())
   }
 }

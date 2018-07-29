@@ -1,3 +1,7 @@
+import { store } from '../store.js';
+
+import { GetCard } from '../util/card.js';
+
 import {
   navigate,
   showSnackbar,
@@ -83,6 +87,7 @@ export const HideInGameMenu = () => (dispatch) => {
 }
 
 export const ResetGame = () => (dispatch) => {
+  dispatch(HideInGameMenu())
   dispatch(resetGame())
   CallStartGame()
   .then((initialGame) => {
@@ -103,39 +108,13 @@ export const ResetGame = () => (dispatch) => {
 
 }
 
-export const SpendAllocatedEnergy = () => (dispatch) => {
-  dispatch(spendAllocatedEnergy())
+function _getDeepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj))
 }
 
-export const AllocateEnergy = (energyCost) => (dispatch) => {
-  dispatch(allocateEnergy(energyCost))
-}
-
-export const CancelAllocateEnergy = () => (dispatch) => {
-  dispatch(cancelAllocateEnergy())
-}
-
-export const RecordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => (dispatch) => {
-  dispatch(recordAttackCard(playerFieldCardIndex, opponentFieldCardIndex))
-}
-
-export const RecordPlaceOnPlayArea = (playerFieldCardIndex, handCardIndex) => (dispatch) => {
-  dispatch(recordPlaceOnPlayArea(playerFieldCardIndex, handCardIndex))
-}
-
-export const RecordCastFromHand = (cardId, cardInstance, handCardIndex) => (dispatch) => {
-  dispatch(recordCastFromHand(cardId, cardInstance, handCardIndex))
-}
-
-export const RecordCastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
-  dispatch(recordCastFromPlayArea(cardId, cardInstance, playerFieldCardIndex))
-}
-
-export const RecordCastAbilityEnergize = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
-  dispatch(recordCastAbilityEnergize(cardId, cardInstance, playerFieldCardIndex))
-}
-
-export const EndTurn = (turn) => (dispatch) => {
+export const EndTurn = () => (dispatch) => {
+  dispatch(clearHand())
+  const turn = _getDeepCopy(store.getState().turnaction.pendingTurn)
   dispatch(endTurn())
   CallEndTurn(turn)
   .then(results => {
@@ -179,14 +158,20 @@ export const CancelSelectHandCard = () => (dispatch) => {
 }
 
 export const PlaySelectedHandCard = () => (dispatch) => {
+  const selectedCard = store.getState().card.selectedHandCard
+  const card = GetCard(store.getState().card.cards, selectedCard.id, selectedCard.instance)
+  dispatch(allocateEnergy(card.cost))
   dispatch(playSelectedHandCard())
 }
 
 export const CancelPlaySelectedHandCard = () => (dispatch) => {
+  dispatch(cancelAllocateEnergy())
   dispatch(cancelPlaySelectedHandCard())
 }
 
 export const PlaceOnPlayArea = (playAreaIndex) => (dispatch) => {
+  dispatch(spendAllocatedEnergy())
+  dispatch(recordPlaceOnPlayArea(playAreaIndex, store.getState().card.playFromHand.handIndex))
   dispatch(placeOnPlayArea(playAreaIndex))
 }
 
@@ -215,17 +200,28 @@ export const CancelSelectPlayerFieldCard = () => (dispatch) => {
 }
 
 export const AttackCard = (playAreaIndex) => (dispatch) => {
+  dispatch(recordAttackCard(store.getState().card.playFromPlayArea.playAreaIndex, playAreaIndex))
   dispatch(attackCard(playAreaIndex))
 }
 
-export const ClearHand = () => (dispatch) => {
-  dispatch(clearHand())
+export const CastFromHand = (cardId, cardInstance, handCardIndex) => (dispatch) => {
+  dispatch(recordCastFromHand(cardId, cardInstance, handCardIndex))
+}
+
+export const CastFromPlayArea = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
+  dispatch(recordCastFromPlayArea(cardId, cardInstance, playerFieldCardIndex))
+}
+
+export const CastAbilityEnergize = (cardId, cardInstance, playerFieldCardIndex) => (dispatch) => {
+  dispatch(recordCastAbilityEnergize(cardId, cardInstance, playerFieldCardIndex))
 }
 
 export const CancelCastingCard = () => (dispatch) => {
+  dispatch(cancelAllocateEnergy())
   dispatch(cancelCastingCard())
 }
 
 export const FinishCastingCard = () => (dispatch) => {
+  dispatch(spendAllocatedEnergy())
   dispatch(finishCastingCard())
 }

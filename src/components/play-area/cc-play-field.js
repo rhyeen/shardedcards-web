@@ -17,10 +17,7 @@ import {
   PlayFromPlayArea,
   SelectOpponentFieldCard,
   SelectPlayerFieldCard,
-  AttackCard,
-  SpendAllocatedEnergy,
-  RecordAttackCard,
-  RecordPlaceOnPlayArea } from '../../actions/app.js';
+  AttackCard } from '../../actions/app.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, _totalCardVersion}) {
@@ -56,7 +53,6 @@ export class CcPlayField extends connect(store)(LitElement) {
     _middleCard: Object,
     _attackingCard: Object,
     _replacingCard: Object,
-    _handCardIndex: Number,
     _playingFromPlayAreaIndex: Number,
     _totalCardVersion: Number // meant soley to force an update, if need be
   }};
@@ -71,7 +67,6 @@ export class CcPlayField extends connect(store)(LitElement) {
     }
     if (state.card.playFromHand.id) {
       this._replacingCard = state.card.cards[state.card.playFromHand.id].instances[state.card.playFromHand.instance]
-      this._handCardIndex = state.card.playFromHand.handIndex
     } else {
       this._replacingCard = null      
     }
@@ -212,27 +207,19 @@ export class CcPlayField extends connect(store)(LitElement) {
   }
 
   _attackCard(card, playAreaIndex) {
-    const hardCodedPlayerPlayAreaIndex = this._playingFromPlayAreaIndex
     return html`
       <cc-attack-card
           attacked="${card}"
           attacking="${this._attackingCard}"
-          on-click="${() => {
-            store.dispatch(AttackCard(playAreaIndex))
-            store.dispatch(RecordAttackCard(hardCodedPlayerPlayAreaIndex, playAreaIndex))
-          }}"></cc-attack-card>`
+          on-click="${() => store.dispatch(AttackCard(playAreaIndex))}"></cc-attack-card>`
   }
 
-  _replaceCard(card, playAreaIndex, handCardIndex) {
+  _replaceCard(card, playAreaIndex) {
     return html`
       <cc-replace-card
           replaced="${card}"
           replacing="${this._replacingCard}"
-          on-click="${() => {
-            store.dispatch(SpendAllocatedEnergy())
-            store.dispatch(PlaceOnPlayArea(playAreaIndex))
-            store.dispatch(RecordPlaceOnPlayArea(playAreaIndex, this._handCardIndex))
-          }}"></cc-replace-card>`
+          on-click="${() => store.dispatch(PlaceOnPlayArea(playAreaIndex))}"></cc-replace-card>`
   }
 
   _playerPawnCard(card, playAreaIndex) {

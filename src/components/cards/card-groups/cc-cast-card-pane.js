@@ -7,11 +7,9 @@ import { store } from '../../../store.js';
 import {
   CancelCastingCard,
   FinishCastingCard,
-  CancelAllocateEnergy,
-  SpendAllocatedEnergy,
-  RecordCastFromHand,
-  RecordCastFromPlayArea,
-  RecordCastAbilityEnergize } from '../../../actions/app.js';
+  CastFromHand,
+  CastFromPlayArea,
+  CastAbilityEnergize } from '../../../actions/app.js';
 
 import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';  
 
@@ -96,13 +94,11 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   }
 
   _cancel() {
-    store.dispatch(CancelAllocateEnergy())
     store.dispatch(CancelCastingCard())
   }
 
   _done() {
     store.dispatch(FinishCastingCard())
-    store.dispatch(SpendAllocatedEnergy())
   }
 
   _getAbilitiesHtml() {
@@ -121,16 +117,16 @@ export class CcCastCardPane extends connect(store)(LitElement) {
 
   _castAbility(ability) {
     if (this._handIndex === 0 || this._handIndex) {
-      store.dispatch(RecordCastFromHand(this._cardId, this._cardInstance, this._handIndex))
+      store.dispatch(CastFromHand(this._cardId, this._cardInstance, this._handIndex))
     } else if (this._playFieldIndex === 0 || this._playFieldIndex) {
-      store.dispatch(RecordCastFromPlayArea(this._cardId, this._cardInstance, this._playFieldIndex))
+      store.dispatch(CastFromPlayArea(this._cardId, this._cardInstance, this._playFieldIndex))
     } else {
       console.error('Unexpected casting origin: not from hand nor play area.')
       return
     }
     switch (ability.id) {
       case ABILITY_ENERGIZE:
-        return store.dispatch(RecordCastAbilityEnergize(ability.id))
+        return store.dispatch(CastAbilityEnergize(ability.id))
       default:
         console.error(`Unexpected ability: ${ability.id}`)
         return
