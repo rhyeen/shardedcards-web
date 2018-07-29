@@ -5,7 +5,7 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../../store.js';
 
 import { 
-  CancelSelectPlayerFieldCard } from '../../../actions/card.js';
+  CancelSelectPlayerFieldCard } from '../../../actions/app.js';
 
 import { PLAYER_OWNER } from '../../../util/owner.js';
 

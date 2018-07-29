@@ -7,8 +7,8 @@ import './cc-lost-pile-bar-item.js';
 
 import { store } from '../../store.js';
 
-import { EndTurn } from '../../actions/turnaction.js';
-import { ClearHand } from '../../actions/card.js';
+import { 
+  EndTurn } from '../../actions/app.js';
 
 export class CcGameFooter extends LitElement {
   _render() {
@@ -45,8 +45,7 @@ export class CcGameFooter extends LitElement {
   }};
 
   _endTurn() {
-    store.dispatch(ClearHand())
-    store.dispatch(EndTurn(store.getState().turnaction.pendingTurn))
+    store.dispatch(EndTurn())
   }
 }
 

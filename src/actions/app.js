@@ -1,65 +1,236 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+import { store } from '../store.js';
 
-export const UPDATE_PAGE = 'UPDATE_PAGE';
-export const UPDATE_OFFLINE = 'UPDATE_OFFLINE';
-export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+import { GetCard } from '../util/card.js';
 
-export const navigate = (path) => (dispatch) => {
-  // Extract the page name from path.
-  const page = path === '/' ? 'game' : path.slice(1);
+import {
+  navigate,
+  showSnackbar,
+  updateOffline } from './domains/page.js';
 
-  // Any other info you might want to extract from the path (like page type),
-  // you can do here
-  dispatch(loadPage(page));
-};
+import {
+  showInGameMenu,
+  hideInGameMenu,
+  resetGame,
+  loseGame,
+  winGame } from './domains/game.js';
 
-const loadPage = (page) => async (dispatch) => {
-  switch(page) {
-    case 'game':
-      await import('../app/pages/cc-game-page.js');
-      break;
-    case 'about':
-      await import('../app/pages/cc-about-page.js');
-      break;
-    default:
-      page = 'view404';
-      await import('../app/pages/cc-view404.js');
-      break;
+import {
+  spendAllocatedEnergy,
+  allocateEnergy,
+  cancelAllocateEnergy,
+  setStatus,
+  resetEnergy,
+  setPlayerHealth } from './domains/status.js';
+
+import {
+  recordAttackCard,
+  recordPlaceOnPlayArea,
+  recordCastFromHand,
+  recordCastFromPlayArea,
+  recordCastAbilityEnergize,
+  endTurn,
+  resetTurns,
+  appendOpponentHistory,
+  appendPlayerHistory,
+  beginTurn } from './domains/turnaction.js';
+
+import {
+  selectHandCard,
+  cancelSelectHandCard,
+  playSelectedHandCard,
+  cancelPlaySelectedHandCard,
+  placeOnPlayArea,
+  playFromPlayArea,
+  cancelPlayFromPlayArea,
+  selectOpponentFieldCard,
+  cancelSelectOpponentFieldCard,
+  selectPlayerFieldCard,
+  cancelSelectPlayerFieldCard,
+  attackCard,
+  clearHand,
+  cancelCastingCard,
+  finishCastingCard,
+  resetCards,
+  setCards,
+  setHand,
+  setOpponentField,
+  refreshCards,
+  setFieldFromOpponentTurn } from './domains/card.js';
+
+import {
+  CallStartGame,
+  CallEndTurn } from '../services/turnaction.js';
+
+import { 
+  CallGetCards,
+  CallGetHand,
+  CallGetOpponentField } from '../services/card.js';
+
+export const Navigate = (path) => (dispatch) => {
+  dispatch(navigate(path))
+}
+
+export const ShowSnackbar = () => (dispatch) => {
+  dispatch(showSnackbar())
+}
+
+export const UpdateOffline = (offline) => (dispatch) => {
+  dispatch(updateOffline(offline))
+}
+
+export const ShowInGameMenu = () => (dispatch) => {
+  dispatch(showInGameMenu())
+}
+
+export const HideInGameMenu = () => (dispatch) => {
+  dispatch(hideInGameMenu())
+}
+
+export const ResetGame = () => (dispatch) => {
+  dispatch(HideInGameMenu())
+  dispatch(resetGame())
+  CallStartGame()
+  .then((initialGame) => {
+    dispatch(setStatus(initialGame.status))
+    dispatch(resetCards())
+    dispatch(resetTurns())
+    Promise.all([CallGetCards(), CallGetHand(), CallGetOpponentField()])
+    .then(results => {
+      dispatch(setCards(results[0]))
+      dispatch(setHand(results[1]))
+      dispatch(setOpponentField(results[2]))
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  })
+  .catch(err => console.error(err))
+
+}
+
+function _getDeepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+export const EndTurn = () => (dispatch) => {
+  dispatch(clearHand())
+  const turn = _getDeepCopy(store.getState().turnaction.pendingTurn)
+  dispatch(endTurn())
+  CallEndTurn(turn)
+  .then(results => {
+    dispatch(setPlayerHealth(results.remainingPlayerHealth))
+    if (results.remainingPlayerHealth <= 0) {
+      dispatch(loseGame())
+    }
+    dispatch(setFieldFromOpponentTurn(results.opponentTurn))
+    dispatch(appendOpponentHistory(results.opponentTurn))
+    dispatch(appendPlayerHistory(turn))
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+    CallGetHand()
+    .then(hand => dispatch(setHand(hand)))
+    .catch(err => console.error(err))
+    CallGetOpponentField()
+    .then(result => {
+      dispatch(setOpponentField(result))
+      if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
+        dispatch(winGame())
+      }
+    })
+    .catch(err => console.error(err))
+  })
+  .catch(err => {
+    console.error(err)
+    dispatch(appendPlayerHistory(turn))
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+  })
+}
+
+export const SelectHandCard = (cardId, cardInstance, handIndex) => (dispatch) => {
+  dispatch(selectHandCard(cardId, cardInstance, handIndex))
+}
+
+export const CancelSelectHandCard = () => (dispatch) => {
+  dispatch(cancelSelectHandCard())
+}
+
+export const PlaySelectedHandCard = () => (dispatch) => {
+  const selectedCard = store.getState().card.selectedHandCard
+  const card = GetCard(store.getState().card.cards, selectedCard.id, selectedCard.instance)
+  dispatch(allocateEnergy(card.cost))
+  dispatch(playSelectedHandCard())
+}
+
+export const CancelPlaySelectedHandCard = () => (dispatch) => {
+  dispatch(cancelAllocateEnergy())
+  dispatch(cancelPlaySelectedHandCard())
+}
+
+export const PlaceOnPlayArea = (playAreaIndex) => (dispatch) => {
+  dispatch(spendAllocatedEnergy())
+  dispatch(recordPlaceOnPlayArea(playAreaIndex, store.getState().card.playFromHand.handIndex))
+  dispatch(placeOnPlayArea(playAreaIndex))
+}
+
+export const PlayFromPlayArea = (playAreaIndex) => (dispatch) => {
+  dispatch(playFromPlayArea(playAreaIndex))
+}
+
+export const CancelPlayFromPlayArea = () => (dispatch) => {
+  dispatch(cancelPlayFromPlayArea())
+}
+
+export const SelectOpponentFieldCard = (playAreaIndex) => (dispatch) => {
+  dispatch(selectOpponentFieldCard(playAreaIndex))
+}
+
+export const CancelSelectOpponentFieldCard = () => (dispatch) => {
+  dispatch(cancelSelectOpponentFieldCard())
+}
+
+export const SelectPlayerFieldCard = (playAreaIndex) => (dispatch) => {
+  dispatch(selectPlayerFieldCard(playAreaIndex))
+}
+
+export const CancelSelectPlayerFieldCard = () => (dispatch) => {
+  dispatch(cancelSelectPlayerFieldCard())
+}
+
+export const AttackCard = (playAreaIndex) => (dispatch) => {
+  dispatch(recordAttackCard(store.getState().card.playFromPlayArea.playAreaIndex, playAreaIndex))
+  dispatch(attackCard(playAreaIndex))
+}
+
+export const CastAbilityEnergize = (abilityId) => (dispatch) => {
+  _recordCastFromPosition(dispatch)
+  dispatch(recordCastAbilityEnergize(abilityId))
+}
+
+function _recordCastFromPosition(dispatch) {
+  const selectedCastingCard = store.getState().card.selectedCastingCard
+  const cardId = selectedCastingCard.id
+  const cardInstance = selectedCastingCard.instance
+  const handIndex = selectedCastingCard.handIndex
+  const playAreaIndex = selectedCastingCard.playAreaIndex
+  if (handIndex === 0 || handIndex) {
+    dispatch(recordCastFromHand(cardId, cardInstance, handIndex))
+  } else if (playAreaIndex === 0 || playAreaIndex) {
+    dispatch(recordCastFromPlayArea(cardId, cardInstance, playAreaIndex))
+  } else {
+    console.error('Unexpected casting origin: not from hand nor play area.')
+    return
   }
-  dispatch(updatePage(page));
 }
 
-const updatePage = (page) => {
-  return {
-    type: UPDATE_PAGE,
-    page
-  };
+export const CancelCastingCard = () => (dispatch) => {
+  dispatch(cancelAllocateEnergy())
+  dispatch(cancelCastingCard())
 }
 
-let snackbarTimer;
-
-export const showSnackbar = () => (dispatch) => {
-  dispatch({
-    type: OPEN_SNACKBAR
-  });
-  clearTimeout(snackbarTimer);
-  snackbarTimer = setTimeout(() =>
-    dispatch({ type: CLOSE_SNACKBAR }), 3000);
-};
-
-export const updateOffline = (offline) => {
-  return {
-    type: UPDATE_OFFLINE,
-    offline
-  };
-};
-
+export const FinishCastingCard = () => (dispatch) => {
+  dispatch(spendAllocatedEnergy())
+  dispatch(finishCastingCard())
+}

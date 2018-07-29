@@ -19,7 +19,7 @@ import {
   SET_FIELD_FROM_OPPONENT_TURN,
   RESET_CARDS,
   CANCEL_CASTING_CARD,
-  FINISH_CASTING_CARD } from '../actions/card.js';
+  FINISH_CASTING_CARD } from '../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,

@@ -23,7 +23,7 @@ export const FINISH_CASTING_CARD = 'FINISH_CASTING_CARD';
 export const CAST_CARD_FROM_HAND = 'CAST_CARD_FROM_HAND';
 export const CAST_CARD_FROM_PLAY_AREA = 'CAST_CARD_FROM_PLAY_AREA';
 
-export const SelectHandCard = (cardId, cardInstance, handIndex) => {
+export const selectHandCard = (cardId, cardInstance, handIndex) => {
   return {
     type: SELECT_HAND_CARD,
     cardId,
@@ -32,84 +32,84 @@ export const SelectHandCard = (cardId, cardInstance, handIndex) => {
   }
 };
 
-export const CancelSelectHandCard = () => {
+export const cancelSelectHandCard = () => {
   return {
     type: CANCEL_SELECT_HAND_CARD
   }
 };
 
-export const PlaySelectedHandCard = () => {
+export const playSelectedHandCard = () => {
   return {
     type: PLAY_SELECTED_HAND_CARD
   }
 };
 
-export const CancelPlaySelectedHandCard = () => {
+export const cancelPlaySelectedHandCard = () => {
   return {
     type: CANCEL_PLAY_SELECTED_HAND_CARD
   }
 };
 
-export const PlaceOnPlayArea = (playAreaIndex) => {
+export const placeOnPlayArea = (playAreaIndex) => {
   return {
     type: PLACE_ON_PLAY_AREA,
     playAreaIndex
   }
 };
 
-export const PlayFromPlayArea = (playAreaIndex) => {
+export const playFromPlayArea = (playAreaIndex) => {
   return {
     type: PLAY_FROM_PLAY_AREA,
     playAreaIndex
   }
 };
 
-export const CancelPlayFromPlayArea = () => {
+export const cancelPlayFromPlayArea = () => {
   return {
     type: CANCEL_PLAY_FROM_PLAY_AREA
   }
 };
 
-export const SelectOpponentFieldCard = (playAreaIndex) => {
+export const selectOpponentFieldCard = (playAreaIndex) => {
   return {
     type: SELECT_OPPONENT_FIELD_CARD,
     playAreaIndex
   }
 }
 
-export const CancelSelectOpponentFieldCard = () => {
+export const cancelSelectOpponentFieldCard = () => {
   return {
     type: CANCEL_SELECT_OPPONENT_FIELD_CARD
   }
 }
 
-export const SelectPlayerFieldCard = (playAreaIndex) => {
+export const selectPlayerFieldCard = (playAreaIndex) => {
   return {
     type: SELECT_PLAYER_FIELD_CARD,
     playAreaIndex
   }
 }
 
-export const CancelSelectPlayerFieldCard = () => {
+export const cancelSelectPlayerFieldCard = () => {
   return {
     type: CANCEL_SELECT_PLAYER_FIELD_CARD
   }
 }
 
-export const AttackCard = (playAreaIndex) => {
+export const attackCard = (playAreaIndex) => {
   return {
     type: ATTACK_CARD,
     playAreaIndex
   }
 }
 
-export const ClearHand = () => {
+export const clearHand = () => {
   return {
     type: CLEAR_HAND
   }
 }
 
-export const SetHand = ({hand, deckSize, discardPileSize, lostCardsSize}) => {
+export const setHand = ({hand, deckSize, discardPileSize, lostCardsSize}) => {
   return {
     type: SET_HAND,
     hand,
@@ -119,20 +119,20 @@ export const SetHand = ({hand, deckSize, discardPileSize, lostCardsSize}) => {
   }
 }
 
-export const RefreshCards = () => {
+export const refreshCards = () => {
   return {
     type: REFRESH_CARDS
   }
 }
 
-export const SetCards = (cards) => {
+export const setCards = (cards) => {
   return {
     type: SET_CARDS,
     cards
   }
 }
 
-export const SetOpponentField = ({opponentField, opponentFieldBacklog, opponentFieldCards}) => {
+export const setOpponentField = ({opponentField, opponentFieldBacklog, opponentFieldCards}) => {
   return {
     type: SET_OPPONENT_FIELD,
     opponentField,
@@ -141,26 +141,26 @@ export const SetOpponentField = ({opponentField, opponentFieldBacklog, opponentF
   }
 }
 
-export const SetFieldFromOpponentTurn = (opponentTurn) => {
+export const setFieldFromOpponentTurn = (opponentTurn) => {
   return {
     type: SET_FIELD_FROM_OPPONENT_TURN,
     opponentTurn
   }
 }
 
-export const ResetCards = () => {
+export const resetCards = () => {
   return {
     type: RESET_CARDS
   }
 }
 
-export const CancelCastingCard = () => {
+export const cancelCastingCard = () => {
   return {
     type: CANCEL_CASTING_CARD
   }
 }
 
-export const FinishCastingCard = () => {
+export const finishCastingCard = () => {
   return {
     type: FINISH_CASTING_CARD
   }

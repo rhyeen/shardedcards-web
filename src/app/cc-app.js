@@ -14,7 +14,7 @@ import { installRouter } from 'pwa-helpers/router';
 import { installOfflineWatcher } from 'pwa-helpers/network';
 
 import { store } from '../store.js';
-import { navigate, updateOffline, showSnackbar } from '../actions/app.js';
+import { Navigate, UpdateOffline, ShowSnackbar } from '../actions/app.js';
 
 import '../components/cc-snack-bar.js';
 import { CcSharedStyles } from '../components/global/cc-shared-styles.js';
@@ -84,12 +84,12 @@ class CcApp extends connect(store)(LitElement) {
     if (this._offline === undefined || this._offline == offline) {
       return;
     }
-    store.dispatch(updateOffline(offline));
-    store.dispatch(showSnackbar());
+    store.dispatch(UpdateOffline(offline));
+    store.dispatch(ShowSnackbar());
   }
 
   _locationChanged(location) {
-    store.dispatch(navigate(window.decodeURIComponent(location.pathname)));
+    store.dispatch(Navigate(window.decodeURIComponent(location.pathname)));
   }
 }
 

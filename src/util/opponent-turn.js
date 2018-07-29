@@ -8,7 +8,7 @@ import {
 
 import { 
   ATTACK_CARD,
-  ATTACK_PLAYER } from '../actions/card.js';
+  ATTACK_PLAYER } from '../actions/domains/card.js';
 
 const MAX_LOOP_ITERATIONS = 10;
 

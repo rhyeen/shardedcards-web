@@ -4,7 +4,7 @@ import {
   ALLOCATE_ENERGY,
   CANCEL_ALLOCATE_ENERGY,
   SET_STATUS,
-  SET_PLAYER_HEALTH } from '../actions/status.js';
+  SET_PLAYER_HEALTH } from '../actions/domains/status.js';
 
 const defaultState = {
   energy: {

@@ -3,7 +3,7 @@ import { CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import { store } from '../../../store.js';
 
-import { CancelPlayFromPlayArea } from '../../../actions/card.js';
+import { CancelPlayFromPlayArea } from '../../../actions/app.js';
 
 import '../../global/cc-btn.js';
 
