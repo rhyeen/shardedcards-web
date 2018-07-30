@@ -22,6 +22,7 @@ export const CANCEL_CASTING_CARD = 'CANCEL_CASTING_CARD';
 export const FINISH_CASTING_CARD = 'FINISH_CASTING_CARD';
 export const CAST_CARD_FROM_HAND = 'CAST_CARD_FROM_HAND';
 export const CAST_CARD_FROM_PLAY_AREA = 'CAST_CARD_FROM_PLAY_AREA';
+export const USE_CARD_ABILITY = 'USE_CARD_ABILITY';
 
 export const selectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -163,5 +164,14 @@ export const cancelCastingCard = () => {
 export const finishCastingCard = () => {
   return {
     type: FINISH_CASTING_CARD
+  }
+}
+
+export const useCardAbility = (cardId, cardInstance, abilityId) => {
+  return {
+    type: USE_CARD_ABILITY,
+    cardId,
+    cardInstance,
+    abilityId
   }
 }

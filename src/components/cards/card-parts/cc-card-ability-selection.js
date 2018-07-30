@@ -9,6 +9,9 @@ import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
 
 class CcCardAbilitySelection extends LitElement {
   _render({cardversion, ability}) {
+    console.log(ability);
+    console.log(cardversion);
+
     return html`
       ${CcSharedStyles}
 
@@ -73,15 +76,18 @@ class CcCardAbilitySelection extends LitElement {
 
         [card-ability] .tooltip-description {
           font-size: 12px;
-          color: #FFF;
         }
 
         .button-svg-icon {
           fill: #FFF;
         }
+
+        button[disabled] .button-svg-icon {
+          fill: #9E9E9E;
+        }
       </style>
 
-      <button card-ability>
+      <button card-ability disabled?="${!!ability.used}">
         <div class="icon">${this._cardAbilityIcon(ability)}</div>
         <div class="tooltip">
           <div class="tooltip-title">${this._cardAbilityTooltip(ability)}</div>

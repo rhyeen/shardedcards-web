@@ -7,7 +7,7 @@ import {
   BEGIN_TURN,
   RECORD_CAST_FROM_HAND,
   RECORD_CAST_FROM_PLAY_AREA,
-  RECORD_CAST_ABILITY_ENERGIZE } from '../actions/domains/turnaction.js';
+  RECORD_CAST_NO_TARGET_ABILITY } from '../actions/domains/turnaction.js';
 
 import {
   ATTACK_CARD,
@@ -31,7 +31,7 @@ const defaultState = {
 defaultState.playersTurn = defaultState.firstTurn === FIRST_TURN_PLAYER
 
 const app = (state = defaultState, action) => {
-  let pendingTurn
+  let pendingAction
   switch (action.type) {
     case RECORD_ATTACK_CARD:
       state.pendingTurn.push({
@@ -93,13 +93,13 @@ const app = (state = defaultState, action) => {
         abilities: []
       })
       return state
-    case RECORD_CAST_ABILITY_ENERGIZE:
-      pendingTurn = state.pendingTurn[state.pendingTurn.length - 1]
-      if (pendingTurn.type !== CAST_CARD_FROM_HAND && pendingTurn.type !== CAST_CARD_FROM_PLAY_AREA) {
-        console.error(`Unexpected turn state: ${pendingTurn.type}`)
+    case RECORD_CAST_NO_TARGET_ABILITY:
+      pendingAction = state.pendingTurn[state.pendingTurn.length - 1]
+      if (pendingAction.type !== CAST_CARD_FROM_HAND && pendingAction.type !== CAST_CARD_FROM_PLAY_AREA) {
+        console.error(`Unexpected turn state: ${pendingAction.type}`)
         return state
       }
-      pendingTurn.abilities.push({
+      pendingAction.abilities.push({
         id: action.abilityId
       })
       return state

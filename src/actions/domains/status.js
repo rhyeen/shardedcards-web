@@ -4,6 +4,7 @@ export const ALLOCATE_ENERGY = 'ALLOCATE_ENERGY';
 export const CANCEL_ALLOCATE_ENERGY = 'CANCEL_ALLOCATE_ENERGY';
 export const SET_STATUS = 'SET_STATUS';
 export const SET_PLAYER_HEALTH = 'SET_PLAYER_HEALTH';
+export const MODIFY_ENERGY = 'MODIFY_ENERGY';
 
 export const resetEnergy = () => {
   return {
@@ -23,6 +24,14 @@ export const allocateEnergy = (energyCost) => {
     energyCost
   }
 };
+
+export const modifyEnergy = (maxEnergyModifier, currentEnergyModifier) => {
+  return {
+    type: MODIFY_ENERGY,
+    maxEnergyModifier,
+    currentEnergyModifier
+  }
+}
 
 export const cancelAllocateEnergy = () => {
   return {

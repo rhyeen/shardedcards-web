@@ -16,10 +16,9 @@ import '../card-parts/cc-card-ability-selection.js';
 import '../../global/cc-btn.js';
 
 export class CcCastCardPane extends connect(store)(LitElement) {
-  _render({_selectedCard}) {
+  _render({_selectedCard, _selectedCardVersion}) {
     if (!_selectedCard) {
       _selectedCard = {
-        version: 0,
         abilities: []
       }
     }
@@ -70,7 +69,8 @@ export class CcCastCardPane extends connect(store)(LitElement) {
   }
 
   static get properties() { return {
-    _selectedCard: Object
+    _selectedCard: Object,
+    _selectedCardVersion: Number
   }};
 
   _stateChanged(state) {
@@ -84,6 +84,7 @@ export class CcCastCardPane extends connect(store)(LitElement) {
       return
     }
     this._selectedCard = state.card.cards[cardId].instances[cardInstance]
+    this._selectedCardVersion = this._selectedCard.version
   }
 
   _cancel() {
@@ -102,13 +103,16 @@ export class CcCastCardPane extends connect(store)(LitElement) {
     return html`
       <cc-card-ability-selection
           card="${this._selectedCard}"
-          cardversion$="${this._selectedCard.version}"
+          cardversion$="${this._selectedCardVersion}"
           ability="${ability}"
           on-click="${() => this._castAbility(ability)}"></cc-card-ability-selection>
     `
   }
 
   _castAbility(ability) {
+    if (!!ability.used) {
+      return
+    }
     switch (ability.id) {
       case ABILITY_ENERGIZE:
         return store.dispatch(CastAbilityEnergize(ability.id))

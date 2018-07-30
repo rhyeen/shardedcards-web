@@ -137,6 +137,9 @@ export function ResetCard(cards, cardId, cardInstance) {
   card.cost = parentCard.cost
 }
 
+/**
+ * Returns true if a play area card was replaced (aka discarded).
+ */
 export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardIndex, status = null) {
   const handCard = _getHandCard(state, handCardIndex)
   if (status) {
@@ -148,12 +151,13 @@ export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardInde
   GetReplacingCardResults(handCard, playerCard, true)
   const cardId = state.playerField[playerFieldCardIndex].id
   const cardInstance = state.playerField[playerFieldCardIndex].instance
-  AddCardToDiscardPile(state, cardId, cardInstance)
+  const replacedCard = AddCardToDiscardPile(state, cardId, cardInstance)
   state.playerField[playerFieldCardIndex] = {
     id: state.hand[handCardIndex].id,
     instance: state.hand[handCardIndex].instance
   }
   state.hand.splice(handCardIndex, 1)
+  return replacedCard
 }
 
 export function _canAffordCard(card, status) {
@@ -164,6 +168,9 @@ export function _payForCard(card, status) {
   status.energy.current -= card.cost
 }
 
+/**
+ * Returns true if the player's card was killed (aka discarded).
+ */
 export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentFieldCardIndex) {
   const opponentCard = _getOpponentFieldCard(state, opponentFieldCardIndex)
   const playerCard = _getPlayerFieldCard(state, playerFieldCardIndex)
@@ -172,7 +179,7 @@ export function AttackOpponentCardResults(state, playerFieldCardIndex, opponentF
   }
   GetAttackedCardResults(playerCard, opponentCard, true)
   GetAttackingCardResults(playerCard, opponentCard, true)
-  _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex)
+  return _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex)
 }
 
 function _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponentFieldCardIndex, playerFieldCardIndex) {
@@ -193,7 +200,9 @@ function _setAttackFieldRemovalResults(state, opponentCard, playerCard, opponent
       id: null,
       instance: null
     }
+    return true
   }
+  return false
 }
 
 export function AttackPlayerCardResults(state, playerFieldCardIndex, opponentFieldCardIndex) {
@@ -217,7 +226,7 @@ export function AttackPlayerResults(state, opponentFieldCardIndex, status) {
 
 export const AddCardToDiscardPile = (state, cardId, cardInstance) => {
   if (!cardId) {
-    return
+    return false
   }
   ResetCard(state.cards, cardId, cardInstance)
   if (state.discardPile) {
@@ -226,6 +235,7 @@ export const AddCardToDiscardPile = (state, cardId, cardInstance) => {
       instance: cardInstance
     })
   }
+  return true
 }
 
 const _getHandCard = (state, handCardIndex) => {
@@ -296,4 +306,32 @@ export const ResetDiscardedHand = (hand, cards) => {
   for (let card of hand) {
     ResetCard(cards, card.id, card.instance)
   }
+}
+
+export const UseCardAbility = (cards, cardId, cardInstance, abilityId) => {
+  const card = GetCard(cards, cardId, cardInstance)
+  const ability = GetCardAbility(cards, cardId, cardInstance, abilityId)
+  if (!ability) {
+    return
+  }
+  if (!ability.used) {
+    ability.used = 0
+  }
+  ability.used += 1
+  card.version += 1
+}
+
+export const GetCardAbility = (cards, cardId, cardInstance, abilityId) => {
+  const card = GetCard(cards, cardId, cardInstance)
+  if (!card.abilities) {
+    console.error(`Card ${cardId}::${cardInstance} does not have any abilities.`)
+    return null
+  }
+  for (let ability of card.abilities) {
+    if (ability.id === abilityId) {
+      return ability
+    }
+  }
+  console.error(`Card ${cardId}::${cardInstance} does not have the ability: ${abilityId}.`)
+  return null
 }

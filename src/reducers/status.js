@@ -4,7 +4,8 @@ import {
   ALLOCATE_ENERGY,
   CANCEL_ALLOCATE_ENERGY,
   SET_STATUS,
-  SET_PLAYER_HEALTH } from '../actions/domains/status.js';
+  SET_PLAYER_HEALTH,
+  MODIFY_ENERGY } from '../actions/domains/status.js';
 
 const defaultState = {
   energy: {
@@ -20,7 +21,6 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let energyRemaining
   switch (action.type) {
     case SET_PLAYER_HEALTH:
       state.health.pending = action.health
@@ -59,15 +59,11 @@ const app = (state = defaultState, action) => {
         }
       }
     case ALLOCATE_ENERGY:
-      energyRemaining = state.energy.current - action.energyCost
-      if (energyRemaining < 0) {
-        energyRemaining = 0
-      }
       return {
         ...state,
         energy: {
           ...state.energy,
-          pending: energyRemaining          
+          pending: _setValidEnergy(state.energy.current - action.energyCost)          
         }
       }
     case CANCEL_ALLOCATE_ENERGY:
@@ -78,9 +74,27 @@ const app = (state = defaultState, action) => {
           pending: state.energy.current          
         }
       }
+    case MODIFY_ENERGY:
+      
+      return {
+        ...state,
+        energy: {
+          ...state.energy,
+          pending: _setValidEnergy(state.energy.current + action.currentEnergyModifier),
+          current: _setValidEnergy(state.energy.current + action.currentEnergyModifier),
+          max: _setValidEnergy(state.energy.max + action.maxEnergyModifier)
+        }
+      }
     default:
       return state;
   }
+}
+
+function _setValidEnergy(energy) {
+  if (energy < 0) {
+    return 0
+  }
+  return energy
 }
 
 export default app;

@@ -19,14 +19,16 @@ import {
   SET_FIELD_FROM_OPPONENT_TURN,
   RESET_CARDS,
   CANCEL_CASTING_CARD,
-  FINISH_CASTING_CARD } from '../actions/domains/card.js';
+  FINISH_CASTING_CARD,
+  USE_CARD_ABILITY } from '../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,
   RefreshPlayerCards,
   AttackOpponentCardResults,
   ResetDiscardedHand, 
-  GetCard} from '../util/card.js';
+  GetCard,
+  UseCardAbility } from '../util/card.js';
 
 import {
   SetOpponentTurnResults } from '../util/opponent-turn.js';
@@ -111,6 +113,7 @@ const app = (state = defaultState, action) => {
   let cardId
   let cardInstance
   let card
+  let cardDiscarded
   switch (action.type) {
     case SELECT_HAND_CARD:
       state.hand.splice(action.handIndex, 1)
@@ -184,7 +187,10 @@ const app = (state = defaultState, action) => {
         id: state.playFromHand.id,
         instance: state.playFromHand.instance
       })
-      PlaceOnPlayAreaResults(state, action.playAreaIndex, state.playFromHand.handIndex)
+      cardDiscarded = PlaceOnPlayAreaResults(state, action.playAreaIndex, state.playFromHand.handIndex)
+      if (cardDiscarded) {
+        state.discardPileSize += 1
+      }
       return {
         ...state,
         playFromHand: {
@@ -251,7 +257,10 @@ const app = (state = defaultState, action) => {
         }
       }
     case ATTACK_CARD:
-      AttackOpponentCardResults(state, state.playFromPlayArea.playAreaIndex, action.playAreaIndex)
+      cardDiscarded = AttackOpponentCardResults(state, state.playFromPlayArea.playAreaIndex, action.playAreaIndex)
+      if (cardDiscarded) {
+        state.discardPileSize += 1
+      }
       return {
         ...state,
         playFromPlayArea: {
@@ -261,6 +270,7 @@ const app = (state = defaultState, action) => {
         }
       }
     case CLEAR_HAND:
+      state.discardPileSize += state.hand.length
       ResetDiscardedHand(state.hand, state.cards)
       return {
         ...state,
@@ -348,6 +358,9 @@ const app = (state = defaultState, action) => {
       }
       return state
     case FINISH_CASTING_CARD:
+      if (state.selectedCastingCard.handIndex || state.selectedCastingCard.handIndex === 0) {
+        state.discardPileSize += 1
+      }
       return {
         ...state,
         selectedCastingCard: {
@@ -356,6 +369,9 @@ const app = (state = defaultState, action) => {
           handIndex: null
         }
       }
+    case USE_CARD_ABILITY:
+      UseCardAbility(state.cards, action.cardId, action.cardInstance, action.abilityId)
+      return state
     default:
       return state;
   }

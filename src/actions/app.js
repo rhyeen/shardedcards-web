@@ -1,6 +1,8 @@
 import { store } from '../store.js';
 
-import { GetCard } from '../util/card.js';
+import { 
+  GetCard,
+  GetCardAbility } from '../util/card.js';
 
 import {
   navigate,
@@ -20,14 +22,15 @@ import {
   cancelAllocateEnergy,
   setStatus,
   resetEnergy,
-  setPlayerHealth } from './domains/status.js';
+  setPlayerHealth,
+  modifyEnergy } from './domains/status.js';
 
 import {
   recordAttackCard,
   recordPlaceOnPlayArea,
   recordCastFromHand,
   recordCastFromPlayArea,
-  recordCastAbilityEnergize,
+  recordCastNoTargetAbility,
   endTurn,
   resetTurns,
   appendOpponentHistory,
@@ -55,7 +58,8 @@ import {
   setHand,
   setOpponentField,
   refreshCards,
-  setFieldFromOpponentTurn } from './domains/card.js';
+  setFieldFromOpponentTurn,
+  useCardAbility } from './domains/card.js';
 
 import {
   CallStartGame,
@@ -206,7 +210,10 @@ export const AttackCard = (playAreaIndex) => (dispatch) => {
 
 export const CastAbilityEnergize = (abilityId) => (dispatch) => {
   _recordCastFromPosition(dispatch)
-  dispatch(recordCastAbilityEnergize(abilityId))
+  dispatch(recordCastNoTargetAbility(abilityId))
+  const ability = _getCastingAbility(abilityId)
+  dispatch(modifyEnergy(ability.amount, ability.amount))
+  _useCardAbility(dispatch, abilityId)
 }
 
 function _recordCastFromPosition(dispatch) {
@@ -223,6 +230,20 @@ function _recordCastFromPosition(dispatch) {
     console.error('Unexpected casting origin: not from hand nor play area.')
     return
   }
+}
+
+function _getCastingAbility(abilityId) {
+  const selectedCastingCard = store.getState().card.selectedCastingCard
+  const cardId = selectedCastingCard.id
+  const cardInstance = selectedCastingCard.instance
+  return GetCardAbility(store.getState().card.cards, cardId, cardInstance, abilityId)
+}
+
+function _useCardAbility(dispatch, abilityId) {
+  const selectedCastingCard = store.getState().card.selectedCastingCard
+  const cardId = selectedCastingCard.id
+  const cardInstance = selectedCastingCard.instance
+  dispatch(useCardAbility(cardId, cardInstance, abilityId))
 }
 
 export const CancelCastingCard = () => (dispatch) => {
