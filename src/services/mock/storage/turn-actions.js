@@ -1,16 +1,23 @@
 import {
   ATTACK_CARD,
-  PLACE_ON_PLAY_AREA } from '../../../actions/domains/card.js';
+  PLACE_ON_PLAY_AREA,
+  CAST_CARD_FROM_HAND } from '../../../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,
   AttackOpponentCardResults, 
-  RefreshPlayerCards } from '../../../util/card.js';
+  RefreshPlayerCards,
+  GetCardFromHand,
+  GetCardIdInstanceFromHand,
+  DiscardCardFromHand,
+  UseCardAbility,
+  CastEnergizeAbility } from '../../../util/card.js';
 
 import { 
   GetOpponentTurnResults,
   SetOpponentTurnResults } from '../../../util/opponent-turn.js';
 
+import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
 
 import {default as storage} from './storage.js';
 
@@ -52,6 +59,8 @@ const _recordPlayerAction = (action) => {
       return _recordAttackCardAction(action)
     case PLACE_ON_PLAY_AREA:
       return _recordPlaceOnPlayAreaAction(action)
+    case CAST_CARD_FROM_HAND:
+      return _recordCastCardFromHand(action)
     default:
       console.error(`Unexpected action type: ${action.type}`)
   }
@@ -63,6 +72,58 @@ const _recordAttackCardAction = (action) => {
 
 const _recordPlaceOnPlayAreaAction = (action) => {
   PlaceOnPlayAreaResults(storage.card, action.playerFieldCardIndex, action.handCardIndex, storage.status)
+}
+
+const _recordCastCardFromHand = (action) => {
+  if (!_canCastFromHand(action.handCardIndex, action.abilities)) {
+    return
+  }
+  const { cardId, cardInstance } = GetCardIdInstanceFromHand(storage.card, action.handCardIndex)
+  for (let ability of action.abilities) {
+    UseCardAbility(storage.card.cards, cardId, cardInstance, ability.id)
+    switch(ability.id) {
+      case ABILITY_ENERGIZE:
+        return CastEnergizeAbility(storage.card, cardId, cardInstance, ability.id, storage.status)
+      default:
+        console.error(`Unexpected ability type: ${ability.id}`)
+    }
+  }
+  DiscardCardFromHand(storage.card, action.handCardIndex)
+}
+
+const _canCastFromHand = (handCardIndex, abilities) => {
+  const card = _deepCopy(GetCardFromHand(storage.card, handCardIndex))
+  if (!card) {
+    console.error(`Hand does not have a card at: ${handCardIndex}`)
+    return false
+  }
+  if (!card.abilities || card.abilities.length === 0) {
+    console.error(`Hand card at: ${handCardIndex} does not have any abilities`)
+    return false
+  }
+  for (let searchingForAbility of abilities) {
+    let foundAbility = false
+    for (let searchingInAbility of card.abilities) {
+      if (searchingForAbility.id === searchingInAbility.id) {
+        if (searchingInAbility.used) {
+          console.error(`Hand card at: ${handCardIndex} cannot reuse the ability: ${searchingForAbility.id}`)
+          return false
+        }
+        searchingInAbility.used = 1
+        foundAbility = true
+        break
+      }
+    }
+    if (!foundAbility) {
+      console.error(`Hand card at: ${handCardIndex} does not have the ability: ${searchingForAbility.id}`)
+      return false
+    }
+  }
+  return true
+}
+
+function _deepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj))
 }
 
 export const GetOpponentTurn = () => {

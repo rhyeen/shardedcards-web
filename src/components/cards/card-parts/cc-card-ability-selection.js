@@ -9,9 +9,6 @@ import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
 
 class CcCardAbilitySelection extends LitElement {
   _render({cardversion, ability}) {
-    console.log(ability);
-    console.log(cardversion);
-
     return html`
       ${CcSharedStyles}
 

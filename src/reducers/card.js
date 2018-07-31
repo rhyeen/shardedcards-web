@@ -28,7 +28,8 @@ import {
   AttackOpponentCardResults,
   ResetDiscardedHand, 
   GetCard,
-  UseCardAbility } from '../util/card.js';
+  UseCardAbility, 
+  AddCardToDiscardPile} from '../util/card.js';
 
 import {
   SetOpponentTurnResults } from '../util/opponent-turn.js';
@@ -359,6 +360,7 @@ const app = (state = defaultState, action) => {
       return state
     case FINISH_CASTING_CARD:
       if (state.selectedCastingCard.handIndex || state.selectedCastingCard.handIndex === 0) {
+        AddCardToDiscardPile(state, state.selectedCastingCard.id, state.selectedCastingCard.instance)
         state.discardPileSize += 1
       }
       return {

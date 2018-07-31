@@ -1,3 +1,4 @@
+import { ModifyEnergy } from "./status.js";
 
 export function GetAttackingPlayerResults(opponentCard) {
   opponentCard.conditions.exhausted = true
@@ -100,6 +101,11 @@ function _refreshCard(cards, cardId, cardInstance) {
   card.conditions.exhausted = false
   card.conditions.shield = 0
   card.version += 1
+  if (card.abilities) {
+    for (let ability of card.abilities) {
+      ability.used = 0
+    }
+  }
 }
 
 export function GetCard(cards, cardId, cardInstance) {
@@ -135,13 +141,22 @@ export function ResetCard(cards, cardId, cardInstance) {
   card.attack = parentCard.attack
   card.range = parentCard.range
   card.cost = parentCard.cost
+  if (parentCard.abilities) {
+    card.abilities = _deepCopy(parentCard.abilities)
+  } else if (card.abilities) {
+    delete card.abilities
+  }
+}
+
+function _deepCopy(obj) {
+  return JSON.parse(JSON.stringify(obj))
 }
 
 /**
  * Returns true if a play area card was replaced (aka discarded).
  */
 export function PlaceOnPlayAreaResults(state, playerFieldCardIndex, handCardIndex, status = null) {
-  const handCard = _getHandCard(state, handCardIndex)
+  const handCard = GetCardFromHand(state, handCardIndex)
   if (status) {
     if (_canAffordCard(handCard, status)) {
       _payForCard(handCard, status)
@@ -238,7 +253,12 @@ export const AddCardToDiscardPile = (state, cardId, cardInstance) => {
   return true
 }
 
-const _getHandCard = (state, handCardIndex) => {
+export const GetCardFromHand = (state, handCardIndex) => {
+  const { cardId, cardInstance } = GetCardIdInstanceFromHand(state, handCardIndex)
+  return state.cards[cardId].instances[cardInstance]
+}
+
+export const GetCardIdInstanceFromHand = (state, handCardIndex) => {
   if (!_validHandCardIndex(state, handCardIndex)) {
     console.error(`Invalid handCardIndex: ${handCardIndex}`)
     return null
@@ -249,7 +269,13 @@ const _getHandCard = (state, handCardIndex) => {
     console.error(`card at handCardIndex: ${handCardIndex} does not exist`)
     return null
   }
-  return state.cards[cardId].instances[cardInstance]
+  return { cardId, cardInstance }
+}
+
+export const DiscardCardFromHand = (state, handCardIndex) => {
+  const { cardId, cardInstance } = GetCardIdInstanceFromHand(state, handCardIndex)  
+  AddCardToDiscardPile(state, cardId, cardInstance)
+  state.hand.splice(handCardIndex, 1)
 }
 
 const _validHandCardIndex = (state, handCardIndex) => {
@@ -334,4 +360,9 @@ export const GetCardAbility = (cards, cardId, cardInstance, abilityId) => {
   }
   console.error(`Card ${cardId}::${cardInstance} does not have the ability: ${abilityId}.`)
   return null
+}
+
+export const CastEnergizeAbility = (state, cardId, cardInstance, abilityId, status) => {
+  const ability = GetCardAbility(state.cards, cardId, cardInstance, abilityId)
+  ModifyEnergy(status, ability.amount, ability.amount)
 }
