@@ -23,7 +23,8 @@ export class CcCastCardPane extends connect(store)(LitElement) {
       }
     }
 
-    let abilitiesHtml = this._getAbilitiesHtml()
+    const abilitiesHtml = this._getAbilitiesHtml()
+    const finishActionBtnHtml = this._getFinishActionBtnHtml()
 
     return html`
       ${CcSharedStyles}
@@ -62,8 +63,7 @@ export class CcCastCardPane extends connect(store)(LitElement) {
         ${abilitiesHtml}
       </div>
       <div class="action-selections">
-        <cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>
-        <cc-btn btntype="done" on-click="${() => this._done()}"></cc-btn>
+        ${finishActionBtnHtml}
       </div>
     `
   }
@@ -107,6 +107,22 @@ export class CcCastCardPane extends connect(store)(LitElement) {
           ability="${ability}"
           on-click="${() => this._castAbility(ability)}"></cc-card-ability-selection>
     `
+  }
+
+  _getFinishActionBtnHtml() {
+    if (this._noAbilitiesUsed()) {
+      return html`<cc-btn btntype="cancel" on-click="${() => this._cancel()}"></cc-btn>`
+    }
+    return html`<cc-btn btntype="done" on-click="${() => this._done()}"></cc-btn>`
+  }
+
+  _noAbilitiesUsed() {
+    for (let ability of this._selectedCard.abilities) {
+      if (ability.used) {
+        return false
+      }
+    }
+    return true
   }
 
   _castAbility(ability) {

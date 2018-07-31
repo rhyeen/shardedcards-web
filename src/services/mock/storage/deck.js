@@ -42,10 +42,6 @@ const deck = [
   {
     id: 'hero',
     instance: '5'
-  },
-  {
-    id: 'pawn',
-    instance: '4'
   }
 ]
 
