@@ -3,9 +3,11 @@ import { LitElement, html } from '@polymer/lit-element';
 import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-import { EnergizeIcon } from '../../global/cc-icons.js';
+import { 
+  EnergizeIcon,
+  HasteIcon } from '../../global/cc-icons.js';
 
-import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
+import { ABILITY_ENERGIZE, ABILITY_HASTE } from '../../../util/card-constants.js';
 
 class CcCardAbilityValue extends LitElement {
   _render({cardversion, ability}) {
@@ -56,6 +58,8 @@ class CcCardAbilityValue extends LitElement {
     switch (ability.id) {
       case ABILITY_ENERGIZE:
         return 'energize'
+      case ABILITY_HASTE:
+        return 'haste'
       default:
         return ''
     }
@@ -65,6 +69,8 @@ class CcCardAbilityValue extends LitElement {
     switch (ability.id) {
       case ABILITY_ENERGIZE:
         return `+${ability.amount} max and current energy.`
+      case ABILITY_HASTE:
+        return `May attack once summoned.`
       default:
         return ''
     }
@@ -74,12 +80,12 @@ class CcCardAbilityValue extends LitElement {
     let iconFunction
     switch(ability.id) {
       case ABILITY_ENERGIZE:
-        iconFunction = EnergizeIcon
-        break;
+        return EnergizeIcon()
+      case ABILITY_HASTE:
+        return HasteIcon()
       default:
         return ''
     }
-    return iconFunction()
   }
 }
 window.customElements.define('cc-card-ability-value', CcCardAbilityValue);

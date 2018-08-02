@@ -12,3 +12,4 @@ export const CARD_TYPE_UNIT = 'unit';
 export const CARD_TYPE_INSTANT = 'instant';
 
 export const ABILITY_ENERGIZE = 'energize';
+export const ABILITY_HASTE = 'haste';

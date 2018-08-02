@@ -9,81 +9,117 @@ import {
   ENERGY_SHARD_CARD_INSTANCE,
   CARD_TYPE_UNIT,
   CARD_TYPE_INSTANT,
-  ABILITY_ENERGIZE } from '../../../util/card-constants.js';
+  ABILITY_ENERGIZE,
+  ABILITY_HASTE } from '../../../util/card-constants.js';
 
 const cards = {
-  hello: {
-    title: 'Hello',
+  ravager: {
+    title: 'Frontline Ravager',
     type: CARD_TYPE_UNIT,
     rarity: CARD_RARITY_COMMON,
-    cost: 3,
+    cost: 1,
     range: 1,
     health: 5,
-    attack: 3,
+    attack: 1,
+    abilities: [
+      {
+        id: ABILITY_HASTE
+      }
+    ],
     instances: {
       '0': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '1': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '2': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '3': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '4': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '5': {
-        title: 'Hello',
+        title: 'Frontline Ravager',
         type: CARD_TYPE_UNIT,
         rarity: CARD_RARITY_COMMON,
-        cost: 3,
+        cost: 1,
         range: 1,
         health: 5,
-        attack: 3,
+        attack: 1,
+        abilities: [
+          {
+            id: ABILITY_HASTE
+          }
+        ],
         version: 0,
         conditions: {}
       }

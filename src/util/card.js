@@ -1,4 +1,5 @@
 import { ModifyEnergy } from "./status.js";
+import { ABILITY_HASTE } from "./card-constants.js";
 
 export function GetAttackingPlayerResults(opponentCard) {
   opponentCard.conditions.exhausted = true
@@ -80,8 +81,26 @@ function _setReplaceResults(replacing, replaced) {
       replacing.conditions.shield = shield
     }
   }
-  replacing.conditions.exhausted = true
+  if (!_hasHaste(replacing)) {
+    replacing.conditions.exhausted = true
+  }
   replacing.version += 1
+}
+
+function _hasHaste(card) {
+  return !!_getAbility(card, ABILITY_HASTE);
+}
+
+function _getAbility(card, abilityId) {
+  if (!card.abilities) {
+    return null
+  }
+  for (let ability of card.abilities) {
+    if (ability.id === abilityId) {
+      return ability
+    }
+  }
+  return null
 }
 
 export function RefreshPlayerCards(cards, hand, playerField) {
