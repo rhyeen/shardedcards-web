@@ -23,6 +23,7 @@ export const FINISH_CASTING_CARD = 'FINISH_CASTING_CARD';
 export const CAST_CARD_FROM_HAND = 'CAST_CARD_FROM_HAND';
 export const CAST_CARD_FROM_PLAY_AREA = 'CAST_CARD_FROM_PLAY_AREA';
 export const USE_CARD_ABILITY = 'USE_CARD_ABILITY';
+export const CAST_OPPONENT_TARGET_ABILITY = 'CAST_OPPONENT_TARGET_ABILITY';
 
 export const selectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -172,6 +173,13 @@ export const useCardAbility = (cardId, cardInstance, abilityId) => {
     type: USE_CARD_ABILITY,
     cardId,
     cardInstance,
+    abilityId
+  }
+}
+
+export const castOpponentTargetAbility = (abilityId) => {
+  return {
+    type: CAST_OPPONENT_TARGET_ABILITY,
     abilityId
   }
 }

@@ -10,7 +10,8 @@ import {
   CARD_TYPE_UNIT,
   CARD_TYPE_INSTANT,
   ABILITY_ENERGIZE,
-  ABILITY_HASTE } from '../../../util/card-constants.js';
+  ABILITY_HASTE,
+  ABILITY_SPELLSHOT } from '../../../util/card-constants.js';
 
 const cards = {
   ravager: {
@@ -125,78 +126,99 @@ const cards = {
       }
     }
   },
-  beast: {
-    title: 'Beast',
+  incinerate: {
+    title: 'Incinerate',
     rarity: CARD_RARITY_RARE,
-    type: CARD_TYPE_UNIT,
+    type: CARD_TYPE_INSTANT,
     cost: 6,
-    range: 2,
-    health: 5,
-    attack: 2,
+    abilities: [
+      {
+        id: ABILITY_SPELLSHOT,
+        amount: 4
+      }
+    ],
     instances: {
       '0': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '1': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '2': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '3': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '4': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       },
       '5': {
-        title: 'Beast',
+        title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
-        type: CARD_TYPE_UNIT,
+        type: CARD_TYPE_INSTANT,
         cost: 6,
-        range: 2,
-        health: 5,
-        attack: 2,
+        abilities: [
+          {
+            id: ABILITY_SPELLSHOT,
+            amount: 4
+          }
+        ],
         version: 0,
         conditions: {}
       }

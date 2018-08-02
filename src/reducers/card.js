@@ -20,7 +20,8 @@ import {
   RESET_CARDS,
   CANCEL_CASTING_CARD,
   FINISH_CASTING_CARD,
-  USE_CARD_ABILITY } from '../actions/domains/card.js';
+  USE_CARD_ABILITY,
+  CAST_OPPONENT_TARGET_ABILITY } from '../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,
@@ -58,6 +59,11 @@ const defaultState = {
     id: null,
     instance: null,
     handIndex: null
+  },
+  selectedTargetOpponentAbility: {
+    id: null,
+    instance: null,
+    abilityId: null
   },
   playFromHand: {
     id: null,
@@ -110,11 +116,7 @@ const defaultState = {
 }
 
 const app = (state = defaultState, action) => {
-  let handIndex
-  let cardId
-  let cardInstance
-  let card
-  let cardDiscarded
+  let handIndex, card, cardDiscarded
   switch (action.type) {
     case SELECT_HAND_CARD:
       state.hand.splice(action.handIndex, 1)
@@ -140,9 +142,7 @@ const app = (state = defaultState, action) => {
       }
       return state
     case PLAY_SELECTED_HAND_CARD:
-      cardId = state.selectedHandCard.id
-      cardInstance = state.selectedHandCard.instance
-      card = GetCard(state.cards, cardId, cardInstance)
+      card = GetCard(state.cards, state.selectedHandCard.id, state.selectedHandCard.instance)
       switch (card.type) {
         case CARD_TYPE_UNIT:
           state.playFromHand = {
@@ -374,6 +374,21 @@ const app = (state = defaultState, action) => {
     case USE_CARD_ABILITY:
       UseCardAbility(state.cards, action.cardId, action.cardInstance, action.abilityId)
       return state
+    case CAST_OPPONENT_TARGET_ABILITY:
+      debugger
+      return {
+        ...state,
+        selectedTargetOpponentAbility: {
+          id: state.selectedCastingCard.id,
+          instance: state.selectedCastingCard.instance,
+          abilityId: action.abilityId
+        },
+        selectedCastingCard: {
+          id: null,
+          instance: null,
+          handIndex: null
+        }
+      }
     default:
       return state;
   }

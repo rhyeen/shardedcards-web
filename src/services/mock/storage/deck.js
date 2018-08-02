@@ -12,7 +12,7 @@ const deck = [
     instance: '1'
   },
   {
-    id: 'beast',
+    id: 'incinerate',
     instance: '1'
   },
   {
@@ -32,7 +32,7 @@ const deck = [
     instance: '2'
   },
   {
-    id: 'beast',
+    id: 'incinerate',
     instance: '3'
   },
   {

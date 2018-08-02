@@ -25,6 +25,7 @@ export function TargetIcon(customClass) { return getBaseSvg(customClass, 'target
 export function ExhaustedIcon(customClass) { return getBaseSvg(customClass, 'exhausted-svg-icon', svg`<path d="M23 12h-6v-2l3.39-4H17V4h6v2l-3.38 4H23v2m-8 4H9v-2l3.39-4H9V8h6v2l-3.38 4H15v2m-8 4H1v-2l3.39-4H1v-2h6v2l-3.38 4H7v2z"/>`) }
 export function EnergizeIcon(customClass) { return getBaseSvg(customClass, 'energize-svg-icon', svg`<path d="M11.5 20l4.86-9.73H13V4l-5 9.73h3.5V20M12 2c2.75 0 5.1 1 7.05 2.95C21 6.9 22 9.25 22 12s-1 5.1-2.95 7.05C17.1 21 14.75 22 12 22s-5.1-1-7.05-2.95C3 17.1 2 14.75 2 12s1-5.1 2.95-7.05C6.9 3 9.25 2 12 2z"/>`) }
 export function HasteIcon(customClass) { return getBaseSvg(customClass, 'haste-svg-icon', svg`<path d="M15,4A8,8 0 0,1 23,12A8,8 0 0,1 15,20A8,8 0 0,1 7,12A8,8 0 0,1 15,4M15,6A6,6 0 0,0 9,12A6,6 0 0,0 15,18A6,6 0 0,0 21,12A6,6 0 0,0 15,6M14,8H15.5V11.78L17.83,14.11L16.77,15.17L14,12.4V8M2,18A1,1 0 0,1 1,17A1,1 0 0,1 2,16H5.83C6.14,16.71 6.54,17.38 7,18H2M3,13A1,1 0 0,1 2,12A1,1 0 0,1 3,11H5.05L5,12L5.05,13H3M4,8A1,1 0 0,1 3,7A1,1 0 0,1 4,6H7C6.54,6.62 6.14,7.29 5.83,8H4Z" />`) }
+export function SpellshotIcon(customClass) { return getBaseSvg(customClass, 'spellshot-svg-icon', svg` <path d="M7,2H17L13.5,9H17L10,22V14H7V2M9,4V12H12V14.66L14,11H10.24L13.76,4H9Z" />`) }
 
 function getBaseSvg(customClass, definedClass, svgContent) {
   const classes = ['svg-icon', definedClass, customClass].join(' ');

@@ -4,10 +4,9 @@ import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
 import { 
-  EnergizeIcon,
-  HasteIcon } from '../../global/cc-icons.js';
-
-import { ABILITY_ENERGIZE, ABILITY_HASTE } from '../../../util/card-constants.js';
+  GetAbilityName,
+  GetAbilityDescription,
+  GetAbilityIcon } from '../../../util/card-constants.js';
 
 class CcCardAbilityValue extends LitElement {
   _render({cardversion, ability}) {
@@ -55,37 +54,15 @@ class CcCardAbilityValue extends LitElement {
   }};
 
   _cardAbilityTooltip(ability) {
-    switch (ability.id) {
-      case ABILITY_ENERGIZE:
-        return 'energize'
-      case ABILITY_HASTE:
-        return 'haste'
-      default:
-        return ''
-    }
+    return GetAbilityName(ability)
   }
 
   _cardAbilityTooltipDescription(ability) {
-    switch (ability.id) {
-      case ABILITY_ENERGIZE:
-        return `+${ability.amount} max and current energy.`
-      case ABILITY_HASTE:
-        return `May attack once summoned.`
-      default:
-        return ''
-    }
+    return GetAbilityDescription(ability)
   }
 
   _cardAbilityIcon(ability) {
-    let iconFunction
-    switch(ability.id) {
-      case ABILITY_ENERGIZE:
-        return EnergizeIcon()
-      case ABILITY_HASTE:
-        return HasteIcon()
-      default:
-        return ''
-    }
+    return GetAbilityIcon(ability)
   }
 }
 window.customElements.define('cc-card-ability-value', CcCardAbilityValue);

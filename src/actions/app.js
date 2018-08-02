@@ -59,7 +59,8 @@ import {
   setOpponentField,
   refreshCards,
   setFieldFromOpponentTurn,
-  useCardAbility } from './domains/card.js';
+  useCardAbility,
+  castOpponentTargetAbility } from './domains/card.js';
 
 import {
   CallStartGame,
@@ -69,6 +70,7 @@ import {
   CallGetCards,
   CallGetHand,
   CallGetOpponentField } from '../services/card.js';
+import { ABILITY_ENERGIZE } from '../util/card-constants.js';
 
 export const Navigate = (path) => (dispatch) => {
   dispatch(navigate(path))
@@ -209,11 +211,30 @@ export const AttackCard = (playAreaIndex) => (dispatch) => {
 }
 
 export const CastAbilityEnergize = (abilityId) => (dispatch) => {
+  dispatch(_castNoTargetAbility(abilityId))
+}
+
+export const _castNoTargetAbility = (abilityId) => (dispatch) => {
   _recordCastFromPosition(dispatch)
   dispatch(recordCastNoTargetAbility(abilityId))
+  switch (abilityId) {
+    case ABILITY_ENERGIZE:
+      return _applyAbilityEnergize(dispatch, abilityId)
+    default:
+      console.error(`Unexpected no target ability: ${abilityId}`)
+      return
+  }
+}
+
+function _applyAbilityEnergize(dispatch, abilityId) {
   const ability = _getCastingAbility(abilityId)
   dispatch(modifyEnergy(ability.amount, ability.amount))
   _useCardAbility(dispatch, abilityId)
+}
+
+export const CastAbilitySpellshot = (abilityId) => (dispatch) => {
+  _recordCastFromPosition(dispatch)
+  dispatch(castOpponentTargetAbility(abilityId))
 }
 
 function _recordCastFromPosition(dispatch) {

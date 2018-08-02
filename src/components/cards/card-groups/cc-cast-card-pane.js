@@ -7,9 +7,10 @@ import { store } from '../../../store.js';
 import {
   CancelCastingCard,
   FinishCastingCard,
-  CastAbilityEnergize } from '../../../actions/app.js';
+  CastAbilityEnergize,
+  CastAbilitySpellshot } from '../../../actions/app.js';
 
-import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';  
+import { ABILITY_ENERGIZE, ABILITY_SPELLSHOT } from '../../../util/card-constants.js';  
 
 import '../card-parts/cc-card-ability-selection.js';
 
@@ -132,6 +133,8 @@ export class CcCastCardPane extends connect(store)(LitElement) {
     switch (ability.id) {
       case ABILITY_ENERGIZE:
         return store.dispatch(CastAbilityEnergize(ability.id))
+      case ABILITY_SPELLSHOT:
+        return store.dispatch(CastAbilitySpellshot(ability.id))
       default:
         console.error(`Unexpected ability: ${ability.id}`)
         return

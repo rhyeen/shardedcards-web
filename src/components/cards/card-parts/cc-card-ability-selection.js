@@ -3,9 +3,10 @@ import { LitElement, html } from '@polymer/lit-element';
 import {
   CcSharedStyles } from '../../global/cc-shared-styles.js';
 
-import { EnergizeIcon } from '../../global/cc-icons.js';
-
-import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
+import { 
+  GetAbilityName,
+  GetAbilityDescription,
+  GetAbilityIcon } from '../../../util/card-constants.js';
 
 class CcCardAbilitySelection extends LitElement {
   _render({cardversion, ability}) {
@@ -100,43 +101,16 @@ class CcCardAbilitySelection extends LitElement {
     ability: Object
   }};
 
-  _castAbility(ability) {
-    switch (ability.id) {
-      case ABILITY_ENERGIZE:
-        return 'energize'
-      default:
-        return
-    }
-  }
-
   _cardAbilityTooltip(ability) {
-    switch (ability.id) {
-      case ABILITY_ENERGIZE:
-        return 'energize'
-      default:
-        return ''
-    }
+    return GetAbilityName(ability)
   }
 
   _cardAbilityTooltipDescription(ability) {
-    switch (ability.id) {
-      case ABILITY_ENERGIZE:
-        return `+${ability.amount} max and current energy.`
-      default:
-        return ''
-    }
+    return GetAbilityDescription(ability)
   }
 
   _cardAbilityIcon(ability) {
-    let iconFunction
-    switch(ability.id) {
-      case ABILITY_ENERGIZE:
-        iconFunction = EnergizeIcon
-        break;
-      default:
-        return ''
-    }
-    return iconFunction('button-svg-icon')
+    return GetAbilityIcon(ability, 'button-svg-icon')
   }
 }
 window.customElements.define('cc-card-ability-selection', CcCardAbilitySelection);
