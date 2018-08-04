@@ -130,7 +130,7 @@ const cards = {
     title: 'Incinerate',
     rarity: CARD_RARITY_RARE,
     type: CARD_TYPE_INSTANT,
-    cost: 6,
+    cost: 4,
     abilities: [
       {
         id: ABILITY_SPELLSHOT,
@@ -142,7 +142,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,
@@ -156,7 +156,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,
@@ -170,7 +170,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,
@@ -184,7 +184,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,
@@ -198,7 +198,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,
@@ -212,7 +212,7 @@ const cards = {
         title: 'Incinerate',
         rarity: CARD_RARITY_RARE,
         type: CARD_TYPE_INSTANT,
-        cost: 6,
+        cost: 4,
         abilities: [
           {
             id: ABILITY_SPELLSHOT,

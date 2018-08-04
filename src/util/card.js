@@ -399,18 +399,59 @@ export const CastEnergizeAbility = (state, cardId, cardInstance, abilityId, stat
   ModifyEnergy(status, ability.amount, ability.amount)
 }
 
+export const CastSpellshotAbility = (state, cardId, cardInstance, abilityId, opponentFieldCardIndex) => {
+  const caster = GetCard(state.cards, cardId, cardInstance)
+  const ability = GetAbility(caster, abilityId)
+  CastOnTargetedCardResults(state, caster, ability, opponentFieldCardIndex)
+}
+
+export function CastOnTargetedCardResults(state, caster, ability, opponentFieldCardIndex) {
+  if (!_abilityCardCanCastOnOpponent(state, caster, ability.id, opponentFieldCardIndex)) {
+    return
+  }
+  const target = _getOpponentFieldCard(state, opponentFieldCardIndex)
+  GetCastOnTargetedCardResults(caster, ability, target, true)
+  return _setCastOnOpponentRemovalResults(state, target, opponentFieldCardIndex)
+}
+
+function _abilityCardCanCastOnOpponent(state, caster, abilityId, opponentFieldCardIndex) {
+  const ability = GetAbility(caster, abilityId)
+  if (!ability) {
+    console.error(`Card does not have ability: ${abilityId}`)
+    return false
+  }
+  if (!state.opponentField[opponentFieldCardIndex].id) {
+    console.error(`Cannot cast ability ${abilityId} on an empty opponent slot`)
+    return false
+  }
+  if (!_abilityCanTargetOpponent(abilityId)) {
+    console.error(`Ability ${abilityId} cannot target opponent cards`)
+    return false
+  }
+  return true
+}
+
+function _abilityCanTargetOpponent(abilityId) {
+  switch (abilityId) {
+    case ABILITY_SPELLSHOT:
+      return true
+    default:
+      return false
+  }
+}
+
 export const GetCastOnTargetedCardResults = (caster, ability, target, modifyOriginals = false) => {
   if (modifyOriginals) {
-    return _getCastOnTargetedCardResults(caster, ability, target)
+    return _castOnTargetedCardResults(caster, ability, target)
   } else {
     const newCaster = _deepCopy(caster)
     const newTarget = _deepCopy(target)
     const newAbility = GetAbility(newCaster, ability.id)
-    return _getCastOnTargetedCardResults(newCaster, newAbility, newTarget)
+    return _castOnTargetedCardResults(newCaster, newAbility, newTarget)
   }
 }
 
-function _getCastOnTargetedCardResults(caster, ability, target) {
+function _castOnTargetedCardResults(caster, ability, target) {
   switch (ability.id) {
     case ABILITY_SPELLSHOT:
       return _getSpellshotTargetedCardResults(ability, target)
@@ -423,4 +464,16 @@ function _getCastOnTargetedCardResults(caster, ability, target) {
 function _getSpellshotTargetedCardResults(ability, target) {
   _setCastDamageResults(ability.amount, target)
   return target
+}
+
+export const _setCastOnOpponentRemovalResults = (state, opponentCard, opponentFieldCardIndex) => {
+  if (opponentCard.health <= 0) {
+    const cardId = state.opponentField[opponentFieldCardIndex].id
+    const cardInstance = state.opponentField[opponentFieldCardIndex].instance
+    ResetCard(state.opponentCards, cardId, cardInstance)
+    state.opponentField[opponentFieldCardIndex] = {
+      id: null,
+      instance: null
+    }
+  }
 }

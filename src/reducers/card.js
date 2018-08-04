@@ -35,7 +35,7 @@ import {
   UseCardAbility, 
   AddCardToDiscardPile,
   GetAbility,
-  GetCastOnTargetedCardResults } from '../util/card.js';
+  CastOnTargetedCardResults } from '../util/card.js';
 
 import {
   SetOpponentTurnResults } from '../util/opponent-turn.js';
@@ -440,8 +440,7 @@ const app = (state = defaultState, action) => {
 function _setCastOnTargetedCardResults(state, {cardId, cardInstance, abilityId, playAreaIndex}) {
   const caster = GetCard(state.cards, cardId, cardInstance)
   const ability = GetAbility(caster, abilityId)
-  const target = GetCard(state.opponentCards, state.opponentField[playAreaIndex].id, state.opponentField[playAreaIndex].instance)
-  GetCastOnTargetedCardResults(caster, ability, target, true)
+  CastOnTargetedCardResults(state, caster, ability, playAreaIndex)
 }
 
 function _addOpponentFieldCards(state, cards) {

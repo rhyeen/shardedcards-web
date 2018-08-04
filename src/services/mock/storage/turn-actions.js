@@ -11,13 +11,14 @@ import {
   GetCardIdInstanceFromHand,
   DiscardCardFromHand,
   UseCardAbility,
-  CastEnergizeAbility } from '../../../util/card.js';
+  CastEnergizeAbility,
+  CastSpellshotAbility } from '../../../util/card.js';
 
 import { 
   GetOpponentTurnResults,
   SetOpponentTurnResults } from '../../../util/opponent-turn.js';
 
-import { ABILITY_ENERGIZE } from '../../../util/card-constants.js';
+import { ABILITY_ENERGIZE, ABILITY_SPELLSHOT } from '../../../util/card-constants.js';
 
 import {default as storage} from './storage.js';
 
@@ -84,6 +85,8 @@ const _recordCastCardFromHand = (action) => {
     switch(ability.id) {
       case ABILITY_ENERGIZE:
         return CastEnergizeAbility(storage.card, cardId, cardInstance, ability.id, storage.status)
+      case ABILITY_SPELLSHOT:
+        return CastSpellshotAbility(storage.card, cardId, cardInstance, ability.id, ability.opponentFieldCardIndex)
       default:
         console.error(`Unexpected ability type: ${ability.id}`)
     }
