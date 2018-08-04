@@ -7,6 +7,7 @@ import { store } from '../../store.js';
 import '../cards/card-types/cc-pawn-card.js';
 import '../cards/card-types/cc-replace-card.js';
 import '../cards/card-types/cc-attack-card.js';
+import '../cards/card-types/cc-target-card.js';
 
 import {
   PLAYER_OWNER,
@@ -17,7 +18,12 @@ import {
   PlayFromPlayArea,
   SelectOpponentFieldCard,
   SelectPlayerFieldCard,
-  AttackCard } from '../../actions/app.js';
+  AttackCard,
+  CastAgainstTarget } from '../../actions/app.js';
+
+import { 
+  GetCard,
+  GetAbility } from '../../util/card.js';
 
 export class CcPlayField extends connect(store)(LitElement) {
   _render({_leftCard, _middleCard, _rightCard, overlay, _totalCardVersion}) {
@@ -53,6 +59,8 @@ export class CcPlayField extends connect(store)(LitElement) {
     _middleCard: Object,
     _attackingCard: Object,
     _replacingCard: Object,
+    _targetingOpponentAbilityCard: Object,
+    _targetingOpponentAbility: Object,
     _playingFromPlayAreaIndex: Number,
     _totalCardVersion: Number // meant soley to force an update, if need be
   }};
@@ -60,15 +68,23 @@ export class CcPlayField extends connect(store)(LitElement) {
   _stateChanged(state) {
     if (state.card.playFromPlayArea.id) {
       this._playingFromPlayAreaIndex = state.card.playFromPlayArea.playAreaIndex
-      this._attackingCard = state.card.cards[state.card.playFromPlayArea.id].instances[state.card.playFromPlayArea.instance]
+      this._attackingCard = GetCard(state.card.cards, state.card.playFromPlayArea.id, state.card.playFromPlayArea.instance)
     } else {
       this._playingFromPlayAreaIndex = -1
       this._attackingCard = null
     }
     if (state.card.playFromHand.id) {
-      this._replacingCard = state.card.cards[state.card.playFromHand.id].instances[state.card.playFromHand.instance]
+      this._replacingCard = GetCard(state.card.cards, state.card.playFromHand.id, state.card.playFromHand.instance)
     } else {
       this._replacingCard = null      
+    }
+    if (state.card.selectedTargetOpponentAbility.id) {
+      this._targetingOpponentAbilityCard = GetCard(state.card.cards, state.card.selectedTargetOpponentAbility.id, state.card.selectedTargetOpponentAbility.instance)
+      this._targetingOpponentAbility = GetAbility(this._targetingOpponentAbilityCard, state.card.selectedTargetOpponentAbility.abilityId)
+      this._
+    } else {
+      this._targetingOpponentAbilityCard = null
+      this._targetingOpponentAbility = null
     }
     switch(this.owner) {
       case PLAYER_OWNER:
@@ -135,6 +151,9 @@ export class CcPlayField extends connect(store)(LitElement) {
     if (this._showOpponentPawnCard(card)) {
       return this._opponentPawnCard(card, playAreaIndex)
     }
+    if (this._showTargetOpponentAbilityCard(card)) {
+      return this._targetOpponentAbilityCard(card, playAreaIndex)
+    }
     return html``
   }
 
@@ -153,6 +172,14 @@ export class CcPlayField extends connect(store)(LitElement) {
       this._isPlayer() && 
       !this._playingFromPlayArea() && 
       this._replacingCard)
+  }
+
+  _showTargetOpponentAbilityCard() {
+    return (
+      this._isOverlay() && 
+      this._isOpponent() && 
+      !this._playingFromPlayArea() && 
+      this._targetingOpponentAbilityCard)
   }
 
   _showPlayerPawnCard(card) {
@@ -244,6 +271,15 @@ export class CcPlayField extends connect(store)(LitElement) {
           card="${card}"
           cardversion$="${card.version}"
           on-click="${() => store.dispatch(SelectOpponentFieldCard(playAreaIndex))}"></cc-pawn-card>`
+  }
+
+  _targetOpponentAbilityCard(card, playAreaIndex) {
+    return html`
+      <cc-target-card
+          target="${card}"
+          caster="${this._targetingOpponentAbilityCard}"
+          ability="${this._targetingOpponentAbility}"
+          on-click="${() => store.dispatch(CastAgainstTarget(playAreaIndex))}"></cc-attack-card>`
   }
 }
 

@@ -21,7 +21,10 @@ import {
   CANCEL_CASTING_CARD,
   FINISH_CASTING_CARD,
   USE_CARD_ABILITY,
-  CAST_OPPONENT_TARGET_ABILITY } from '../actions/domains/card.js';
+  CAST_OPPONENT_TARGET_ABILITY,
+  CANCEL_CAST_OPPONENT_TARGET_ABILITY,
+  CAST_AGAINST_TARGET,
+  APPLY_CAST_AGAINST_OPPONENT_TARGET } from '../actions/domains/card.js';
 
 import {
   PlaceOnPlayAreaResults,
@@ -30,7 +33,9 @@ import {
   ResetDiscardedHand, 
   GetCard,
   UseCardAbility, 
-  AddCardToDiscardPile} from '../util/card.js';
+  AddCardToDiscardPile,
+  GetAbility,
+  GetCastOnTargetedCardResults } from '../util/card.js';
 
 import {
   SetOpponentTurnResults } from '../util/opponent-turn.js';
@@ -375,13 +380,13 @@ const app = (state = defaultState, action) => {
       UseCardAbility(state.cards, action.cardId, action.cardInstance, action.abilityId)
       return state
     case CAST_OPPONENT_TARGET_ABILITY:
-      debugger
       return {
         ...state,
         selectedTargetOpponentAbility: {
           id: state.selectedCastingCard.id,
           instance: state.selectedCastingCard.instance,
-          abilityId: action.abilityId
+          abilityId: action.abilityId,
+          handIndex: state.selectedCastingCard.handIndex
         },
         selectedCastingCard: {
           id: null,
@@ -389,9 +394,54 @@ const app = (state = defaultState, action) => {
           handIndex: null
         }
       }
+    case CANCEL_CAST_OPPONENT_TARGET_ABILITY:
+      return {
+        ...state,
+        selectedCastingCard: {
+          id: state.selectedTargetOpponentAbility.id,
+          instance: state.selectedTargetOpponentAbility.instance,
+          handIndex: state.selectedTargetOpponentAbility.handIndex
+        },
+        selectedTargetOpponentAbility: {
+          id: null,
+          instance: null,
+          abilityId: null,
+          handIndex: null
+        }
+      }
+    case CAST_AGAINST_TARGET:
+      if (state.selectedTargetOpponentAbility.id) {
+        return {
+          ...state,
+          selectedCastingCard: {
+            id: state.selectedTargetOpponentAbility.id,
+            instance: state.selectedTargetOpponentAbility.instance,
+            handIndex: state.selectedTargetOpponentAbility.handIndex
+          },
+          selectedTargetOpponentAbility: {
+            id: null,
+            instance: null,
+            abilityId: null,
+            handIndex: null
+          }
+        }
+      } else {
+        console.error('Unexpected ability caster')
+        return state
+      }
+    case APPLY_CAST_AGAINST_OPPONENT_TARGET:
+      _setCastOnTargetedCardResults(state, action)
+      return state
     default:
       return state;
   }
+}
+
+function _setCastOnTargetedCardResults(state, {cardId, cardInstance, abilityId, playAreaIndex}) {
+  const caster = GetCard(state.cards, cardId, cardInstance)
+  const ability = GetAbility(caster, abilityId)
+  const target = GetCard(state.opponentCards, state.opponentField[playAreaIndex].id, state.opponentField[playAreaIndex].instance)
+  GetCastOnTargetedCardResults(caster, ability, target, true)
 }
 
 function _addOpponentFieldCards(state, cards) {

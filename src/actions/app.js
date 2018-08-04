@@ -35,7 +35,8 @@ import {
   resetTurns,
   appendOpponentHistory,
   appendPlayerHistory,
-  beginTurn } from './domains/turnaction.js';
+  beginTurn,
+  recordCastOpponentTargetAbility } from './domains/turnaction.js';
 
 import {
   selectHandCard,
@@ -60,7 +61,10 @@ import {
   refreshCards,
   setFieldFromOpponentTurn,
   useCardAbility,
-  castOpponentTargetAbility } from './domains/card.js';
+  castOpponentTargetAbility,
+  cancelCastOpponentTargetAbility,
+  castAgainstTarget,
+  applyCastAgainstOpponentTarget } from './domains/card.js';
 
 import {
   CallStartGame,
@@ -215,7 +219,7 @@ export const CastAbilityEnergize = (abilityId) => (dispatch) => {
 }
 
 export const _castNoTargetAbility = (abilityId) => (dispatch) => {
-  _recordCastFromPosition(dispatch)
+  _recordCastFromPosition(dispatch, store.getState().card.selectedCastingCard)
   dispatch(recordCastNoTargetAbility(abilityId))
   switch (abilityId) {
     case ABILITY_ENERGIZE:
@@ -229,20 +233,18 @@ export const _castNoTargetAbility = (abilityId) => (dispatch) => {
 function _applyAbilityEnergize(dispatch, abilityId) {
   const ability = _getCastingAbility(abilityId)
   dispatch(modifyEnergy(ability.amount, ability.amount))
-  _useCardAbility(dispatch, abilityId)
+  _useSelectedCastingCardAbility(dispatch, abilityId)
 }
 
 export const CastAbilitySpellshot = (abilityId) => (dispatch) => {
-  _recordCastFromPosition(dispatch)
   dispatch(castOpponentTargetAbility(abilityId))
 }
 
-function _recordCastFromPosition(dispatch) {
-  const selectedCastingCard = store.getState().card.selectedCastingCard
-  const cardId = selectedCastingCard.id
-  const cardInstance = selectedCastingCard.instance
-  const handIndex = selectedCastingCard.handIndex
-  const playAreaIndex = selectedCastingCard.playAreaIndex
+function _recordCastFromPosition(dispatch, positionSelectedState) {
+  const cardId = positionSelectedState.id
+  const cardInstance = positionSelectedState.instance
+  const handIndex = positionSelectedState.handIndex
+  const playAreaIndex = positionSelectedState.playAreaIndex
   if (handIndex === 0 || handIndex) {
     dispatch(recordCastFromHand(cardId, cardInstance, handIndex))
   } else if (playAreaIndex === 0 || playAreaIndex) {
@@ -260,7 +262,7 @@ function _getCastingAbility(abilityId) {
   return GetCardAbility(store.getState().card.cards, cardId, cardInstance, abilityId)
 }
 
-function _useCardAbility(dispatch, abilityId) {
+function _useSelectedCastingCardAbility(dispatch, abilityId) {
   const selectedCastingCard = store.getState().card.selectedCastingCard
   const cardId = selectedCastingCard.id
   const cardInstance = selectedCastingCard.instance
@@ -275,4 +277,33 @@ export const CancelCastingCard = () => (dispatch) => {
 export const FinishCastingCard = () => (dispatch) => {
   dispatch(spendAllocatedEnergy())
   dispatch(finishCastingCard())
+}
+
+export const CancelCastTargetAbility = () => (dispatch) => {
+  dispatch(cancelCastOpponentTargetAbility())
+}
+
+export const CastAgainstTarget = (playAreaIndex) => (dispatch) => {
+  const selectedTargetOpponentAbility = store.getState().card.selectedTargetOpponentAbility
+  _recordCastFromPosition(dispatch, selectedTargetOpponentAbility)
+  dispatch(recordCastOpponentTargetAbility(selectedTargetOpponentAbility.abilityId, playAreaIndex))
+  _applyCastAgainstOpponentTarget(dispatch, playAreaIndex)  
+  _useSelectedTargetOpponentAbility(dispatch)
+  dispatch(castAgainstTarget(playAreaIndex))
+}
+
+function _useSelectedTargetOpponentAbility(dispatch) {
+  const selectedTargetOpponentAbility = store.getState().card.selectedTargetOpponentAbility
+  const cardId = selectedTargetOpponentAbility.id
+  const cardInstance = selectedTargetOpponentAbility.instance
+  const abilityId = selectedTargetOpponentAbility.abilityId
+  dispatch(useCardAbility(cardId, cardInstance, abilityId))
+}
+
+function _applyCastAgainstOpponentTarget(dispatch, playAreaIndex) {
+  const selectedTargetOpponentAbility = store.getState().card.selectedTargetOpponentAbility
+  const cardId = selectedTargetOpponentAbility.id
+  const cardInstance = selectedTargetOpponentAbility.instance
+  const abilityId = selectedTargetOpponentAbility.abilityId
+  dispatch(applyCastAgainstOpponentTarget(cardId, cardInstance, abilityId, playAreaIndex))
 }

@@ -24,6 +24,9 @@ export const CAST_CARD_FROM_HAND = 'CAST_CARD_FROM_HAND';
 export const CAST_CARD_FROM_PLAY_AREA = 'CAST_CARD_FROM_PLAY_AREA';
 export const USE_CARD_ABILITY = 'USE_CARD_ABILITY';
 export const CAST_OPPONENT_TARGET_ABILITY = 'CAST_OPPONENT_TARGET_ABILITY';
+export const CANCEL_CAST_OPPONENT_TARGET_ABILITY = 'CANCEL_CAST_OPPONENT_TARGET_ABILITY';
+export const CAST_AGAINST_TARGET = 'CAST_AGAINST_TARGET';
+export const APPLY_CAST_AGAINST_OPPONENT_TARGET = 'APPLY_CAST_AGAINST_OPPONENT_TARGET';
 
 export const selectHandCard = (cardId, cardInstance, handIndex) => {
   return {
@@ -181,5 +184,29 @@ export const castOpponentTargetAbility = (abilityId) => {
   return {
     type: CAST_OPPONENT_TARGET_ABILITY,
     abilityId
+  }
+}
+
+export const cancelCastOpponentTargetAbility = (abilityId) => {
+  return {
+    type: CANCEL_CAST_OPPONENT_TARGET_ABILITY,
+    abilityId
+  }
+}
+
+export const castAgainstTarget = (playAreaIndex) => {
+  return {
+    type: CAST_AGAINST_TARGET,
+    playAreaIndex
+  }
+}
+
+export const applyCastAgainstOpponentTarget = (cardId, cardInstance, abilityId, playAreaIndex) => {
+  return {
+    type: APPLY_CAST_AGAINST_OPPONENT_TARGET,
+    cardId,
+    cardInstance,
+    abilityId,
+    playAreaIndex
   }
 }

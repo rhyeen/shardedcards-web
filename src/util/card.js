@@ -1,5 +1,5 @@
 import { ModifyEnergy } from "./status.js";
-import { ABILITY_HASTE } from "./card-constants.js";
+import { ABILITY_HASTE, ABILITY_SPELLSHOT } from "./card-constants.js";
 
 export function GetAttackingPlayerResults(opponentCard) {
   opponentCard.conditions.exhausted = true
@@ -40,6 +40,19 @@ function _setAttackResults(attacking, attacked) {
     attacked.conditions.shield = 0
   }
   attacked.version += 1
+}
+
+function _setCastDamageResults(damage, target) {
+  if (!target.conditions.shield) {
+    target.conditions.shield = 0
+  }
+  if (target.conditions.shield >= damage) {
+    target.conditions.shield -= damage
+  } else {
+    target.health -= damage - target.conditions.shield
+    target.conditions.shield = 0
+  }
+  target.version += 1
 }
 
 export function GetAttackedCardResults(attacking, attacked, modifyOriginals = false) {
@@ -88,10 +101,10 @@ function _setReplaceResults(replacing, replaced) {
 }
 
 function _hasHaste(card) {
-  return !!_getAbility(card, ABILITY_HASTE);
+  return !!GetAbility(card, ABILITY_HASTE);
 }
 
-function _getAbility(card, abilityId) {
+export const GetAbility = (card, abilityId) => {
   if (!card.abilities) {
     return null
   }
@@ -384,4 +397,30 @@ export const GetCardAbility = (cards, cardId, cardInstance, abilityId) => {
 export const CastEnergizeAbility = (state, cardId, cardInstance, abilityId, status) => {
   const ability = GetCardAbility(state.cards, cardId, cardInstance, abilityId)
   ModifyEnergy(status, ability.amount, ability.amount)
+}
+
+export const GetCastOnTargetedCardResults = (caster, ability, target, modifyOriginals = false) => {
+  if (modifyOriginals) {
+    return _getCastOnTargetedCardResults(caster, ability, target)
+  } else {
+    const newCaster = _deepCopy(caster)
+    const newTarget = _deepCopy(target)
+    const newAbility = GetAbility(newCaster, ability.id)
+    return _getCastOnTargetedCardResults(newCaster, newAbility, newTarget)
+  }
+}
+
+function _getCastOnTargetedCardResults(caster, ability, target) {
+  switch (ability.id) {
+    case ABILITY_SPELLSHOT:
+      return _getSpellshotTargetedCardResults(ability, target)
+    default:
+      console.error(`Unexpected ability ${ability.id} on targeted card`)
+      return target
+  }
+}
+
+function _getSpellshotTargetedCardResults(ability, target) {
+  _setCastDamageResults(ability.amount, target)
+  return target
 }

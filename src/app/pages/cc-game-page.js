@@ -13,7 +13,7 @@ import '../../components/cards/card-groups/cc-pawn-card-pane.js';
 import '../../components/cards/card-groups/cc-card-hand.js';
 import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-turn-pane.js';
-import '../../components/menus/cc-game-menu-pane.js';
+import '../../components/cards/card-groups/cc-cast-target-pane.js';
 import '../../components/menus/cc-end-game-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
@@ -102,6 +102,9 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     } else if (state.card.selectedHandCard.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-hand-card-pane></cc-hand-card-pane>`
+    } else if (state.card.selectedTargetOpponentAbility.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-cast-target-pane></cc-cast-target-pane>`      
     } else if (state.card.playFromHand.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-place-card-pane></cc-place-card-pane>`
