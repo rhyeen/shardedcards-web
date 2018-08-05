@@ -14,6 +14,7 @@ import '../../components/cards/card-groups/cc-card-hand.js';
 import '../../components/cards/card-groups/cc-cast-card-pane.js';
 import '../../components/cards/card-groups/cc-opponent-turn-pane.js';
 import '../../components/cards/card-groups/cc-cast-target-pane.js';
+import '../../components/menus/cc-game-menu-pane.js';
 import '../../components/menus/cc-end-game-pane.js';
 import '../../components/play-area/cc-play-area.js';
 import '../../components/toolbars/cc-game-footer.js';
