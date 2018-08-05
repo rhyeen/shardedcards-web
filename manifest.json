@@ -4,8 +4,8 @@
   "description": "Sharded Cards",
   "start_url": "/index.html",
   "display": "standalone",
-  "theme_color": "#d66b8e",
-  "background_color": "#d66b8e",
+  "theme_color": "#5C6BC0",
+  "background_color": "#5C6BC0",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
