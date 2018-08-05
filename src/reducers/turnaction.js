@@ -8,7 +8,8 @@ import {
   RECORD_CAST_FROM_HAND,
   RECORD_CAST_FROM_PLAY_AREA,
   RECORD_CAST_NO_TARGET_ABILITY,
-  RECORD_CAST_OPPONENT_TARGET_ABILITY } from '../actions/domains/turnaction.js';
+  RECORD_CAST_OPPONENT_TARGET_ABILITY,
+  RECORD_CAST_UNIT_TARGET_ABILITY } from '../actions/domains/turnaction.js';
 
 import {
   ATTACK_CARD,
@@ -95,29 +96,34 @@ const app = (state = defaultState, action) => {
       })
       return state
     case RECORD_CAST_NO_TARGET_ABILITY:
-      pendingAction = state.pendingTurn[state.pendingTurn.length - 1]
-      if (pendingAction.type !== CAST_CARD_FROM_HAND && pendingAction.type !== CAST_CARD_FROM_PLAY_AREA) {
-        console.error(`Unexpected turn state: ${pendingAction.type}`)
-        return state
-      }
-      pendingAction.abilities.push({
+      _getPendingAction(state).abilities.push({
         id: action.abilityId
       })
       return state
     case RECORD_CAST_OPPONENT_TARGET_ABILITY:
-      pendingAction = state.pendingTurn[state.pendingTurn.length - 1]
-      if (pendingAction.type !== CAST_CARD_FROM_HAND && pendingAction.type !== CAST_CARD_FROM_PLAY_AREA) {
-        console.error(`Unexpected turn state: ${pendingAction.type}`)
-        return state
-      }
-      pendingAction.abilities.push({
+      _getPendingAction(state).abilities.push({
         id: action.abilityId,
         opponentFieldCardIndex: action.opponentFieldCardIndex
+      })
+      return state
+    case RECORD_CAST_UNIT_TARGET_ABILITY:
+      _getPendingAction(state).abilities.push({
+        id: action.abilityId,
+        playerFieldCardIndex: action.playerFieldCardIndex
       })
       return state
     default:
       return state;
   }
+}
+
+function _getPendingAction(state) {
+  const pendingAction = state.pendingTurn[state.pendingTurn.length - 1]
+  if (pendingAction.type !== CAST_CARD_FROM_HAND && pendingAction.type !== CAST_CARD_FROM_PLAY_AREA) {
+    console.error(`Unexpected turn state: ${pendingAction.type}`)
+    return { abilities: [] }
+  }
+  return pendingAction
 }
 
 export default app;

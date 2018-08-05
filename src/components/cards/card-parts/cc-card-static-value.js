@@ -9,7 +9,7 @@ import {
 import { AttackIcon,
   EnergyIcon,
   HealthIcon,
-  TargetIcon,
+  RangeIcon,
   ShieldIcon } from '../../global/cc-icons.js';
 
 export const PART_TYPE_ATTACK = 'attack';
@@ -136,7 +136,7 @@ class CcCardStaticValue extends LitElement {
         iconFunction = HealthIcon
         break;
       case PART_TYPE_RANGE:
-        iconFunction = TargetIcon
+        iconFunction = RangeIcon
         break;
       case PART_TYPE_SHIELD:
         iconFunction = ShieldIcon

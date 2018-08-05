@@ -105,6 +105,9 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     } else if (state.card.selectedTargetOpponentAbility.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-cast-target-pane></cc-cast-target-pane>`      
+    } else if (state.card.selectedTargetUnitAbility.id) {
+      this._showCardOverlay = true
+      this._overlayPaneHtml = html`<cc-cast-target-pane></cc-cast-target-pane>`      
     } else if (state.card.playFromHand.id) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-place-card-pane></cc-place-card-pane>`

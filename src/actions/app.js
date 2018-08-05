@@ -36,7 +36,8 @@ import {
   appendOpponentHistory,
   appendPlayerHistory,
   beginTurn,
-  recordCastOpponentTargetAbility } from './domains/turnaction.js';
+  recordCastOpponentTargetAbility,
+  recordCastUnitTargetAbility } from './domains/turnaction.js';
 
 import {
   selectHandCard,
@@ -64,7 +65,10 @@ import {
   castOpponentTargetAbility,
   cancelCastOpponentTargetAbility,
   castAgainstTarget,
-  applyCastAgainstOpponentTarget } from './domains/card.js';
+  applyCastAgainstOpponentTarget,
+  castUnitTargetAbility,
+  cancelCastUnitTargetAbility,
+  applyCastAgainstUnitTarget } from './domains/card.js';
 
 import {
   CallStartGame,
@@ -240,6 +244,10 @@ export const CastAbilitySpellshot = (abilityId) => (dispatch) => {
   dispatch(castOpponentTargetAbility(abilityId))
 }
 
+export const CastAbilityReach = (abilityId) => (dispatch) => {
+  dispatch(castUnitTargetAbility(abilityId))
+}
+
 function _recordCastFromPosition(dispatch, positionSelectedState) {
   const cardId = positionSelectedState.id
   const cardInstance = positionSelectedState.instance
@@ -280,16 +288,41 @@ export const FinishCastingCard = () => (dispatch) => {
 }
 
 export const CancelCastTargetAbility = () => (dispatch) => {
-  dispatch(cancelCastOpponentTargetAbility())
+  const cardState =  store.getState().card
+  if (cardState.selectedTargetOpponentAbility.id) {
+    dispatch(cancelCastOpponentTargetAbility())
+  } else if (cardState.selectedTargetUnitAbility.id) {
+    dispatch(cancelCastUnitTargetAbility())
+  } else {
+    console.error('Unexpected cancel target ability state')
+  }
 }
 
 export const CastAgainstTarget = (playAreaIndex) => (dispatch) => {
+  const cardState = store.getState().card
+  if (cardState.selectedTargetOpponentAbility.id) {
+    _recordCastFromPosition(dispatch, cardState.selectedTargetOpponentAbility)
+    dispatch(recordCastOpponentTargetAbility(cardState.selectedTargetOpponentAbility.abilityId, playAreaIndex))
+    _applyCastAgainstOpponentTarget(dispatch, playAreaIndex)  
+    _useSelectedTargetOpponentAbility(dispatch)
+    dispatch(castAgainstTarget(playAreaIndex))
+  } else if (cardState.selectedTargetUnitAbility.id) {
+    _recordCastFromPosition(dispatch, cardState.selectedTargetUnitAbility)
+    dispatch(recordCastUnitTargetAbility(cardState.selectedTargetUnitAbility.abilityId, playAreaIndex))
+    _applyCastAgainstUnitTarget(dispatch, playAreaIndex)  
+    _useSelectedTargetUnitAbility(dispatch)
+    dispatch(castAgainstTarget(playAreaIndex))
+  } else {
+    console.error('Unexpected cast against target state')
+  }
+}
+
+function _applyCastAgainstOpponentTarget(dispatch, playAreaIndex) {
   const selectedTargetOpponentAbility = store.getState().card.selectedTargetOpponentAbility
-  _recordCastFromPosition(dispatch, selectedTargetOpponentAbility)
-  dispatch(recordCastOpponentTargetAbility(selectedTargetOpponentAbility.abilityId, playAreaIndex))
-  _applyCastAgainstOpponentTarget(dispatch, playAreaIndex)  
-  _useSelectedTargetOpponentAbility(dispatch)
-  dispatch(castAgainstTarget(playAreaIndex))
+  const cardId = selectedTargetOpponentAbility.id
+  const cardInstance = selectedTargetOpponentAbility.instance
+  const abilityId = selectedTargetOpponentAbility.abilityId
+  dispatch(applyCastAgainstOpponentTarget(cardId, cardInstance, abilityId, playAreaIndex))
 }
 
 function _useSelectedTargetOpponentAbility(dispatch) {
@@ -300,10 +333,18 @@ function _useSelectedTargetOpponentAbility(dispatch) {
   dispatch(useCardAbility(cardId, cardInstance, abilityId))
 }
 
-function _applyCastAgainstOpponentTarget(dispatch, playAreaIndex) {
-  const selectedTargetOpponentAbility = store.getState().card.selectedTargetOpponentAbility
-  const cardId = selectedTargetOpponentAbility.id
-  const cardInstance = selectedTargetOpponentAbility.instance
-  const abilityId = selectedTargetOpponentAbility.abilityId
-  dispatch(applyCastAgainstOpponentTarget(cardId, cardInstance, abilityId, playAreaIndex))
+function _applyCastAgainstUnitTarget(dispatch, playAreaIndex) {
+  const selectedTargetUnitAbility = store.getState().card.selectedTargetUnitAbility
+  const cardId = selectedTargetUnitAbility.id
+  const cardInstance = selectedTargetUnitAbility.instance
+  const abilityId = selectedTargetUnitAbility.abilityId
+  dispatch(applyCastAgainstUnitTarget(cardId, cardInstance, abilityId, playAreaIndex))
+}
+
+function _useSelectedTargetUnitAbility(dispatch) {
+  const selectedTargetUnitAbility = store.getState().card.selectedTargetUnitAbility
+  const cardId = selectedTargetUnitAbility.id
+  const cardInstance = selectedTargetUnitAbility.instance
+  const abilityId = selectedTargetUnitAbility.abilityId
+  dispatch(useCardAbility(cardId, cardInstance, abilityId))
 }

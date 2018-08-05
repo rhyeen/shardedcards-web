@@ -1,5 +1,5 @@
 import { ModifyEnergy } from "./status.js";
-import { ABILITY_HASTE, ABILITY_SPELLSHOT } from "./card-constants.js";
+import { ABILITY_HASTE, ABILITY_SPELLSHOT, ABILITY_REACH } from "./card-constants.js";
 
 export function GetAttackingPlayerResults(opponentCard) {
   opponentCard.conditions.exhausted = true
@@ -12,7 +12,7 @@ export function GetAttackingCardResults(attacking, attacked, modifyOriginals = f
     _attacking.conditions.exhausted = true
     return _attacking
   } else {
-    _setAttackResults(attacked, attacking)
+    _setDamageResults(attacked.attack, attacking)
     attacking.conditions.exhausted = true
     return
   }
@@ -25,24 +25,11 @@ function _getAttackResults(attacking, attacked) {
       ...attacked.conditions
     }
   }
-  _setAttackResults(attacking, _attacked)
+  _setDamageResults(attacking.attack, _attacked)
   return _attacked
 }
 
-function _setAttackResults(attacking, attacked) {
-  if (!attacked.conditions.shield) {
-    attacked.conditions.shield = 0
-  }
-  if (attacked.conditions.shield >= attacking.attack) {
-    attacked.conditions.shield -= attacking.attack
-  } else {
-    attacked.health -= attacking.attack - attacked.conditions.shield
-    attacked.conditions.shield = 0
-  }
-  attacked.version += 1
-}
-
-function _setCastDamageResults(damage, target) {
+function _setDamageResults(damage, target) {
   if (!target.conditions.shield) {
     target.conditions.shield = 0
   }
@@ -59,7 +46,7 @@ export function GetAttackedCardResults(attacking, attacked, modifyOriginals = fa
   if (!modifyOriginals) {
     return _getAttackResults(attacking, attacked, modifyOriginals)
   } else {
-    return _setAttackResults(attacking, attacked)    
+    return _setDamageResults(attacking.attack, attacked)    
   }
 }
 
@@ -402,16 +389,30 @@ export const CastEnergizeAbility = (state, cardId, cardInstance, abilityId, stat
 export const CastSpellshotAbility = (state, cardId, cardInstance, abilityId, opponentFieldCardIndex) => {
   const caster = GetCard(state.cards, cardId, cardInstance)
   const ability = GetAbility(caster, abilityId)
-  CastOnTargetedCardResults(state, caster, ability, opponentFieldCardIndex)
+  CastOnTargetedOpponentCardResults(state, caster, ability, opponentFieldCardIndex)
 }
 
-export function CastOnTargetedCardResults(state, caster, ability, opponentFieldCardIndex) {
+export const CastReachAbility = (state, cardId, cardInstance, abilityId, playerFieldCardIndex) => {
+  const caster = GetCard(state.cards, cardId, cardInstance)
+  const ability = GetAbility(caster, abilityId)
+  CastOnTargetedUnitCardResults(state, caster, ability, playerFieldCardIndex)
+}
+
+export function CastOnTargetedOpponentCardResults(state, caster, ability, opponentFieldCardIndex) {
   if (!_abilityCardCanCastOnOpponent(state, caster, ability.id, opponentFieldCardIndex)) {
     return
   }
   const target = _getOpponentFieldCard(state, opponentFieldCardIndex)
   GetCastOnTargetedCardResults(caster, ability, target, true)
-  return _setCastOnOpponentRemovalResults(state, target, opponentFieldCardIndex)
+  _setCastOnOpponentRemovalResults(state, target, opponentFieldCardIndex)
+}
+
+export function CastOnTargetedUnitCardResults(state, caster, ability, playerFieldCardIndex) {
+  if (!_abilityCardCanCastOnUnit(state, caster, ability.id, playerFieldCardIndex)) {
+    return
+  }
+  const target = _getPlayerFieldCard(state, playerFieldCardIndex)
+  GetCastOnTargetedCardResults(caster, ability, target, true)
 }
 
 function _abilityCardCanCastOnOpponent(state, caster, abilityId, opponentFieldCardIndex) {
@@ -431,9 +432,35 @@ function _abilityCardCanCastOnOpponent(state, caster, abilityId, opponentFieldCa
   return true
 }
 
+function _abilityCardCanCastOnUnit(state, caster, abilityId, playerFieldCardIndex) {
+  const ability = GetAbility(caster, abilityId)
+  if (!ability) {
+    console.error(`Card does not have ability: ${abilityId}`)
+    return false
+  }
+  if (!state.playerField[playerFieldCardIndex].id) {
+    console.error(`Cannot cast ability ${abilityId} on an empty unit slot`)
+    return false
+  }
+  if (!_abilityCanTargetUnit(abilityId)) {
+    console.error(`Ability ${abilityId} cannot target unit cards`)
+    return false
+  }
+  return true
+}
+
 function _abilityCanTargetOpponent(abilityId) {
   switch (abilityId) {
     case ABILITY_SPELLSHOT:
+      return true
+    default:
+      return false
+  }
+}
+
+function _abilityCanTargetUnit(abilityId) {
+  switch (abilityId) {
+    case ABILITY_REACH:
       return true
     default:
       return false
@@ -455,6 +482,8 @@ function _castOnTargetedCardResults(caster, ability, target) {
   switch (ability.id) {
     case ABILITY_SPELLSHOT:
       return _getSpellshotTargetedCardResults(ability, target)
+    case ABILITY_REACH:
+      return _getReachTargetedCardResults(ability, target)
     default:
       console.error(`Unexpected ability ${ability.id} on targeted card`)
       return target
@@ -462,7 +491,7 @@ function _castOnTargetedCardResults(caster, ability, target) {
 }
 
 function _getSpellshotTargetedCardResults(ability, target) {
-  _setCastDamageResults(ability.amount, target)
+  _setDamageResults(ability.amount, target)
   return target
 }
 
@@ -476,4 +505,14 @@ export const _setCastOnOpponentRemovalResults = (state, opponentCard, opponentFi
       instance: null
     }
   }
+}
+
+function _getReachTargetedCardResults(ability, target) {
+  _setRangeResults(ability.amount, target)
+  return target
+}
+
+function _setRangeResults(rangeModifier, target) {
+  target.range += rangeModifier
+  target.version += 1
 }

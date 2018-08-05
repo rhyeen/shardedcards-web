@@ -9,6 +9,7 @@ export const RECORD_CAST_FROM_HAND = 'RECORD_CAST_FROM_HAND';
 export const RECORD_CAST_FROM_PLAY_AREA = 'RECORD_CAST_FROM_PLAY_AREA';
 export const RECORD_CAST_NO_TARGET_ABILITY = 'RECORD_CAST_NO_TARGET_ABILITY';
 export const RECORD_CAST_OPPONENT_TARGET_ABILITY = 'RECORD_CAST_OPPONENT_TARGET_ABILITY';
+export const RECORD_CAST_UNIT_TARGET_ABILITY = 'RECORD_CAST_UNIT_TARGET_ABILITY';
 
 export const recordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
@@ -56,6 +57,14 @@ export const recordCastOpponentTargetAbility = (abilityId, opponentFieldCardInde
     type: RECORD_CAST_OPPONENT_TARGET_ABILITY,
     abilityId,
     opponentFieldCardIndex
+  }
+}
+
+export const recordCastUnitTargetAbility = (abilityId, playerFieldCardIndex) => {
+  return {
+    type: RECORD_CAST_UNIT_TARGET_ABILITY,
+    abilityId,
+    playerFieldCardIndex
   }
 }
 

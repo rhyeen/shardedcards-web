@@ -7,10 +7,11 @@ import {
 
 import {
   DeadIcon,
-  HealthIcon } from '../../global/cc-icons.js';
+  HealthIcon,
+  RangeIcon } from '../../global/cc-icons.js';
 
 import {
-  GetAbilityIcon } from '../../../util/card-constants.js';
+  GetAbilityIcon, ABILITY_SPELLSHOT, ABILITY_REACH } from '../../../util/card-constants.js';
 
 class CcTargetCard extends LitElement {
   _render({caster, ability, target}) {
@@ -57,14 +58,33 @@ class CcTargetCard extends LitElement {
 
   _getTargetedResultHtml(caster, ability, target) {
     const _target = GetCastOnTargetedCardResults(caster, ability, target)
-    return  this._getHealthResultHtml(_target.health - target.health, _target.health)
+    switch (ability.id) {
+      case ABILITY_SPELLSHOT:
+        return  this._getHealthResultHtml(target.health, _target.health)
+      case ABILITY_REACH:
+        return this._getRangeResultHtml(target.range, _target.range)
+      default:
+        console.error(`Unexpected ability: ${ability.id}`)
+        return html``
+    }
   }
 
-  _getHealthResultHtml(lostHealth, remainingHealth) {
-    if (remainingHealth <= 0) {
+  _getHealthResultHtml(oldHealth, newHealth) {
+    if (newHealth <= 0) {
       return html`${DeadIcon()}`
     }
-    return html`${lostHealth} ${HealthIcon()}`
+    return html`${this._getModification(newHealth - oldHealth)} ${HealthIcon()}`
+  }
+
+  _getRangeResultHtml(oldRange, newRange) {
+    return html`${this._getModification(newRange - oldRange)} ${RangeIcon()}`
+  }
+
+  _getModification(modifier) {
+    if (modifier > 0) {
+      return `+${modifier}`
+    }
+    return modifier
   }
 }
 window.customElements.define('cc-target-card', CcTargetCard);

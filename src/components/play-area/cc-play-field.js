@@ -62,6 +62,8 @@ export class CcPlayField extends connect(store)(LitElement) {
     _targetingOpponentAbilityCard: Object,
     _targetingOpponentAbility: Object,
     _playingFromPlayAreaIndex: Number,
+    _targetingUnitAbilityCard: Object,
+    _targetingUnitAbility: Object,
     _totalCardVersion: Number // meant soley to force an update, if need be
   }};
 
@@ -85,6 +87,14 @@ export class CcPlayField extends connect(store)(LitElement) {
     } else {
       this._targetingOpponentAbilityCard = null
       this._targetingOpponentAbility = null
+    }
+    if (state.card.selectedTargetUnitAbility.id) {
+      this._targetingUnitAbilityCard = GetCard(state.card.cards, state.card.selectedTargetUnitAbility.id, state.card.selectedTargetUnitAbility.instance)
+      this._targetingUnitAbility = GetAbility(this._targetingUnitAbilityCard, state.card.selectedTargetUnitAbility.abilityId)
+      this._
+    } else {
+      this._targetingUnitAbilityCard = null
+      this._targetingUnitAbility = null
     }
     switch(this.owner) {
       case PLAYER_OWNER:
@@ -154,6 +164,9 @@ export class CcPlayField extends connect(store)(LitElement) {
     if (this._showTargetOpponentAbilityCard(card)) {
       return this._targetOpponentAbilityCard(card, playAreaIndex)
     }
+    if (this._showTargetUnitAbilityCard(card)) {
+      return this._targetUnitAbilityCard(card, playAreaIndex)
+    }
     return html``
   }
 
@@ -174,12 +187,22 @@ export class CcPlayField extends connect(store)(LitElement) {
       this._replacingCard)
   }
 
-  _showTargetOpponentAbilityCard() {
+  _showTargetOpponentAbilityCard(card) {
     return (
+      this._hasCardToShow(card) &&
       this._isOverlay() && 
       this._isOpponent() && 
       !this._playingFromPlayArea() && 
       this._targetingOpponentAbilityCard)
+  }
+
+  _showTargetUnitAbilityCard(card) {
+    return (
+      this._hasCardToShow(card) &&
+      this._isOverlay() && 
+      this._isPlayer() && 
+      !this._playingFromPlayArea() && 
+      this._targetingUnitAbilityCard)
   }
 
   _showPlayerPawnCard(card) {
@@ -279,7 +302,16 @@ export class CcPlayField extends connect(store)(LitElement) {
           target="${card}"
           caster="${this._targetingOpponentAbilityCard}"
           ability="${this._targetingOpponentAbility}"
-          on-click="${() => store.dispatch(CastAgainstTarget(playAreaIndex))}"></cc-attack-card>`
+          on-click="${() => store.dispatch(CastAgainstTarget(playAreaIndex))}"></cc-target-card>`
+  }
+
+  _targetUnitAbilityCard(card, playAreaIndex) {
+    return html`
+      <cc-target-card
+          target="${card}"
+          caster="${this._targetingUnitAbilityCard}"
+          ability="${this._targetingUnitAbility}"
+          on-click="${() => store.dispatch(CastAgainstTarget(playAreaIndex))}"></cc-target-card>`
   }
 }
 

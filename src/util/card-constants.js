@@ -1,7 +1,8 @@
 import {
   EnergizeIcon,
   SpellshotIcon,
-  HasteIcon } from '../components/global/cc-icons.js';
+  HasteIcon,
+  ReachIcon } from '../components/global/cc-icons.js';
 
 export const CARD_RARITY_UNDEFINED = 'undefined';
 export const CARD_RARITY_COMMON = 'common';
@@ -19,6 +20,7 @@ export const CARD_TYPE_INSTANT = 'instant';
 export const ABILITY_ENERGIZE = 'energize';
 export const ABILITY_HASTE = 'haste';
 export const ABILITY_SPELLSHOT = 'spellshot';
+export const ABILITY_REACH = 'reach';
 
 export const GetAbilityName = (ability) => {
   switch (ability.id) {
@@ -28,6 +30,8 @@ export const GetAbilityName = (ability) => {
       return 'haste'
     case ABILITY_SPELLSHOT:
       return 'spellshot'
+    case ABILITY_REACH:
+      return 'reach'
     default:
       return ''
   }
@@ -41,6 +45,8 @@ export const GetAbilityDescription = (ability) => {
       return `May attack once summoned.`
     case ABILITY_SPELLSHOT:
       return `Deal ${ability.amount} to enemy unit.`
+    case ABILITY_REACH:
+      return `+${ability.amount} range`
     default:
       return ''
   }
@@ -51,9 +57,11 @@ export const GetAbilityIcon = (ability, args) => {
     case ABILITY_ENERGIZE:
       return EnergizeIcon(args)
     case ABILITY_HASTE:
-      return HasteIcon()
+      return HasteIcon(args)
     case ABILITY_SPELLSHOT:
       return SpellshotIcon(args)
+    case ABILITY_REACH:
+      return ReachIcon(args)
     default:
       return ''
   }

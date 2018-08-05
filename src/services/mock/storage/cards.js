@@ -11,7 +11,8 @@ import {
   CARD_TYPE_INSTANT,
   ABILITY_ENERGIZE,
   ABILITY_HASTE,
-  ABILITY_SPELLSHOT } from '../../../util/card-constants.js';
+  ABILITY_SPELLSHOT,
+  ABILITY_REACH } from '../../../util/card-constants.js';
 
 const cards = {
   ravager: {
@@ -217,6 +218,104 @@ const cards = {
           {
             id: ABILITY_SPELLSHOT,
             amount: 4
+          }
+        ],
+        version: 0,
+        conditions: {}
+      }
+    }
+  },
+  rangedweapon: {
+    title: 'Ranged Weapon',
+    rarity: CARD_RARITY_EPIC,
+    type: CARD_TYPE_INSTANT,
+    cost: 2,
+    abilities: [
+      {
+        id: ABILITY_REACH,
+        amount: 1
+      }
+    ],
+    instances: {
+      '0': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
+          }
+        ],
+        version: 0,
+        conditions: {}
+      },
+      '1': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
+          }
+        ],
+        version: 0,
+        conditions: {}
+      },
+      '2': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
+          }
+        ],
+        version: 0,
+        conditions: {}
+      },
+      '3': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
+          }
+        ],
+        version: 0,
+        conditions: {}
+      },
+      '4': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
+          }
+        ],
+        version: 0,
+        conditions: {}
+      },
+      '5': {
+        title: 'Ranged Weapon',
+        rarity: CARD_RARITY_EPIC,
+        type: CARD_TYPE_INSTANT,
+        cost: 2,
+        abilities: [
+          {
+            id: ABILITY_REACH,
+            amount: 1
           }
         ],
         version: 0,

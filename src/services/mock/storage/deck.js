@@ -8,7 +8,7 @@ const deck = [
     instance: ENERGY_SHARD_CARD_INSTANCE
   },
   {
-    id: 'hero',
+    id: 'rangedweapon',
     instance: '1'
   },
   {
@@ -20,7 +20,7 @@ const deck = [
     instance: '2'
   },
   {
-    id: 'hero',
+    id: 'rangedweapon',
     instance: '3'
   },
   {
@@ -40,7 +40,7 @@ const deck = [
     instance: '4'
   },
   {
-    id: 'hero',
+    id: 'rangedweapon',
     instance: '5'
   }
 ]
