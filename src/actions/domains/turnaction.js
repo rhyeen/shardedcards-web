@@ -10,6 +10,7 @@ export const RECORD_CAST_FROM_PLAY_AREA = 'RECORD_CAST_FROM_PLAY_AREA';
 export const RECORD_CAST_NO_TARGET_ABILITY = 'RECORD_CAST_NO_TARGET_ABILITY';
 export const RECORD_CAST_OPPONENT_TARGET_ABILITY = 'RECORD_CAST_OPPONENT_TARGET_ABILITY';
 export const RECORD_CAST_UNIT_TARGET_ABILITY = 'RECORD_CAST_UNIT_TARGET_ABILITY';
+export const BEGIN_OPPONENT_TURN = 'BEGIN_OPPONENT_TURN';
 
 export const recordAttackCard = (playerFieldCardIndex, opponentFieldCardIndex) => {
   return {
@@ -71,6 +72,12 @@ export const recordCastUnitTargetAbility = (abilityId, playerFieldCardIndex) => 
 export const beginTurn = () => {
   return {
     type: BEGIN_TURN
+  }
+}
+
+export const beginOpponentTurn = () => {
+  return {
+    type: BEGIN_OPPONENT_TURN
   }
 }
 

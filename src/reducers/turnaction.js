@@ -9,7 +9,8 @@ import {
   RECORD_CAST_FROM_PLAY_AREA,
   RECORD_CAST_NO_TARGET_ABILITY,
   RECORD_CAST_OPPONENT_TARGET_ABILITY,
-  RECORD_CAST_UNIT_TARGET_ABILITY } from '../actions/domains/turnaction.js';
+  RECORD_CAST_UNIT_TARGET_ABILITY,
+  BEGIN_OPPONENT_TURN } from '../actions/domains/turnaction.js';
 
 import {
   ATTACK_CARD,
@@ -33,7 +34,6 @@ const defaultState = {
 defaultState.playersTurn = defaultState.firstTurn === FIRST_TURN_PLAYER
 
 const app = (state = defaultState, action) => {
-  let pendingAction
   switch (action.type) {
     case RECORD_ATTACK_CARD:
       state.pendingTurn.push({
@@ -50,7 +50,11 @@ const app = (state = defaultState, action) => {
       })
       return state
     case END_TURN:
-      state.lastCastedCard = {}
+      return {
+        ...state,
+        lastCastedCard: {}
+      }
+    case BEGIN_OPPONENT_TURN:
       return {
         ...state,
         playersTurn: false

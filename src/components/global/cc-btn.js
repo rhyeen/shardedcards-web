@@ -3,6 +3,7 @@ import { CcSharedStyles } from './cc-shared-styles.js';
 
 export const BTN_TYPE_RESET_GAME = 'resetgame';
 export const BTN_TYPE_END_TURN = 'endturn';
+export const BTN_TYPE_FINISH_CRAFTING = 'finishcrafting';
 
 class CcBtn extends LitElement {
   _render({btntype, disabled}) {
@@ -52,7 +53,8 @@ class CcBtn extends LitElement {
           color: var(--dark-btn-text-color);
         }
 
-        button.endturn {
+        button.endturn,
+        button.finishcrafting {
           background-color: #B0BEC5;
           color: var(--dark-btn-text-color);
           padding: 8px 12px;
@@ -100,6 +102,8 @@ class CcBtn extends LitElement {
         return 'reset game'
       case BTN_TYPE_END_TURN:
         return 'end turn'
+      case BTN_TYPE_FINISH_CRAFTING:
+        return 'finish crafting'
       default:
         return this.btntype
     }

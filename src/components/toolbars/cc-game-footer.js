@@ -8,10 +8,16 @@ import './cc-lost-pile-bar-item.js';
 import { store } from '../../store.js';
 
 import { 
-  EndTurn } from '../../actions/app.js';
+  EndTurn,
+  FinishCrafting } from '../../actions/app.js';
+
+import { 
+  GAME_STATE_CRAFTING,
+  GAME_STATE_PLAYING } from '../../reducers/game.js';
 
 export class CcGameFooter extends LitElement {
   _render() {
+    const barItemsHtml = this._getBarItemsHtml()
     return html`
       ${CcSharedStyles}
 
@@ -28,24 +34,58 @@ export class CcGameFooter extends LitElement {
       </style>
 
       <div bar-items>
-        <div class="item-group left-items">
-          <cc-draw-pile-bar-item></cc-draw-pile-bar-item>
-          <cc-discard-pile-bar-item></cc-discard-pile-bar-item>
-          <cc-lost-pile-bar-item></cc-lost-pile-bar-item>
-        </div>
-
-        <div class="item-group right-items">
-          <cc-btn btntype="endturn" on-click="${() => this._endTurn()}"></cc-btn>
-        </div>
+        ${barItemsHtml}
       </div>
     `
   }
 
   static get properties() { return {
+    gameState: String
   }};
 
   _endTurn() {
     store.dispatch(EndTurn())
+  }
+
+  _finishCrafting() {
+    store.dispatch(FinishCrafting())
+  }
+
+  _getBarItemsHtml() {
+    switch (this.gameState) {
+      case GAME_STATE_CRAFTING:
+        return this._getCraftingBarItemsHtml()
+      case GAME_STATE_PLAYING:
+        return this._getPlayingBarItemsHtml()
+      default:
+        console.error('Unexpected game state')
+        return html``
+    }
+  }
+
+  _getPlayingBarItemsHtml() {
+    return html`
+      <div class="item-group left-items">
+        <cc-draw-pile-bar-item></cc-draw-pile-bar-item>
+        <cc-discard-pile-bar-item></cc-discard-pile-bar-item>
+        <cc-lost-pile-bar-item></cc-lost-pile-bar-item>
+      </div>
+
+      <div class="item-group right-items">
+        <cc-btn btntype="endturn" on-click="${() => this._endTurn()}"></cc-btn>
+      </div>
+    `
+  }
+
+  _getCraftingBarItemsHtml() {
+    return html`
+      <div class="item-group left-items">
+      </div>
+
+      <div class="item-group right-items">
+        <cc-btn btntype="finishcrafting" on-click="${() => this._finishCrafting()}"></cc-btn>
+      </div>
+    `
   }
 }
 

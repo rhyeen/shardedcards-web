@@ -5,7 +5,11 @@ import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../../store.js';
 
 class CcCardBacklog extends connect(store)(LitElement) {
-  _render({_backlogNumber}) {
+  _render({_backlogNumber, playareaindex}) {
+    if (!_backlogNumber && _backlogNumber !== 0) {
+      _backlogNumber = store.getState().card.opponentFieldBacklog[playareaindex]
+    }
+
     return html`
       ${CcSharedStyles}
       <style>

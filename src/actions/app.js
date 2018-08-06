@@ -14,7 +14,9 @@ import {
   hideInGameMenu,
   resetGame,
   loseGame,
-  winGame } from './domains/game.js';
+  winGame,
+  startCrafting,
+  finishCrafting } from './domains/game.js';
 
 import {
   spendAllocatedEnergy,
@@ -36,6 +38,7 @@ import {
   appendOpponentHistory,
   appendPlayerHistory,
   beginTurn,
+  beginOpponentTurn,
   recordCastOpponentTargetAbility,
   recordCastUnitTargetAbility } from './domains/turnaction.js';
 
@@ -72,7 +75,8 @@ import {
 
 import {
   CallStartGame,
-  CallEndTurn } from '../services/turnaction.js';
+  CallEndTurn,
+  CallBeginTurn } from '../services/turnaction.js';
 
 import { 
   CallGetCards,
@@ -130,36 +134,14 @@ export const EndTurn = () => (dispatch) => {
   dispatch(clearHand())
   const turn = _getDeepCopy(store.getState().turnaction.pendingTurn)
   dispatch(endTurn())
+  dispatch(startCrafting())
   CallEndTurn(turn)
-  .then(results => {
-    dispatch(setPlayerHealth(results.remainingPlayerHealth))
-    if (results.remainingPlayerHealth <= 0) {
-      dispatch(loseGame())
-    }
-    dispatch(setFieldFromOpponentTurn(results.opponentTurn))
-    dispatch(appendOpponentHistory(results.opponentTurn))
+  .then(() => {
     dispatch(appendPlayerHistory(turn))
-    dispatch(beginTurn())
-    dispatch(resetEnergy())
-    dispatch(refreshCards())
-    CallGetHand()
-    .then(hand => dispatch(setHand(hand)))
-    .catch(err => console.error(err))
-    CallGetOpponentField()
-    .then(result => {
-      dispatch(setOpponentField(result))
-      if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
-        dispatch(winGame())
-      }
-    })
-    .catch(err => console.error(err))
   })
   .catch(err => {
     console.error(err)
     dispatch(appendPlayerHistory(turn))
-    dispatch(beginTurn())
-    dispatch(resetEnergy())
-    dispatch(refreshCards())
   })
 }
 
@@ -216,6 +198,40 @@ export const CancelSelectPlayerFieldCard = () => (dispatch) => {
 export const AttackCard = (playAreaIndex) => (dispatch) => {
   dispatch(recordAttackCard(store.getState().card.playFromPlayArea.playAreaIndex, playAreaIndex))
   dispatch(attackCard(playAreaIndex))
+}
+
+export const FinishCrafting = () => (dispatch) => {
+  dispatch(finishCrafting())
+  dispatch(beginOpponentTurn())
+  CallBeginTurn()
+  .then(results => {
+    dispatch(setPlayerHealth(results.remainingPlayerHealth))
+    if (results.remainingPlayerHealth <= 0) {
+      dispatch(loseGame())
+    }
+    dispatch(setFieldFromOpponentTurn(results.opponentTurn))
+    dispatch(appendOpponentHistory(results.opponentTurn))
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+    CallGetHand()
+    .then(hand => dispatch(setHand(hand)))
+    .catch(err => console.error(err))
+    CallGetOpponentField()
+    .then(result => {
+      dispatch(setOpponentField(result))
+      if (!result.opponentField[0].id && !result.opponentField[1].id && !result.opponentField[2].id) {
+        dispatch(winGame())
+      }
+    })
+    .catch(err => console.error(err))
+  })
+  .catch(err => {
+    console.error(err)
+    dispatch(beginTurn())
+    dispatch(resetEnergy())
+    dispatch(refreshCards())
+  })
 }
 
 export const CastAbilityEnergize = (abilityId) => (dispatch) => {

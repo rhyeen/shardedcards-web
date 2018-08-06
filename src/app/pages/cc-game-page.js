@@ -17,13 +17,17 @@ import '../../components/cards/card-groups/cc-cast-target-pane.js';
 import '../../components/menus/cc-game-menu-pane.js';
 import '../../components/menus/cc-end-game-pane.js';
 import '../../components/play-area/cc-play-area.js';
+import '../../components/craft/cc-crafting-forge.js';
+import '../../components/craft/cc-crafting-parts.js';
 import '../../components/toolbars/cc-game-footer.js';
 import '../../components/toolbars/cc-game-header.js';
 import { ResetGame } from '../../actions/app.js';
-import { GAME_STATE_PLAYING } from '../../reducers/game.js';
+import { 
+  GAME_STATE_PLAYING,
+  GAME_STATE_CRAFTING } from '../../reducers/game.js';
 
 export class CcGamePage extends connect(store)(CcPageViewElement) {
-  _render(props) {
+  _render({_innerViewHtml, _showCardOverlay, _overlayPaneHtml, _gameState}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -60,14 +64,13 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
       </style>
       
       <div class="inner-view">
-        <cc-play-area></cc-play-area>
-        <cc-card-hand></cc-card-hand>
+        ${_innerViewHtml}
       </div>
       <cc-game-header></cc-game-header>
-      <cc-game-footer></cc-game-footer>
+      <cc-game-footer gameState="${_gameState}"></cc-game-footer>
 
-      <div class="overlay" active?="${props._showCardOverlay}">
-        ${props._overlayPaneHtml}
+      <div class="overlay" active?="${_showCardOverlay}">
+        ${_overlayPaneHtml}
       </div>
     `
   }
@@ -75,11 +78,14 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   static get properties() { return {
     _showCardOverlay: Boolean,
     _overlayPaneHtml: html,
+    _innerViewHtml: html,
+    _gameState: String
   }};
 
   constructor() {
     super()
     this._overlayPaneHtml = this._getHiddenPaneHtml()
+    this._innerViewHtml = this._getPlayGameHtml()
     store.dispatch(ResetGame())
   }
 
@@ -87,7 +93,35 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     return html``
   }
 
+  _getPlayGameHtml() {
+    return html`
+      <cc-play-area></cc-play-area>
+      <cc-card-hand></cc-card-hand>
+    `
+  }
+
+  _getCraftCardsHtml() {
+    return html`
+      <cc-crafting-forge></cc-crafting-forge>
+      <cc-crafting-parts></cc-crafting-parts>
+    `
+  }
+
   _stateChanged(state) {
+    this._gameState = state.game.gameState
+    this._setOverlayPaneHtml(state)
+    this._setInnerViewHtml(state)
+  }
+
+  _setInnerViewHtml(state) {
+    if (state.game.gameState === GAME_STATE_CRAFTING) {
+      this._innerViewHtml = this._getCraftCardsHtml()
+    } else {
+      this._innerViewHtml = this._getPlayGameHtml()
+    }
+  }
+
+  _setOverlayPaneHtml(state) {
     if (!state.turnaction.playersTurn) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-opponent-turn-pane></cc-opponent-turn-pane>`
@@ -118,7 +152,7 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
     } else if (state.game.showMenu) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-game-menu-pane></cc-game-menu-pane>`
-    } else if (state.game.gameState !== GAME_STATE_PLAYING) {
+    } else if (state.game.gameState !== GAME_STATE_PLAYING && state.game.gameState !== GAME_STATE_CRAFTING) {
       this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-end-game-pane></cc-end-game-pane>`
     } else {

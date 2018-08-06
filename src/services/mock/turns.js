@@ -20,14 +20,7 @@ export const CallMockEndTurn = (turn) => {
     DebugRequest(CallMockEndTurn, turn)
     setTimeout(() => {
       RecordPlayerTurn(turn)
-      const opponentTurn = GetOpponentTurn()
-      const remainingPlayerHealth = RecordOpponentTurn(opponentTurn)
-      const results = {
-        opponentTurn,
-        remainingPlayerHealth
-      }
-      DebugSuccessfulResponse(CallMockEndTurn, results)
-      resolve(PrepareResponse(results))
+      resolve()
     }, POST_CALLBACK_TIME)
   })
 }
@@ -43,6 +36,22 @@ export const CallMockStartGame = () => {
       }
       DebugSuccessfulResponse(CallMockStartGame, initialGame)
       resolve(PrepareResponse(initialGame))
+    }, POST_CALLBACK_TIME)
+  })
+}
+
+export const CallMockBeginTurn = () => {
+  return new Promise((resolve, reject) => {
+    DebugRequest(CallMockBeginTurn)
+    setTimeout(() => {
+      const opponentTurn = GetOpponentTurn()
+      const remainingPlayerHealth = RecordOpponentTurn(opponentTurn)
+      const results = {
+        opponentTurn,
+        remainingPlayerHealth
+      }
+      DebugSuccessfulResponse(CallMockBeginTurn, results)
+      resolve(PrepareResponse(results))
     }, POST_CALLBACK_TIME)
   })
 }

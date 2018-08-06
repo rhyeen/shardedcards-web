@@ -3,11 +3,14 @@ import {
   HIDE_IN_GAME_MENU,
   RESET_GAME,
   WIN_GAME,
-  LOSE_GAME } from '../actions/domains/game.js';
+  LOSE_GAME,
+  START_CRAFTING,
+  FINISH_CRAFTING } from '../actions/domains/game.js';
 
 export const GAME_STATE_PLAYING = 'playing';
 export const GAME_STATE_LOSE = 'lose';
 export const GAME_STATE_WIN = 'win';
+export const GAME_STATE_CRAFTING = 'crafting';
 
 const defaultState = {
   showMenu: false,
@@ -27,6 +30,16 @@ const app = (state = defaultState, action) => {
         showMenu: false
       }
     case RESET_GAME:
+      return {
+        ...state,
+        gameState: GAME_STATE_PLAYING
+      }
+    case START_CRAFTING:
+      return {
+        ...state,
+        gameState: GAME_STATE_CRAFTING
+      }
+    case FINISH_CRAFTING:
       return {
         ...state,
         gameState: GAME_STATE_PLAYING
