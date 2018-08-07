@@ -14,6 +14,7 @@ export class CcCraftingForge extends LitElement {
           flex: 0 0 200px;
           align-items: center;
           justify-content: space-between;
+          max-width: var(--play-area-max-width);
         }
 
         [forge-cast] {

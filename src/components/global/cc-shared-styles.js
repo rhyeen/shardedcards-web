@@ -80,6 +80,8 @@ export const CcSharedStyles = html`
     --mini-card-max-width: 350px;
     --last-mini-card-extra-height: 4px;
     --card-hand-height: calc(5*var(--mini-card-height) + var(--last-mini-card-extra-height));
+
+    --play-area-max-width: 500px;
   }
 
   button:focus {
