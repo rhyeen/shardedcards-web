@@ -1,6 +1,9 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
+import './cc-crafting-base-card.js';
+import './cc-crafting-part.js';
+
 export class CcCraftingParts extends LitElement {
   _render() {
     return html`
@@ -14,7 +17,28 @@ export class CcCraftingParts extends LitElement {
           align-items: center;
           justify-content: space-between;
         }
+
+        .card-base {
+          flex: 0 0 calc(var(--pawn-card-height));
+        }
+
+        .card-parts {
+          padding: 10px 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
       </style>
+
+      <div class="card-base">
+        <cc-crafting-base-card></cc-crafting-base-card>
+      </div>
+      <div class="card-parts">
+        <cc-crafting-part></cc-crafting-part>
+        <cc-crafting-part></cc-crafting-part>
+        <cc-crafting-part></cc-crafting-part>
+      </div>
     `
   }
 }

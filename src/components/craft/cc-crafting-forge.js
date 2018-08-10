@@ -9,9 +9,10 @@ export class CcCraftingForge extends LitElement {
       ${CcSharedStyles}
       <style>
         :host {
+          --forge-cast-height: 170px;
           display: flex;
           width: 100%;
-          flex: 0 0 200px;
+          flex: 0 0 var(--forge-cast-height);
           align-items: center;
           justify-content: space-between;
           max-width: var(--play-area-max-width);
@@ -19,7 +20,7 @@ export class CcCraftingForge extends LitElement {
 
         [forge-cast] {
           width: 100%;
-          height: 200px;
+          height: var(--forge-cast-height);
           display: flex;
           align-items: center;
           justify-content: center;
