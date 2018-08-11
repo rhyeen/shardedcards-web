@@ -1,15 +1,17 @@
 import { html, LitElement } from '@polymer/lit-element';
 
 import {
-    CcSharedStyles,
-    CardRarityColor,
-    CARD_RARITY_COMMON } from '../global/cc-shared-styles.js';
+  CcSharedStyles,
+  CardRarityColor } from '../global/cc-shared-styles.js';
+
+import {
+  CARD_RARITY_COMMON } from '../../util/card-constants.js';
   
-  import {
-    PART_TYPE_ATTACK,
-    PART_TYPE_HEALTH,
-    PART_TYPE_RANGE,
-    PART_TYPE_SHIELD } from '../cards/card-parts/cc-card-static-value.js';
+import {
+  PART_TYPE_ATTACK,
+  PART_TYPE_HEALTH,
+  PART_TYPE_RANGE,
+  PART_TYPE_SHIELD } from '../cards/card-parts/cc-card-static-value.js';
 
 export class CcCraftingBaseCard extends LitElement {
   _render({card}) {

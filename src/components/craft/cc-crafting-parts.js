@@ -15,7 +15,7 @@ export class CcCraftingParts extends LitElement {
           height: 100%;
           flex-direction: column;
           align-items: center;
-          justify-content: space-between;
+          justify-content: space-around;
         }
 
         .card-base {
@@ -28,6 +28,7 @@ export class CcCraftingParts extends LitElement {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          max-height: 180px;
         }
       </style>
 
