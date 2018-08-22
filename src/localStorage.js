@@ -30,6 +30,9 @@ export const loadState = () => {
     if (state.game) {
       delete state.game;
     }
+    if (state.crafting) {
+      delete state.crafting;
+    }
     return state;
   } else {
     return undefined;

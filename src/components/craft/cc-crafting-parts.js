@@ -4,6 +4,8 @@ import { CcSharedStyles } from '../global/cc-shared-styles.js';
 import './cc-crafting-base-card.js';
 import './cc-crafting-part.js';
 
+import { SelectCraftingBaseCard } from '../../actions/app.js';
+
 export class CcCraftingParts extends LitElement {
   _render() {
     return html`
@@ -33,7 +35,7 @@ export class CcCraftingParts extends LitElement {
       </style>
 
       <div class="card-base">
-        <cc-crafting-base-card></cc-crafting-base-card>
+        <cc-crafting-base-card on-click="${() => store.dispatch(SelectCraftingBaseCard())}"></cc-crafting-base-card>
       </div>
       <div class="card-parts">
         <cc-crafting-part></cc-crafting-part>

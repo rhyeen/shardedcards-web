@@ -74,6 +74,16 @@ import {
   applyCastAgainstUnitTarget } from './domains/card.js';
 
 import {
+  selectCraftingBaseCard,
+  cancelSelectCraftingBaseCard,
+  placeBaseCardOnForge,
+  selectCraftingPart,
+  cancelSelectCraftingPart,
+  placePartOnForgeCard,
+  confirmPlacePartOnForgeCard,
+  cancelPlacePartOnForgeCard } from './domains/crafting.js';
+
+import {
   CallStartGame,
   CallEndTurn,
   CallBeginTurn } from '../services/turnaction.js';
@@ -82,6 +92,7 @@ import {
   CallGetCards,
   CallGetHand,
   CallGetOpponentField } from '../services/card.js';
+
 import { ABILITY_ENERGIZE } from '../util/card-constants.js';
 
 export const Navigate = (path) => (dispatch) => {
@@ -363,4 +374,36 @@ function _useSelectedTargetUnitAbility(dispatch) {
   const cardInstance = selectedTargetUnitAbility.instance
   const abilityId = selectedTargetUnitAbility.abilityId
   dispatch(useCardAbility(cardId, cardInstance, abilityId))
+}
+
+export const SelectCraftingBaseCard = () => (dispatch) => {
+  dispatch(selectCraftingBaseCard());
+}
+
+export const CancelSelectCraftingBaseCard = () => (dispatch) => {
+  dispatch(cancelSelectCraftingBaseCard());
+}
+
+export const PlaceBaseCardOnForge = (forgeIndex) => (dispatch) => {
+  dispatch(placeBaseCardOnForge(forgeIndex));
+}
+
+export const SelectCraftingPart = (partIndex) => (dispatch) => {
+  dispatch(selectCraftingPart(partIndex));
+}
+
+export const CancelSelectCraftingPart = () => (dispatch) => {
+  dispatch(cancelSelectCraftingPart());
+}
+
+export const PlacePartOnForgeCard = (forgeIndex) => (dispatch) => {
+  dispatch(placePartOnForgeCard(forgeIndex));
+}
+
+export const ConfirmPlacePartOnForgeCard = () => (dispatch) => {
+  dispatch(confirmPlacePartOnForgeCard());
+}
+
+export const CancelPlacePartOnForgeCard = () => (dispatch) => {
+  dispatch(cancelPlacePartOnForgeCard());
 }

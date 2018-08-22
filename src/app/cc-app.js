@@ -23,10 +23,12 @@ import turnaction from '../reducers/turnaction.js';
 import card from '../reducers/card.js';
 import status from '../reducers/status.js';
 import game from '../reducers/game.js';
+import crafting from '../reducers/crafting.js';
 store.addReducers({turnaction});
 store.addReducers({card});
 store.addReducers({status});
 store.addReducers({game});
+store.addReducers({crafting});
 
 class CcApp extends connect(store)(LitElement) {
   _render({appTitle, _page, _snackbarOpened, _offline}) {
