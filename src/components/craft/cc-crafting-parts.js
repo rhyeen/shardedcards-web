@@ -1,6 +1,8 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
+import { store } from '../../store.js';
+
 import './cc-crafting-base-card.js';
 import './cc-crafting-part.js';
 
