@@ -10,9 +10,11 @@ import {
 
 import {
   CARD_TYPE_UNIT,
-  CARD_RARITY_COMMON } from '../util/card-constants.js';
-
-
+  CARD_RARITY_COMMON,
+  ABILITY_SPELLSHOT,
+  ABILITY_HASTE,
+  ABILITY_REACH,
+  PART_TYPE_ABILITY } from '../util/card-constants.js';
 
 const defaultState = {
   craftingBaseCard: {
@@ -22,8 +24,25 @@ const defaultState = {
     range: 1,
     health: 5,
     attack: 1,
-    abilities: []
+    abilities: [],
+    slots: 0
   },
+  craftingParts: [
+    {
+      type: PART_TYPE_ABILITY,
+      id: ABILITY_SPELLSHOT,
+      amount: 1
+    },
+    {
+      type: PART_TYPE_ABILITY,
+      id: ABILITY_HASTE
+    },
+    {
+      type: PART_TYPE_ABILITY,
+      id: ABILITY_REACH,
+      amount: 1
+    }
+  ],
   forge: [
     {
       card: {}

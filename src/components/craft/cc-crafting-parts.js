@@ -1,6 +1,7 @@
 import { html, LitElement } from '@polymer/lit-element';
 import { CcSharedStyles } from '../global/cc-shared-styles.js';
 
+import { connect } from 'pwa-helpers/connect-mixin';
 import { store } from '../../store.js';
 
 import './cc-crafting-base-card.js';
@@ -8,8 +9,8 @@ import './cc-crafting-part.js';
 
 import { SelectCraftingBaseCard } from '../../actions/app.js';
 
-export class CcCraftingParts extends LitElement {
-  _render() {
+export class CcCraftingParts extends connect(store)(LitElement) {
+  _render({_craftingParts, _craftingBaseCard}) {
     return html`
       ${CcSharedStyles}
       <style>
@@ -37,14 +38,24 @@ export class CcCraftingParts extends LitElement {
       </style>
 
       <div class="card-base">
-        <cc-crafting-base-card on-click="${() => store.dispatch(SelectCraftingBaseCard())}"></cc-crafting-base-card>
+        <cc-crafting-base-card craftingBaseCard="${_craftingBaseCard}" on-click="${() => store.dispatch(SelectCraftingBaseCard())}"></cc-crafting-base-card>
       </div>
       <div class="card-parts">
-        <cc-crafting-part></cc-crafting-part>
-        <cc-crafting-part></cc-crafting-part>
-        <cc-crafting-part></cc-crafting-part>
+        <cc-crafting-part craftingPart="${_craftingParts[0]}"></cc-crafting-part>
+        <cc-crafting-part craftingPart="${_craftingParts[1]}"></cc-crafting-part>
+        <cc-crafting-part craftingPart="${_craftingParts[2]}"></cc-crafting-part>
       </div>
     `
+  }
+
+  static get properties() { return {
+    _craftingParts: Array,
+    _craftingBaseCard: Object
+  }};
+
+  _stateChanged(state) {
+    this._craftingParts = state.crafting.craftingParts
+    this._craftingBaseCard = state.crafting.craftingBaseCard
   }
 }
 

@@ -17,6 +17,8 @@ export const ENERGY_SHARD_CARD_INSTANCE = '0';
 export const CARD_TYPE_UNIT = 'unit';
 export const CARD_TYPE_INSTANT = 'instant';
 
+export const PART_TYPE_ABILITY = 'ability';
+
 export const ABILITY_ENERGIZE = 'energize';
 export const ABILITY_HASTE = 'haste';
 export const ABILITY_SPELLSHOT = 'spellshot';

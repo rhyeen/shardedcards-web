@@ -122,39 +122,31 @@ export class CcGamePage extends connect(store)(CcPageViewElement) {
   }
 
   _setOverlayPaneHtml(state) {
+    this._showCardOverlay = true
     if (!state.turnaction.playersTurn) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-opponent-turn-pane></cc-opponent-turn-pane>`
     } else if (state.card.selectedPlayerFieldCard.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-unit-card-pane></cc-unit-card-pane>`
     } else if (state.card.selectedCastingCard.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-cast-card-pane></cc-cast-card-pane>`
     } else if (state.card.selectedOpponentFieldCard.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-opponent-card-pane></cc-opponent-card-pane>`
     } else if (state.card.selectedHandCard.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-hand-card-pane></cc-hand-card-pane>`
     } else if (state.card.selectedTargetOpponentAbility.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-cast-target-pane></cc-cast-target-pane>`      
     } else if (state.card.selectedTargetUnitAbility.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-cast-target-pane></cc-cast-target-pane>`      
     } else if (state.card.playFromHand.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-place-card-pane></cc-place-card-pane>`
     } else if (state.card.playFromPlayArea.id) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-pawn-card-pane></cc-pawn-card-pane>`
     } else if (state.game.showMenu) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-game-menu-pane></cc-game-menu-pane>`
     } else if (state.game.gameState !== GAME_STATE_PLAYING && state.game.gameState !== GAME_STATE_CRAFTING) {
-      this._showCardOverlay = true
       this._overlayPaneHtml = html`<cc-end-game-pane></cc-end-game-pane>`
+    } else if (state.crafting.craftingBaseCardSelected) {
+      this._overlayPaneHtml = html`<cc-craft-card-pane></cc-craft-card-pane>`
     } else {
       this._showCardOverlay = false
       this._overlayPaneHtml = this._getHiddenPaneHtml()
